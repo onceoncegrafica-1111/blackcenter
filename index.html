@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BLACK CENTER® | High-End Detailing & Car Care</title>
+    <meta name="description" content="Centro especializado en estética vehicular, tratamiento de tapizados, preparación para venta y detailing con productos M111®. Av. Elcano 3325, CABA.">
+
+    <!-- TIPOGRAFÍAS MOTORSPORT & GT HUD -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,600;0,700;0,800;1,700;1,800;1,900&family=JetBrains+Mono:wght@700;800&family=Rajdhani:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* =========================================================
+           ADN CROMÁTICO: GRAN TURISMO / TARMAC & VOLT RACING
+           ========================================================= */
+        :root {
+            --bg-asphalt: #101216;
+            --bg-tarmac: #171A21;
+            --card-gunmetal: #1C2029;
+            --card-gunmetal-hover: #242935;
+
+            --volt-yellow: #FFE600;
+            --volt-yellow-glow: rgba(255, 230, 0, 0.45);
+            --apex-red: #FF1E27;
+            --apex-red-glow: rgba(255, 30, 39, 0.4);
+            --calama-cyan: #00D2FF;
+
+            --metal-pure: #FFFFFF;
+            --metal-silver: #E2E8F0;
+            --metal-lead: #94A3B8;
+            --metal-dark: #64748B;
+
+            --border-tech: rgba(255, 255, 255, 0.14);
+            --border-volt: rgba(255, 230, 0, 0.7);
+
+            --font-racing: 'Chakra Petch', sans-serif;
+            --font-ui: 'Rajdhani', sans-serif;
+            --font-telemetry: 'JetBrains Mono', monospace;
+        }
+
+        body.preload * {
+            transition: none !important;
+            animation: none !important;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            background-color: var(--bg-asphalt);
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-ui);
+            background: transparent;
+            color: var(--metal-pure);
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 20px 14px 44px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* =========================================================
+           CANVAS DE FONDO: ASFALTO + LIVERY SPEED DASHES (NFS STYLE)
+           ========================================================= */
+        .gt-bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -2;
+            background: radial-gradient(circle at 50% 15%, #222733 0%, #13151C 55%, #0B0C10 100%);
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        /* TEXTURA DE ASFALTO DE PISTA */
+        .tarmac-grain {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.25;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 0);
+            background-size: 16px 16px;
+        }
+
+        /* RAYAS DE LIVERY DE COMPETICIÓN ANGULARES */
+        .livery-stripes {
+            position: absolute;
+            top: -20%;
+            left: -30%;
+            width: 160%;
+            height: 140%;
+            pointer-events: none;
+            transform: rotate(-28deg);
+            opacity: 0.18;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 120px,
+                var(--volt-yellow) 120px,
+                var(--volt-yellow) 136px,
+                transparent 136px,
+                transparent 160px,
+                var(--apex-red) 160px,
+                var(--apex-red) 184px,
+                transparent 184px,
+                transparent 340px
+            );
+        }
+
+        /* RESPLANDORES DE CURVA / BRAKE GLOW */
+        .track-glow-top {
+            position: absolute;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 600px;
+            background: radial-gradient(ellipse at 50% 30%, rgba(255, 230, 0, 0.15) 0%, rgba(255, 30, 39, 0.08) 45%, transparent 70%);
+            filter: blur(80px);
+        }
+
+        .track-glow-bottom {
+            position: absolute;
+            bottom: -150px;
+            left: -100px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 30, 39, 0.12) 0%, transparent 65%);
+            filter: blur(90px);
+        }
+
+        /* LÍNEAS DE TELEMETRÍA LATERAL */
+        .hud-grid-edge {
+            position: absolute;
+            width: 1px;
+            height: 100%;
+            top: 0;
+            background: linear-gradient(180deg, transparent, rgba(255, 230, 0, 0.35) 40%, rgba(255, 30, 39, 0.3) 70%, transparent);
+        }
+        .hud-left { left: 8px; }
+        .hud-right { right: 8px; }
+
+        /* =========================================================
+           CONTENEDOR CENTRAL
+           ========================================================= */
+        .hub-container {
+            width: 100%;
+            max-width: 480px;
+            display: flex;
+            flex-direction: column;
+            gap: 13px;
+            z-index: 1;
+        }
+
+        /* =========================================================
+           HEADER & SPONSOR DECALS OFICIALES (M111 + CALAMA)
+           ========================================================= */
+        .brand-header {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 4px;
+        }
+
+        /* PABELLÓN DE SPONSORS / DECALS DE PISTA */
+        .sponsors-decal-strip {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 9px;
+            width: 100%;
+            margin-bottom: 2px;
+        }
+
+        .decal-card {
+            background: linear-gradient(145deg, #1D212A 0%, #13161C 100%);
+            border: 1px solid var(--border-tech);
+            border-radius: 8px;
+            padding: 8px 10px;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .decal-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+        }
+
+        .decal-card.m111::before { background: var(--volt-yellow); }
+        .decal-card.calama::before { background: var(--calama-cyan); }
+
+        .decal-vector-box {
+            width: 38px;
+            height: 38px;
+            min-width: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .decal-meta {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            line-height: 1.1;
+        }
+
+        .decal-title {
+            font-family: var(--font-racing);
+            font-weight: 800;
+            font-size: 0.82rem;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .decal-card.m111 .decal-title { color: var(--volt-yellow); }
+        .decal-card.calama .decal-title { color: var(--calama-cyan); }
+
+        .decal-sub {
+            font-family: var(--font-telemetry);
+            font-size: 0.58rem;
+            font-weight: 700;
+            color: var(--metal-lead);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 2px;
+        }
+
+        /* EMBLEMA CENTRAL COCKPIT 3D CON MERCEDES AMG */
+        .logo-cockpit-stage {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 6px 0 2px;
+        }
+
+        .logo-cockpit-card {
+            width: 140px;
+            height: 140px;
+            background: linear-gradient(135deg, #242934 0%, #151820 60%, #0D0F14 100%);
+            border: 2px solid var(--volt-yellow);
+            clip-path: polygon(18% 0, 100% 0, 100% 82%, 82% 100%, 0 100%, 0 18%);
+            box-shadow: 
+                0 16px 36px rgba(0, 0, 0, 0.8),
+                0 0 26px var(--volt-yellow-glow),
+                inset 0 0 20px rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            position: relative;
+        }
+
+        .logo-cockpit-card::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            width: 16px;
+            height: 4px;
+            background: var(--apex-red);
+        }
+
+        .logo-svg-car {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.7));
+        }
+
+        /* TÍTULO BLACK CENTER ENERGÉTICO */
+        .brand-title-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .brand-title-racing {
+            font-family: var(--font-racing);
+            font-size: 2.6rem;
+            font-weight: 900;
+            font-style: italic;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            line-height: 0.95;
+            color: var(--metal-pure);
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.9);
+        }
+
+        .brand-title-racing span {
+            color: var(--volt-yellow);
+            text-shadow: 0 0 24px var(--volt-yellow-glow);
+        }
+
+        .brand-telemetry-tag {
+            font-family: var(--font-telemetry);
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--apex-red);
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 2px;
+        }
+
+        .brand-bio {
+            font-size: 0.95rem;
+            line-height: 1.4;
+            color: var(--metal-lead);
+            font-weight: 600;
+            max-width: 95%;
+            text-align: center;
+        }
+
+        .brand-bio strong {
+            color: var(--metal-silver);
+            font-weight: 800;
+        }
+
+        /* FAST ACTION BUTTONS */
+        .social-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 2px;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            background: var(--card-gunmetal);
+            border: 1.5px solid var(--border-tech);
+            color: var(--metal-silver);
+            text-decoration: none;
+            clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+            transition: all 0.25s ease;
+        }
+
+        .social-btn:hover {
+            border-color: var(--volt-yellow);
+            color: var(--volt-yellow);
+            background: #252B38;
+            box-shadow: 0 0 18px var(--volt-yellow-glow);
+            transform: translateY(-2px);
+        }
+
+        .social-btn svg { width: 19px; height: 19px; }
+
+        /* =========================================================
+           BOTONES MASTER (CHAMFERED CORNERS & LIVERY ACCENTS)
+           ========================================================= */
+        .btn-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            padding: 16px 18px;
+            background: var(--card-gunmetal);
+            border: 1.5px solid var(--border-tech);
+            border-left: 5px solid var(--volt-yellow);
+            clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+            text-decoration: none;
+            color: var(--metal-pure);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .btn-card:hover {
+            background: var(--card-gunmetal-hover);
+            border-color: var(--border-volt);
+            border-left-color: var(--volt-yellow);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 230, 0, 0.25);
+            transform: translateX(3px);
+        }
+
+        /* HERO CARD (LAUNCH CONTROL / WHATSAPP) */
+        .btn-hero {
+            background: linear-gradient(135deg, #232717 0%, #151810 100%);
+            border: 2px solid var(--volt-yellow);
+            border-left: 6px solid var(--apex-red);
+            padding: 18px 20px;
+            overflow: hidden;
+            box-shadow: 0 14px 34px rgba(255, 230, 0, 0.25);
+        }
+
+        .btn-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -130%;
+            width: 70%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 230, 0, 0.3) 45%, rgba(255, 255, 255, 0.7) 50%, rgba(255, 230, 0, 0.3) 55%, transparent 100%);
+            transform: skewX(-25deg);
+            animation: gtBeamSweep 5.2s infinite ease-in-out;
+        }
+
+        @keyframes gtBeamSweep {
+            0%, 50% { left: -130%; }
+            85%, 100% { left: 190%; }
+        }
+
+        .btn-hero:hover {
+            border-color: #FFF;
+            box-shadow: 0 16px 42px rgba(255, 230, 0, 0.45);
+        }
+
+        .icon-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            min-width: 48px;
+            background: #141720;
+            border: 1px solid var(--border-tech);
+            color: var(--volt-yellow);
+            clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+            transition: all 0.25s ease;
+        }
+
+        .btn-card:hover .icon-box {
+            background: var(--volt-yellow);
+            color: #0B0D11;
+        }
+
+        .icon-box.hero-volt {
+            background: var(--volt-yellow);
+            color: #0A0C10;
+            border: 1.5px solid #FFF;
+            box-shadow: 0 0 18px var(--volt-yellow-glow);
+        }
+
+        .icon-box.hero-volt svg { width: 26px; height: 26px; }
+        .icon-box svg { width: 23px; height: 23px; display: block; }
+
+        .btn-info {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-width: 0;
+            gap: 2px;
+        }
+
+        .btn-title-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .btn-title {
+            font-family: var(--font-racing);
+            font-size: 1.22rem;
+            font-weight: 800;
+            letter-spacing: 0.02em;
+            color: var(--metal-pure);
+            line-height: 1.1;
+            text-transform: uppercase;
+        }
+
+        .hud-badge {
+            font-family: var(--font-telemetry);
+            font-size: 0.65rem;
+            font-weight: 800;
+            padding: 2px 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            background: rgba(255, 230, 0, 0.15);
+            color: var(--volt-yellow);
+            border: 1px solid var(--volt-yellow);
+        }
+
+        .hud-badge.red {
+            background: rgba(255, 30, 39, 0.2);
+            color: var(--apex-red);
+            border-color: var(--apex-red);
+        }
+
+        .hud-badge.cyan {
+            background: rgba(0, 210, 255, 0.18);
+            color: var(--calama-cyan);
+            border-color: var(--calama-cyan);
+        }
+
+        .btn-desc {
+            font-size: 0.88rem;
+            color: var(--metal-lead);
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .hud-arrow-box {
+            font-family: var(--font-racing);
+            font-size: 1.1rem;
+            font-weight: 900;
+            color: var(--volt-yellow);
+            transition: transform 0.2s;
+        }
+
+        .btn-card:hover .hud-arrow-box {
+            transform: translateX(4px);
+        }
+
+        /* =========================================================
+           GALERÍA GT RACING HUD SLIDER
+           ========================================================= */
+        .gallery-card {
+            background: var(--card-gunmetal);
+            border: 1.5px solid var(--border-tech);
+            border-top: 3px solid var(--volt-yellow);
+            clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.6);
+        }
+
+        .gallery-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .gallery-title-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-racing);
+            font-weight: 800;
+            font-size: 1.15rem;
+            text-transform: uppercase;
+            color: var(--metal-pure);
+        }
+
+        .gallery-track {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            scroll-snap-type: x mandatory;
+            padding: 4px 2px 6px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .gallery-track::-webkit-scrollbar { display: none; }
+
+        .gallery-item {
+            flex: 0 0 155px;
+            height: 195px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            scroll-snap-align: start;
+            border: 1.5px solid var(--border-tech);
+            clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+            background: #101217;
+            transition: transform 0.25s ease, border-color 0.25s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-3px);
+            border-color: var(--volt-yellow);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 24px 8px 8px;
+            background: linear-gradient(0deg, rgba(10, 12, 16, 0.95) 0%, transparent 100%);
+            font-family: var(--font-racing);
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--volt-yellow);
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        /* =========================================================
+           TARJETA HORARIO DE TELEMETRÍA EN VIVO
+           ========================================================= */
+        .hours-card {
+            background: var(--card-gunmetal);
+            border: 1.5px solid var(--border-tech);
+            border-left: 5px solid var(--apex-red);
+            clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+            padding: 16px 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+        }
+
+        .hours-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .hours-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-racing);
+            font-weight: 800;
+            font-size: 1.15rem;
+            text-transform: uppercase;
+            color: var(--metal-pure);
+        }
+
+        .hours-table {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding-top: 4px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.12);
+        }
+
+        .hours-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.95rem;
+            color: var(--metal-lead);
+            font-weight: 700;
+        }
+
+        .hours-row.active-day {
+            color: var(--volt-yellow);
+        }
+
+        .hours-row span.time {
+            font-family: var(--font-telemetry);
+            font-size: 0.85rem;
+        }
+
+        /* =========================================================
+           MAPA GOOGLE EN CABINA TÉCNICA
+           ========================================================= */
+        .map-card {
+            background: var(--card-gunmetal);
+            border: 1.5px solid var(--border-tech);
+            clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+        }
+
+        .map-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .map-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-racing);
+            font-weight: 800;
+            font-size: 1.15rem;
+            text-transform: uppercase;
+            color: var(--metal-pure);
+        }
+
+        .map-box {
+            width: 100%;
+            height: 230px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: #111;
+        }
+
+        .map-box iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            display: block;
+        }
+
+        /* =========================================================
+           MODAL DE SERVICIOS GT ESPECIFICACIONES
+           ========================================================= */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(10, 12, 16, 0.92);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.25s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-card {
+            background: #171A22;
+            border: 2px solid var(--volt-yellow);
+            clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
+            width: 100%;
+            max-width: 460px;
+            max-height: 85vh;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 30px var(--volt-yellow-glow);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform: scale(0.95);
+            transition: transform 0.25s ease;
+        }
+
+        .modal-overlay.active .modal-card { transform: scale(1); }
+
+        .modal-header {
+            padding: 16px 20px;
+            background: #202430;
+            border-bottom: 2px solid var(--apex-red);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-header h3 {
+            font-family: var(--font-racing);
+            font-size: 1.35rem;
+            font-weight: 900;
+            font-style: italic;
+            color: var(--metal-pure);
+            text-transform: uppercase;
+        }
+
+        .btn-close-modal {
+            background: #141720;
+            border: 1px solid var(--border-tech);
+            color: var(--metal-pure);
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-racing);
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+
+        .btn-close-modal:hover {
+            background: var(--apex-red);
+            border-color: var(--apex-red);
+        }
+
+        .modal-body {
+            padding: 18px 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .service-detail-item {
+            background: #1D212B;
+            border: 1.5px solid rgba(255, 255, 255, 0.1);
+            border-left: 4px solid var(--volt-yellow);
+            padding: 15px 17px;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .service-detail-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .service-detail-head h4 {
+            font-family: var(--font-racing);
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--volt-yellow);
+            text-transform: uppercase;
+        }
+
+        .service-detail-desc {
+            font-size: 0.92rem;
+            color: var(--metal-silver);
+            line-height: 1.45;
+            font-weight: 600;
+        }
+
+        .service-btn-book {
+            margin-top: 6px;
+            align-self: flex-start;
+            background: var(--volt-yellow);
+            color: #0A0C10;
+            text-decoration: none;
+            padding: 7px 16px;
+            font-family: var(--font-racing);
+            font-size: 0.88rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+            transition: all 0.2s;
+        }
+
+        .service-btn-book:hover {
+            background: #FFF;
+            box-shadow: 0 0 16px rgba(255, 255, 255, 0.5);
+        }
+
+        /* FOOTER */
+        .hub-footer {
+            margin-top: 24px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-telemetry);
+            font-size: 0.76rem;
+            font-weight: 800;
+            color: var(--metal-pure);
+            background: #1B1F28;
+            padding: 6px 18px;
+            border: 1px solid var(--border-tech);
+            border-left: 3px solid var(--volt-yellow);
+            border-right: 3px solid var(--apex-red);
+        }
+
+        .footer-legal {
+            font-family: var(--font-telemetry);
+            font-size: 0.72rem;
+            color: var(--metal-dark);
+            font-weight: 600;
+        }
+
+        @media (max-width: 480px) {
+            .brand-title-racing { font-size: 2.25rem; }
+            .btn-title { font-size: 1.12rem; }
+            .btn-card { padding: 15px 16px; }
+            .gallery-item { flex: 0 0 145px; height: 185px; }
+        }
+    </style>
+</head>
+<body class="preload">
+
+    <!-- CANVAS MOTORSPORT (ASFALTO + LIVERY + VELOCIDAD) -->
+    <div class="gt-bg-canvas">
+        <div class="track-glow-top"></div>
+        <div class="track-glow-bottom"></div>
+        <div class="tarmac-grain"></div>
+        <div class="livery-stripes"></div>
+        <div class="hud-grid-edge hud-left"></div>
+        <div class="hud-grid-edge hud-right"></div>
+    </div>
+
+    <!-- CONTENEDOR MAESTRO -->
+    <main class="hub-container">
+
+        <!-- CABECERA & SPONSOR DECALS OFICIALES -->
+        <header class="brand-header">
+            
+            <!-- PARRILLA DE DECALS OFICIALES M111 Y CALAMA (REAL BRANDING) -->
+            <div class="sponsors-decal-strip">
+                
+                <!-- DECAL 1: TEAM M111 PROFESSIONAL PRODUCTS -->
+                <div class="decal-card m111">
+                    <div class="decal-vector-box">
+                        <svg viewBox="0 0 100 80" width="100%" height="100%">
+                            <!-- 3 Rayas de velocidad amarillas M111 -->
+                            <polygon points="45,10 60,10 40,70 25,70" fill="#FFE600"/>
+                            <polygon points="63,10 78,10 58,70 43,70" fill="#FFE600"/>
+                            <polygon points="81,10 96,10 76,70 61,70" fill="#FFE600"/>
+                            <!-- "Team" en cursiva roja audaz -->
+                            <path d="M10,25 Q25,8 45,18 Q35,32 15,30 Q28,42 45,35" stroke="#FF1E27" stroke-width="5" fill="none" stroke-linecap="round"/>
+                            <text x="5" y="72" font-family="'Chakra Petch', sans-serif" font-weight="900" font-style="italic" font-size="14" fill="#FFFFFF">M111</text>
+                        </svg>
+                    </div>
+                    <div class="decal-meta">
+                        <span class="decal-title">Team M111®</span>
+                        <span class="decal-sub">Proveedor Exclusivo</span>
+                    </div>
+                </div>
+
+                <!-- DECAL 2: CALAMA CERTIFICADO -->
+                <div class="decal-card calama">
+                    <div class="decal-vector-box">
+                        <svg viewBox="0 0 100 100" width="100%" height="100%">
+                            <circle cx="50" cy="50" r="46" fill="none" stroke="#00D2FF" stroke-width="4"/>
+                            <circle cx="50" cy="50" r="40" fill="#141720"/>
+                            <!-- Silueta auto y burbujas de lavado -->
+                            <path d="M25,56 Q35,42 50,42 Q65,42 75,56 Q82,58 80,68 L20,68 Q18,58 25,56 Z" fill="#FFFFFF"/>
+                            <circle cx="35" cy="68" r="6" fill="#141720" stroke="#00D2FF" stroke-width="2"/>
+                            <circle cx="65" cy="68" r="6" fill="#141720" stroke="#00D2FF" stroke-width="2"/>
+                            <circle cx="42" cy="34" r="4" fill="#00D2FF"/>
+                            <circle cx="58" cy="30" r="3" fill="#00D2FF"/>
+                        </svg>
+                    </div>
+                    <div class="decal-meta">
+                        <span class="decal-title">C.A.L.A.M.A.</span>
+                        <span class="decal-sub">Lavadero Habilitado</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- COCKPIT 3D DEL MERCEDES AMG BLACK CENTER -->
+            <div class="logo-cockpit-stage">
+                <div class="logo-cockpit-card">
+                    <svg class="logo-svg-car" viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Parabrisas y techo con ángulo GT -->
+                        <path d="M78 86 Q128 42 225 46 Q245 47 262 86 Z" fill="#1C1F27" stroke="#FFFFFF" stroke-width="3"/>
+                        <path d="M102 82 Q138 52 214 54 Q232 55 245 82 Z" fill="#2D3342" opacity="0.9"/>
+                        <!-- Capó deportivo con tomas y nervaduras -->
+                        <path d="M62 90 L275 90 L292 118 L48 116 Z" fill="#14161C" stroke="#FFFFFF" stroke-width="2.5"/>
+                        <line x1="120" y1="90" x2="114" y2="116" stroke="#FFE600" stroke-width="2.5"/>
+                        <line x1="216" y1="90" x2="224" y2="116" stroke="#FFE600" stroke-width="2.5"/>
+                        <!-- Ópticas delanteras LED afiladas -->
+                        <polygon points="46,118 84,118 78,134 38,128" fill="#FFF" stroke="#FFE600" stroke-width="2"/>
+                        <polygon points="294,118 256,118 262,134 302,128" fill="#FFF" stroke="#FFE600" stroke-width="2"/>
+                        <!-- Parrilla Central Diamantada AMG -->
+                        <path d="M88 120 L252 120 L242 162 L98 162 Z" fill="#0C0D11" stroke="#FFE600" stroke-width="3"/>
+                        <ellipse cx="170" cy="141" rx="18" ry="15" fill="#1E222D" stroke="#FFFFFF" stroke-width="2.5"/>
+                        <!-- Splitter aerodinámico de fibra inferior -->
+                        <path d="M26 132 L68 136 L92 172 L248 172 L272 136 L314 132 L310 162 L280 188 L60 188 L30 162 Z" fill="#1A1D26" stroke="#FFFFFF" stroke-width="2.5"/>
+                        <rect x="110" y="174" width="120" height="8" rx="2" fill="#FF1E27"/>
+                        <!-- Neumáticos semi-slick -->
+                        <path d="M30 162 Q20 185 24 204 L60 204 Q68 188 64 168 Z" fill="#08090C" stroke="#FFF" stroke-width="2"/>
+                        <path d="M310 162 Q320 185 316 204 L280 204 Q272 188 276 168 Z" fill="#08090C" stroke="#FFF" stroke-width="2"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- TÍTULO PRINCIPAL Y TELEMETRÍA -->
+            <div class="brand-title-wrap">
+                <h1 class="brand-title-racing">BLACK <span>CENTER</span></h1>
+                <div class="brand-telemetry-tag">
+                    <span>//</span>
+                    <span>PREMIUM CAR WASH & DETAILING</span>
+                    <span>//</span>
+                </div>
+            </div>
+
+            <div class="brand-bio">
+                <span>Tratamientos estéticos con <strong>insumos oficiales Team M111®</strong>.</span>
+                <span>Tapizados, Preparación para Venta y Desinfección con Ozono en Belgrano / Colegiales.</span>
+            </div>
+
+            <!-- ACCESOS RÁPIDOS -->
+            <div class="social-bar">
+                <a href="https://wa.me/5491133501614?text=Hola%20Gustavo%20de%20Black%20Center!%20Quisiera%20consultar%20por%20un%20servicio%20para%20mi%20auto." target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="WhatsApp">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                </a>
+                <a href="tel:+5491133501614" class="social-btn" aria-label="Llamar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                </a>
+                <a href="https://maps.google.com/?q=Av.+Elcano+3325,+CABA" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Ubicación">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                </a>
+            </div>
+        </header>
+
+        <!-- BOTÓN 1 (HERO): PEDIR TURNO / LAUNCH CONTROL -->
+        <a href="https://wa.me/5491133501614?text=Hola%20Gustavo%20de%20Black%20Center!%20Quisiera%20consultar%20un%20turno%20y%20presupuesto%20para%20un%20servicio%20est%C3%A9tico." target="_blank" rel="noopener noreferrer" class="btn-card btn-hero">
+            <div class="icon-box hero-volt">
+                <!-- Pistola de alta presión / Detailing Gun -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 8h11l3 4h4v3h-4l-3-2H9v7H6V11L3 8z"/>
+                    <line x1="3" y1="8" x2="1" y2="8"/>
+                    <circle cx="14" cy="10" r="1"/>
+                </svg>
+            </div>
+            <div class="btn-info">
+                <div class="btn-title-row">
+                    <span class="btn-title">Pedir Turno por WhatsApp</span>
+                    <span class="hud-badge red">Prioridad</span>
+                </div>
+                <span class="btn-desc">+54 9 11 3350-1614 · Atención Gustavo</span>
+            </div>
+            <div class="hud-arrow-box">▶</div>
+        </a>
+
+        <!-- BOTÓN 2: CARTA DE SERVICIOS GT & TRATAMIENTOS -->
+        <div class="btn-card" onclick="openServicesModal()">
+            <div class="icon-box">
+                <!-- Tacómetro a corte de RPM -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2v3M4.93 4.93l2.12 2.12M2 12h3M19.07 4.93l-2.12 2.12M22 12h-3"/>
+                    <path d="M12 7a5 5 0 0 0-5 5c0 1.9.98 3.58 2.47 4.47L12 12l4.5 1.5"/>
+                    <path d="M12 17a5 5 0 0 0 5-5"/>
+                </svg>
+            </div>
+            <div class="btn-info">
+                <div class="btn-title-row">
+                    <span class="btn-title">Servicios & Detallado</span>
+                    <span class="hud-badge">Carta GT</span>
+                </div>
+                <span class="btn-desc">Sport, Black Intensivo, Venta y Ozono O3</span>
+            </div>
+            <div class="hud-arrow-box">▶</div>
+        </div>
+
+        <!-- =========================================================
+           GALERÍA GT RACING HUD SLIDER
+           ========================================================= -->
+        <div class="gallery-card">
+            <div class="gallery-header">
+                <div class="gallery-title-wrap">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFE600" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <span>Paddock & Procesos</span>
+                </div>
+                <span class="hud-badge">Cosmética M111</span>
+            </div>
+
+            <div class="gallery-track">
+                <!-- 1. BAÑO DE ESPUMA ACTIVA PH -->
+                <div class="gallery-item" onclick="openServicesModal()">
+                    <img src="https://images.unsplash.com/photo-1601362840469-51e4d8d58785?auto=format&fit=crop&w=600&q=80" alt="Baño de espuma activa" loading="lazy">
+                    <div class="gallery-caption">Espuma pH Neutro</div>
+                </div>
+
+                <!-- 2. TAPICERÍA Y HABITÁCULO -->
+                <div class="gallery-item" onclick="openServicesModal()">
+                    <img src="https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=600&q=80" alt="Detallado de interiores" loading="lazy">
+                    <div class="gallery-caption">Detallado Cuero</div>
+                </div>
+
+                <!-- 3. MOTORSPORT ENGINE BAY -->
+                <div class="gallery-item" onclick="openServicesModal()">
+                    <img src="https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=600&q=80" alt="Vano motor y chasis" loading="lazy">
+                    <div class="gallery-caption">Lavado Motor</div>
+                </div>
+
+                <!-- 4. SELLADO & CERA RÁPIDA -->
+                <div class="gallery-item" onclick="openServicesModal()">
+                    <img src="https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?auto=format&fit=crop&w=600&q=80" alt="Sellado microfibra" loading="lazy">
+                    <div class="gallery-caption">Sellado Artesanal</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TARJETA: TELEMETRÍA DE HORARIO EN VIVO -->
+        <div class="hours-card">
+            <div class="hours-header">
+                <div class="hours-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    <span>Horario de Taller</span>
+                </div>
+                <span class="hud-badge" id="statusBadge">Comprobando...</span>
+            </div>
+            <div class="hours-table">
+                <div class="hours-row" id="row-week">
+                    <span>Lunes a Viernes</span>
+                    <span class="time">08:30 h - 18:30 h</span>
+                </div>
+                <div class="hours-row" id="row-sat">
+                    <span>Sábados</span>
+                    <span class="time">08:30 h - 17:00 h</span>
+                </div>
+                <div class="hours-row" style="opacity: 0.5;">
+                    <span>Domingos</span>
+                    <span class="time">Cerrado</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- BOTÓN: LLAMADA TELEFÓNICA DIRECTA -->
+        <a href="tel:+5491133501614" class="btn-card">
+            <div class="icon-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <div class="btn-info">
+                <span class="btn-title">Llamar Directo al Taller</span>
+                <span class="btn-desc">Línea Gustavo: 11 3350-1614</span>
+            </div>
+            <div class="hud-arrow-box">▶</div>
+        </a>
+
+        <!-- MAPA GOOGLE MAPS COCKPIT -->
+        <div class="map-card">
+            <div class="map-header">
+                <div class="map-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFE600" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <span>Ubicación Belgrano / Colegiales</span>
+                </div>
+                <span class="hud-badge">Av. Elcano 3325</span>
+            </div>
+            <div class="map-box">
+                <iframe 
+                    src="https://maps.google.com/maps?q=Av.+Elcano+3325,+CABA,+Argentina&t=&z=16&ie=UTF8&iwloc=&output=embed" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
+
+        <!-- MEDIOS DE PAGO -->
+        <div class="btn-card" style="cursor: default; border-left-color: #00D2FF;">
+            <div class="icon-box" style="color: #00D2FF; border-color: rgba(0, 210, 255, 0.4);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            </div>
+            <div class="btn-info">
+                <span class="btn-title">Todos los Medios de Pago</span>
+                <span class="btn-desc">Efectivo · Mercado Pago · Transferencia · Débito</span>
+            </div>
+            <span class="hud-badge cyan">Habilitado</span>
+        </div>
+
+        <!-- FOOTER INSTITUCIONAL MOTORSPORT -->
+        <footer class="hub-footer">
+            <div class="footer-badge">
+                <span>BLACK CENTER CARS®</span>
+                <span style="color: var(--volt-yellow);">///</span>
+                <span>BUENOS AIRES</span>
+            </div>
+            <span class="footer-legal">AV. ELCANO 3325 · CABA · PROVEEDOR EXCLUSIVO M111®</span>
+        </footer>
+
+    </main>
+
+    <!-- DRAWER / MODAL GT ESPECIFICACIONES -->
+    <div class="modal-overlay" id="servicesModal" onclick="closeServicesModal(event)">
+        <div class="modal-card" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3>// Especificaciones de Detallado</h3>
+                <button class="btn-close-modal" onclick="closeServicesModal(event)">✕</button>
+            </div>
+            <div class="modal-body">
+
+                <!-- 1. SERVICIO SPORT -->
+                <div class="service-detail-item">
+                    <div class="service-detail-head">
+                        <h4>01 // Servicio Sport (Base)</h4>
+                        <span class="hud-badge">Stage 1</span>
+                    </div>
+                    <p class="service-detail-desc">
+                        Pre-lavado con baño de espuma activa pH neutro. Lavado exterior al detalle + secado artesanal con microfibra premium y cera rápida M111®. Aspirado completo con baúl, acondicionamiento de neumáticos, plásticos y siliconado protector de paneles. Perfume a pedido.
+                    </p>
+                    <a href="https://wa.me/5491133501614?text=Hola%20Gustavo!%20Quisiera%20consultar%20por%20el%20Servicio%20Sport." target="_blank" class="service-btn-book">Consultar Servicio Sport ▶</a>
+                </div>
+
+                <!-- 2. LAVADO BLACK INTENSIVO -->
+                <div class="service-detail-item" style="border-left-color: var(--apex-red);">
+                    <div class="service-detail-head">
+                        <h4 style="color: #FF5A62;">02 // Lavado Black Intensivo</h4>
+                        <span class="hud-badge red">Stage 2</span>
+                    </div>
+                    <p class="service-detail-desc">
+                        Todo el <strong>Servicio Sport</strong> + limpieza y detallado profundo de tapicería, paneles de puertas, torpedo, consola central y acondicionamiento integral de cueros y telas.
+                    </p>
+                    <a href="https://wa.me/5491133501614?text=Hola%20Gustavo!%20Quisiera%20pedir%20presupuesto%20para%20el%20Lavado%20Black%20Intensivo." target="_blank" class="service-btn-book">Consultar Black Intensivo ▶</a>
+                </div>
+
+                <!-- 3. PREPARACIÓN PARA VENTA -->
+                <div class="service-detail-item" style="border-left-color: var(--calama-cyan);">
+                    <div class="service-detail-head">
+                        <h4 style="color: var(--calama-cyan);">03 // Preparación para Venta</h4>
+                        <span class="hud-badge cyan">Full Pack</span>
+                    </div>
+                    <p class="service-detail-desc">
+                        Tratamiento definitivo para cotizar tu coche: Lavado Black + Limpieza integral de tapizados al detalle + Lavado de Motor + <strong>Desinfección de cabina con Ozono (O3)</strong> para exterminar ácaros, bacterias y olores residuales.
+                    </p>
+                    <a href="https://wa.me/5491133501614?text=Hola%20Gustavo!%20Me%20interesa%20el%20servicio%20de%20Preparaci%C3%B3n%20para%20Venta%20para%20mi%20auto." target="_blank" class="service-btn-book">Cotizar Preparación para Venta ▶</a>
+                </div>
+
+                <!-- 4. SERVICIOS ESPECIALES -->
+                <div class="service-detail-item">
+                    <div class="service-detail-head">
+                        <h4>04 // Servicios Especiales</h4>
+                        <span class="hud-badge">Taller</span>
+                    </div>
+                    <p class="service-detail-desc">
+                        • Limpieza de Vano Motor y Desbarrado de Chasis<br>
+                        • Lavado especializado de Motos<br>
+                        • Tratamiento y recuperación de inundados y alfombras de piso<br>
+                        • Descontaminado de manchas orgánicas y pelos de mascotas
+                    </p>
+                    <a href="https://wa.me/5491133501614?text=Hola%20Gustavo!%20Quisiera%20consultar%20por%20un%20servicio%20especial%20(motor/mascotas/chasis)." target="_blank" class="service-btn-book">Consultar Servicio Especial ▶</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script>
+        const modal = document.getElementById('servicesModal');
+        function openServicesModal() { modal.classList.add('active'); }
+        function closeServicesModal(e) { modal.classList.remove('active'); }
+
+        // ESTADO EN VIVO PARA BUENOS AIRES (UTC-3)
+        function updateStoreStatus() {
+            const now = new Date();
+            const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+            const argDate = new Date(utc - (3600000 * 3));
+
+            const day = argDate.getDay();
+            const hour = argDate.getHours();
+            const min = argDate.getMinutes();
+            const timeVal = hour + min / 60;
+
+            const badge = document.getElementById('statusBadge');
+            let isOpen = false;
+
+            if (day >= 1 && day <= 5) {
+                document.getElementById('row-week').classList.add('active-day');
+                if (timeVal >= 8.5 && timeVal < 18.5) isOpen = true;
+            } else if (day === 6) {
+                document.getElementById('row-sat').classList.add('active-day');
+                if (timeVal >= 8.5 && timeVal < 17.0) isOpen = true;
+            }
+
+            if (isOpen) {
+                badge.innerText = "Abierto Ahora";
+                badge.style.color = "#4ADE80";
+                badge.style.borderColor = "#4ADE80";
+                badge.style.background = "rgba(74, 222, 128, 0.16)";
+            } else {
+                badge.innerText = "Cerrado";
+                badge.style.color = "var(--metal-dark)";
+                badge.style.borderColor = "var(--border-tech)";
+                badge.style.background = "rgba(255, 255, 255, 0.05)";
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+            updateStoreStatus();
+            requestAnimationFrame(() => document.body.classList.remove('preload'));
+        });
+    </script>
+</body>
+</html>
