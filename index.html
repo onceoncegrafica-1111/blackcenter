@@ -6,6 +6,10 @@
     <title>BLACK CENTER® | Executive Car Care & Detailing</title>
     <meta name="description" content="Servicios de estética vehicular ejecutiva, lavado artesanal, descontaminado de tapizados y preparación para venta. Av. Elcano 3325, CABA.">
 
+    <!-- PRELOAD PRIORITARIO DE LOGOS OFICIALES (CARGA INSTANTÁNEA) -->
+    <link rel="preload" as="image" href="./Team_Professional_Products_logo_4K_transparente.webp">
+    <link rel="preload" as="image" href="./CALAMA_logo_4K_transparente.webp">
+
     <!-- TIPOGRAFÍAS MOTORSPORT & GT HUD -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -140,7 +144,7 @@
         }
 
         /* =========================================================
-           CANVAS DE FONDO: PISTA DINÁMICA SIN RUIDOS MOLESTOS
+           CANVAS DE FONDO: PISTA DINÁMICA
            ========================================================= */
         .gt-bg-canvas {
             position: fixed;
@@ -265,7 +269,7 @@
         }
 
         /* =========================================================
-           HEADER: LOGOS 4K TRANSPARENTES + BLACK CENTER MASIVO
+           HEADER: LOGOS INSTANTÁNEOS + BLACK CENTER MASIVO
            ========================================================= */
         .brand-header {
             text-align: center;
@@ -276,7 +280,7 @@
             margin-bottom: 2px;
         }
 
-        /* SPONSORS CON ARCHIVOS WEBP 4K DE GITHUB */
+        /* SPONSORS CON RUTA RELATIVA Y CDN DE GITHUB PAGES */
         .sponsors-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -916,6 +920,14 @@
         }
 
         /* =========================================================
+           MEDIOS DE PAGO
+           ========================================================= */
+        .btn-card-pay {
+            cursor: default;
+            border-left-color: #0EA5E9;
+        }
+
+        /* =========================================================
            MODAL DE SERVICIOS
            ========================================================= */
         .modal-overlay {
@@ -1129,16 +1141,17 @@
         <!-- CABECERA & SPONSORS HOMOLOGADOS -->
         <header class="brand-header">
             
-            <!-- PARRILLA DE HOMOLOGACIÓN CON TUS ARCHIVOS WEBP 4K DE GITHUB -->
+            <!-- PARRILLA DE HOMOLOGACIÓN CON RUTA LOCAL DE GITHUB PAGES (CARGA AL INSTANTE) -->
             <div class="sponsors-grid">
                 
-                <!-- 1. SPONSOR TEAM M111 OFICIAL (GITHUB) -->
+                <!-- 1. SPONSOR TEAM M111 OFICIAL -->
                 <div class="sponsor-box m111" onclick="playGtMenuSound()">
                     <div class="sponsor-img-wrap">
                         <img 
-                            src="https://raw.githubusercontent.com/onceoncegrafica-1111/blackcenter/main/Team_Professional_Products_logo_4K_transparente.webp" 
+                            src="./Team_Professional_Products_logo_4K_transparente.webp" 
                             alt="Team Professional Products M111" 
                             loading="eager"
+                            onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/onceoncegrafica-1111/blackcenter/main/Team_Professional_Products_logo_4K_transparente.webp';"
                         />
                     </div>
                     <div class="sponsor-meta">
@@ -1147,13 +1160,14 @@
                     </div>
                 </div>
 
-                <!-- 2. SPONSOR C.A.L.A.M.A. OFICIAL (GITHUB) -->
+                <!-- 2. SPONSOR C.A.L.A.M.A. OFICIAL -->
                 <div class="sponsor-box calama" onclick="playGtMenuSound()">
                     <div class="sponsor-img-wrap">
                         <img 
-                            src="https://raw.githubusercontent.com/onceoncegrafica-1111/blackcenter/main/CALAMA_logo_4K_transparente.webp" 
+                            src="./CALAMA_logo_4K_transparente.webp" 
                             alt="Logo CALAMA Habilitados" 
                             loading="eager"
+                            onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/onceoncegrafica-1111/blackcenter/main/CALAMA_logo_4K_transparente.webp';"
                         />
                     </div>
                     <div class="sponsor-meta">
@@ -1231,7 +1245,7 @@
         </div>
 
         <!-- =========================================================
-           GALERÍA EXECUTIVE: DIAPOSITIVA TOUCH & LIGHTBOX
+           GALERÍA EXECUTIVE: DIAPOSITIVA TOUCH & LIGHTBOX (FOTOS 100% OPERATIVAS)
            ========================================================= -->
         <div class="gallery-card">
             <div class="gallery-header">
@@ -1243,27 +1257,47 @@
             </div>
 
             <div class="gallery-track" id="galleryTrack">
-                <!-- 1. PORSCHE EN CABINA DE ESPUMA -->
+                <!-- 1. VEHÍCULO EJECUTIVO EN BAÑO DE ESPUMA -->
                 <div class="gallery-item" onclick="openLightbox(0)">
-                    <img src="https://images.unsplash.com/photo-1601362840469-51e4d8d58785?auto=format&fit=crop&w=800&q=80" alt="Lavado artesanal con espuma pH neutro" loading="lazy">
+                    <img 
+                        src="https://images.unsplash.com/photo-1601362840469-51e4d8d58785?auto=format&fit=crop&w=800&q=80" 
+                        alt="Lavado artesanal con espuma pH neutro" 
+                        loading="lazy"
+                        onerror="this.src='https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?auto=format&fit=crop&w=800&q=80';"
+                    >
                     <div class="gallery-caption">Espuma Activa pH</div>
                 </div>
 
                 <!-- 2. HABITÁCULO EJECUTIVO DE CUERO POLISH -->
                 <div class="gallery-item" onclick="openLightbox(1)">
-                    <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=800&q=80" alt="Tapizados y tratamiento de cuero" loading="lazy">
+                    <img 
+                        src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=800&q=80" 
+                        alt="Tapizados y tratamiento de cuero" 
+                        loading="lazy"
+                        onerror="this.src='https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?auto=format&fit=crop&w=800&q=80';"
+                    >
                     <div class="gallery-caption">Tratamiento Cuero</div>
                 </div>
 
                 <!-- 3. SEDÁN ALEMÁN ACABADO REFLEJO -->
                 <div class="gallery-item" onclick="openLightbox(2)">
-                    <img src="https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?auto=format&fit=crop&w=800&q=80" alt="Cera rápida y sellado artesanal" loading="lazy">
+                    <img 
+                        src="https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?auto=format&fit=crop&w=800&q=80" 
+                        alt="Cera rápida y sellado artesanal" 
+                        loading="lazy"
+                        onerror="this.src='https://images.unsplash.com/photo-1601362840469-51e4d8d58785?auto=format&fit=crop&w=800&q=80';"
+                    >
                     <div class="gallery-caption">Sellado M111®</div>
                 </div>
 
-                <!-- 4. LIMPIEZA DE VANO MOTOR RELUCIENTE -->
+                <!-- 4. LIMPIEZA DE VANO MOTOR (FOTO NUEVA 100% COMPROBADA) -->
                 <div class="gallery-item" onclick="openLightbox(3)">
-                    <img src="https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=800&q=80" alt="Vano motor y chasis reluciente" loading="lazy">
+                    <img 
+                        src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=800&q=80" 
+                        alt="Vano motor y chasis reluciente" 
+                        loading="lazy"
+                        onerror="this.src='https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80';"
+                    >
                     <div class="gallery-caption">Vano Motor</div>
                 </div>
             </div>
@@ -1326,7 +1360,7 @@
         </div>
 
         <!-- MEDIOS DE PAGO -->
-        <div class="btn-card" style="cursor: default; border-left-color: #0EA5E9;" onclick="playGtMenuSound()">
+        <div class="btn-card btn-card-pay" onclick="playGtMenuSound()">
             <div class="icon-box" style="color: #0EA5E9; border-color: rgba(14, 165, 233, 0.4);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
             </div>
@@ -1429,30 +1463,30 @@
         </div>
     </div>
 
-    <!-- MOTORES JAVASCRIPT: AUDIO OFICIAL GITHUB & PISTA DINÁMICA -->
+    <!-- MOTORES JAVASCRIPT: AUDIOS OFICIALES DE TU GITHUB Y PISTA ORGÁNICA -->
     <script>
         // =========================================================
-        // 1. AUDIO OFICIAL: GT4 MENU (BOTONES) & DRIVING MISSIONS (MÚSICA)
+        // 1. AUDIO OFICIAL DE GITHUB: BOTÓN GT4 Y MÚSICA DRIVING MISSIONS
         // =========================================================
-        const gtMenuAudio = new Audio("https://raw.githubusercontent.com/onceoncegrafica-1111/blackcenter/main/gran_turismo_4_menu.mp3");
-        gtMenuAudio.volume = 0.45;
+        const gtMenuAudio = new Audio("./gran_turismo_4_menu.mp3");
+        gtMenuAudio.volume = 0.5;
 
-        const bgMusic = new Audio("https://raw.githubusercontent.com/onceoncegrafica-1111/blackcenter/main/08.%20Driving%20Missions.mp3");
+        const bgMusic = new Audio("./08.%20Driving%20Missions.mp3");
         bgMusic.loop = true;
-        bgMusic.volume = 0.22; // Volumen suave de fondo
+        bgMusic.volume = 0.22;
 
         let isMusicPlaying = false;
 
-        // Sonido de botón oficial único
+        // Reproductor del sonido único oficial de GT4
         function playGtMenuSound() {
             try {
                 const clickSound = gtMenuAudio.cloneNode();
-                clickSound.volume = 0.45;
+                clickSound.volume = 0.5;
                 clickSound.play().catch(() => {});
             } catch (e) {}
         }
 
-        // Toggle música de fondo
+        // Toggle para la música ambiental Driving Missions
         function toggleMusic() {
             playGtMenuSound();
             const btnLabel = document.getElementById('bgMusicLabel');
@@ -1473,7 +1507,7 @@
         }
 
         // =========================================================
-        // 2. SIMULADOR DE PISTA ORGÁNICA: PERSECUCIONES & SOLITARIOS
+        // 2. SIMULADOR DE PISTA ORGÁNICA (PELOTONES Y SOLITARIOS SILENCIOSOS)
         // =========================================================
         const trackCanvas = document.getElementById('speedTrackCanvas');
         const trackCtx = trackCanvas.getContext('2d');
@@ -1496,7 +1530,7 @@
         ];
 
         function spawnOrganicPack() {
-            // Decisión orgánica: a veces 1 solitario como bala, a veces pelotón rookie de 3 o 4 persiguiéndose
+            // Decisión orgánica: o va un solitario a velocidad extrema, o un pelotón rookie de 3 a 4 autos zigzagueando
             const isPack = Math.random() > 0.55;
             const count = isPack ? (Math.random() > 0.45 ? 3 : 4) : 1;
 
@@ -1515,15 +1549,15 @@
                     angle: baseAngle,
                     model: model,
                     isPack: isPack,
-                    weaveFreq: Math.random() * 0.05 + 0.03, // Frecuencia de zig-zag rookie
-                    weaveAmp: isPack ? (Math.random() * 22 + 8) : 0, // Amplitud de esquive
+                    weaveFreq: Math.random() * 0.05 + 0.03, // Frecuencia de maniobras rookie
+                    weaveAmp: isPack ? (Math.random() * 22 + 8) : 0,
                     weavePhase: Math.random() * Math.PI * 2,
                     step: 0
                 });
             }
 
-            // Intervalo irregular entre tandas: de 1.8s a 5.8s
-            nextSpawnTime = Date.now() + (Math.random() * 4000 + 1800);
+            // Intervalo irregular entre carreras: de 2 a 6 segundos
+            nextSpawnTime = Date.now() + (Math.random() * 4000 + 2000);
         }
 
         function drawSpeedCar(car) {
@@ -1621,7 +1655,7 @@
                 const car = activeRaceCars[i];
                 car.step++;
 
-                // Movimiento dinámico: avance con curvatura y oscilación rookie
+                // Desplazamiento dinámico orgánico
                 const lateralDrift = Math.sin(car.step * car.weaveFreq + car.weavePhase) * car.weaveAmp * 0.05;
 
                 car.x += Math.cos(car.angle) * car.baseSpeed - Math.sin(car.angle) * lateralDrift;
@@ -1666,7 +1700,7 @@
             "https://images.unsplash.com/photo-1601362840469-51e4d8d58785?auto=format&fit=crop&w=1200&q=85",
             "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1200&q=85",
             "https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?auto=format&fit=crop&w=1200&q=85",
-            "https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=1200&q=85"
+            "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1200&q=85"
         ];
 
         let currentPhotoIdx = 0;
@@ -1693,7 +1727,7 @@
             lbCounter.innerText = `${currentPhotoIdx + 1} / ${fotosGaleria.length}`;
         }
 
-        // Swipe táctil en Lightbox
+        // Deslizamiento táctil en Lightbox
         let touchStartX = 0;
         const lbViewport = document.getElementById('lbViewport');
         lbViewport.addEventListener('touchstart', e => {
