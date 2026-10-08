@@ -17,7 +17,7 @@
 
     <style>
         /* =========================================================
-           ADN CROMÁTICO: GRAN TURISMO / SWISS MOTORSPORT LUXURY
+           ADN CROMÁTICO: MODO OSCURO (DEFAULT GT4 OBSIDIAN)
            ========================================================= */
         :root {
             --bg-deep: #080A0E;
@@ -41,6 +41,29 @@
             --font-display: 'Chakra Petch', sans-serif;
             --font-ui: 'Rajdhani', sans-serif;
             --font-telemetry: 'JetBrains Mono', monospace;
+        }
+
+        /* =========================================================
+           ADN CROMÁTICO: MODO CLARO (SWISS CERAMIC STUDIO)
+           ========================================================= */
+        body.light-mode {
+            --bg-deep: #F1F4F9;
+            --bg-asphalt: #E2E8F0;
+            --card-titanium: #FFFFFF;
+            --card-titanium-hover: #F8FAFC;
+
+            --volt-gold: #C98A00;
+            --volt-gold-glow: rgba(201, 138, 0, 0.28);
+            --apex-red: #D90429;
+            --calama-cyan: #0284C7;
+
+            --metal-pure: #0F172A;
+            --metal-silver: #1E293B;
+            --metal-subtle: #475569;
+            --metal-lead: #64748B;
+
+            --border-hud: rgba(15, 23, 42, 0.12);
+            --border-active: rgba(201, 138, 0, 0.75);
         }
 
         body.preload * {
@@ -73,6 +96,7 @@
             padding: 16px 14px 44px;
             overflow-x: hidden;
             position: relative;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         /* =========================================================
@@ -105,7 +129,7 @@
             font-size: 1.15rem;
             font-weight: 800;
             font-style: italic;
-            color: var(--metal-pure);
+            color: #FFFFFF;
             letter-spacing: 0.14em;
             text-transform: uppercase;
         }
@@ -156,6 +180,11 @@
             background: radial-gradient(circle at 50% 12%, #181E29 0%, #0E1017 55%, #050608 100%);
             overflow: hidden;
             pointer-events: none;
+            transition: background 0.3s ease;
+        }
+
+        body.light-mode .gt-bg-canvas {
+            background: radial-gradient(circle at 50% 12%, #FFFFFF 0%, #E6EDF5 55%, #D7E1EC 100%);
         }
 
         .tarmac-grain {
@@ -167,6 +196,11 @@
             opacity: 0.22;
             background-image: radial-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 0);
             background-size: 15px 15px;
+        }
+
+        body.light-mode .tarmac-grain {
+            opacity: 0.08;
+            background-image: radial-gradient(rgba(0, 0, 0, 0.2) 1px, transparent 0);
         }
 
         #speedTrackCanvas {
@@ -204,6 +238,10 @@
             transition: transform 0.1s linear;
         }
 
+        body.light-mode .parallax-livery {
+            opacity: 0.06;
+        }
+
         .ambient-spotlight-top {
             position: absolute;
             top: -120px;
@@ -237,35 +275,92 @@
             z-index: 2;
         }
 
-        /* BARRA MÚSICA BLACKCENTER */
-        .top-audio-bar {
+        /* =========================================================
+           BARRA SUPERIOR: PERILLAS TIPO COCKPIT (MÚSICA & TEMA)
+           ========================================================= */
+        .top-controls-bar {
             display: flex;
             align-items: center;
-            justify-content: flex-end;
+            justify-content: space-between;
             width: 100%;
             padding: 0 4px;
+            gap: 8px;
         }
 
-        .audio-toggle-btn {
-            font-family: var(--font-telemetry);
-            font-size: 0.68rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            padding: 5px 12px;
-            border-radius: 6px;
-            background: rgba(22, 26, 35, 0.9);
-            border: 1px solid var(--border-hud);
-            color: var(--volt-gold);
-            cursor: pointer;
+        /* PERILLAS DESLIZANTES ("KNOB SLIDER SWITCH") */
+        .switch-wrap {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            transition: all 0.2s ease;
+            gap: 7px;
+            background: rgba(22, 26, 35, 0.9);
+            border: 1px solid var(--border-hud);
+            padding: 4px 10px;
+            border-radius: 999px;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.25s ease;
         }
 
-        .audio-toggle-btn:hover {
+        body.light-mode .switch-wrap {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+        }
+
+        .switch-label {
+            font-family: var(--font-telemetry);
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--metal-subtle);
+            transition: color 0.25s ease;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .toggle-track {
+            width: 32px;
+            height: 18px;
+            background: #0E1117;
+            border: 1.5px solid rgba(255, 255, 255, 0.18);
+            border-radius: 999px;
+            position: relative;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        body.light-mode .toggle-track {
+            background: #CBD5E1;
+            border-color: rgba(15, 23, 42, 0.15);
+        }
+
+        .toggle-knob {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--metal-subtle);
+            position: absolute;
+            top: 1.5px;
+            left: 2px;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+        }
+
+        /* ESTADO ACTIVO / ENCENDIDO (VOLT GOLD NEON) */
+        .switch-wrap.active .toggle-track {
+            background: rgba(255, 199, 0, 0.25);
             border-color: var(--volt-gold);
-            box-shadow: 0 0 12px var(--volt-gold-glow);
+            box-shadow: 0 0 10px var(--volt-gold-glow);
+        }
+
+        .switch-wrap.active .toggle-knob {
+            left: 15px;
+            background: var(--volt-gold);
+            box-shadow: 0 0 8px var(--volt-gold);
+        }
+
+        .switch-wrap.active .switch-label {
+            color: var(--volt-gold);
         }
 
         /* =========================================================
@@ -301,6 +396,12 @@
             overflow: hidden;
             box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
             cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        body.light-mode .sponsor-box {
+            background: linear-gradient(145deg, #FFFFFF 0%, #F8FAFC 100%);
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
         }
 
         .sponsor-box::before {
@@ -328,7 +429,7 @@
             width: 100%;
             height: 100%;
             object-fit: contain;
-            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6));
+            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
         }
 
         .sponsor-meta {
@@ -377,7 +478,11 @@
             letter-spacing: 0.05em;
             line-height: 0.92;
             color: var(--metal-pure);
-            text-shadow: 0 4px 25px rgba(0, 0, 0, 0.9);
+            text-shadow: 0 4px 25px rgba(0, 0, 0, 0.8);
+        }
+
+        body.light-mode .brand-title-massive {
+            text-shadow: 0 4px 20px rgba(15, 23, 42, 0.15);
         }
 
         .brand-title-massive span {
@@ -442,12 +547,20 @@
             transition: all 0.25s ease;
         }
 
+        body.light-mode .social-btn {
+            box-shadow: 0 3px 10px rgba(15, 23, 42, 0.08);
+        }
+
         .social-btn:hover {
             border-color: var(--volt-gold);
             color: var(--volt-gold);
             background: #232836;
             box-shadow: 0 0 18px var(--volt-gold-glow);
             transform: translateY(-2px);
+        }
+
+        body.light-mode .social-btn:hover {
+            background: #F8FAFC;
         }
 
         .social-btn svg { width: 19px; height: 19px; }
@@ -474,12 +587,20 @@
             user-select: none;
         }
 
+        body.light-mode .btn-card {
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.07);
+        }
+
         .btn-card:hover {
             background: var(--card-titanium-hover);
             border-color: var(--border-active);
             border-left-color: var(--volt-gold);
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 199, 0, 0.25);
             transform: translateX(3px);
+        }
+
+        body.light-mode .btn-card:hover {
+            box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12), 0 0 18px var(--volt-gold-glow);
         }
 
         /* HERO CARD (LAUNCH CONTROL // WHATSAPP) */
@@ -490,6 +611,11 @@
             padding: 18px 20px;
             overflow: hidden;
             box-shadow: 0 14px 36px rgba(255, 199, 0, 0.28);
+        }
+
+        body.light-mode .btn-hero {
+            background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);
+            box-shadow: 0 12px 30px rgba(201, 138, 0, 0.22);
         }
 
         .btn-hero::before {
@@ -526,6 +652,10 @@
             color: var(--volt-gold);
             clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
             transition: all 0.25s ease;
+        }
+
+        body.light-mode .icon-box {
+            background: #F1F5F9;
         }
 
         .btn-card:hover .icon-box {
@@ -626,6 +756,11 @@
             flex-direction: column;
             gap: 12px;
             box-shadow: 0 10px 28px rgba(0, 0, 0, 0.6);
+            transition: all 0.25s ease;
+        }
+
+        body.light-mode .gallery-card {
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.07);
         }
 
         .gallery-header {
@@ -739,6 +874,10 @@
             flex-direction: column;
         }
 
+        body.light-mode .lightbox-modal-card {
+            background: #FFFFFF;
+        }
+
         .lightbox-topbar {
             display: flex;
             align-items: center;
@@ -746,6 +885,10 @@
             padding: 12px 18px;
             background: #181C26;
             border-bottom: 1px solid var(--border-hud);
+        }
+
+        body.light-mode .lightbox-topbar {
+            background: #F8FAFC;
         }
 
         .lightbox-counter {
@@ -834,6 +977,11 @@
             flex-direction: column;
             gap: 10px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+            transition: all 0.25s ease;
+        }
+
+        body.light-mode .hours-card {
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.07);
         }
 
         .hours-header {
@@ -861,6 +1009,10 @@
             border-top: 1px dashed rgba(255, 255, 255, 0.12);
         }
 
+        body.light-mode .hours-table {
+            border-top-color: rgba(15, 23, 42, 0.1);
+        }
+
         .hours-row {
             display: flex;
             align-items: center;
@@ -885,6 +1037,11 @@
             flex-direction: column;
             gap: 9px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+            transition: all 0.25s ease;
+        }
+
+        body.light-mode .map-card {
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.07);
         }
 
         .map-header {
@@ -910,6 +1067,10 @@
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.14);
             background: #111;
+        }
+
+        body.light-mode .map-box {
+            border-color: rgba(15, 23, 42, 0.12);
         }
 
         .map-box iframe {
@@ -966,6 +1127,10 @@
             transition: transform 0.25s ease;
         }
 
+        body.light-mode .modal-card {
+            background: #FFFFFF;
+        }
+
         .modal-overlay.active .modal-card { transform: scale(1); }
 
         .modal-header {
@@ -975,6 +1140,10 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+        }
+
+        body.light-mode .modal-header {
+            background: #F8FAFC;
         }
 
         .modal-header h3 {
@@ -989,7 +1158,7 @@
         .btn-close-modal {
             background: #10131B;
             border: 1px solid var(--border-hud);
-            color: var(--metal-pure);
+            color: #FFFFFF;
             width: 32px;
             height: 32px;
             cursor: pointer;
@@ -1001,9 +1170,15 @@
             font-weight: bold;
         }
 
+        body.light-mode .btn-close-modal {
+            background: #E2E8F0;
+            color: #0F172A;
+        }
+
         .btn-close-modal:hover {
             background: var(--apex-red);
             border-color: var(--apex-red);
+            color: #FFFFFF;
         }
 
         .modal-body {
@@ -1022,6 +1197,11 @@
             display: flex;
             flex-direction: column;
             gap: 7px;
+        }
+
+        body.light-mode .service-detail-item {
+            background: #F8FAFC;
+            border-color: rgba(15, 23, 42, 0.08);
         }
 
         .service-detail-head {
@@ -1094,6 +1274,11 @@
             border-right: 3px solid var(--apex-red);
         }
 
+        body.light-mode .footer-badge {
+            background: #FFFFFF;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+        }
+
         .footer-legal {
             font-family: var(--font-telemetry);
             font-size: 0.72rem;
@@ -1131,11 +1316,23 @@
     <!-- CONTENEDOR MAESTRO -->
     <main class="hub-container">
 
-        <!-- BARRA MÚSICA BLACKCENTER -->
-        <div class="top-audio-bar">
-            <button class="audio-toggle-btn" id="bgMusicBtn" onclick="toggleMusic()">
-                <span id="bgMusicIcon">🔈</span> <span id="bgMusicLabel">MÚSICA BLACKCENTER</span>
-            </button>
+        <!-- BARRA SUPERIOR: PERILLAS TIPO COCKPIT (MODO CLARO/OSCURO & MÚSICA) -->
+        <div class="top-controls-bar">
+            <!-- 1. PERILLA MODO CLARO / OSCURO -->
+            <div class="switch-wrap" id="themeSwitch" onclick="toggleTheme()" title="Cambiar Modo Claro / Oscuro">
+                <span class="switch-label" id="themeLabel">☀️ CLARO</span>
+                <div class="toggle-track">
+                    <div class="toggle-knob"></div>
+                </div>
+            </div>
+
+            <!-- 2. PERILLA MÚSICA BLACKCENTER CON SLIDER -->
+            <div class="switch-wrap" id="musicSwitch" onclick="toggleMusic()" title="Encender / Apagar Música">
+                <span class="switch-label" id="bgMusicLabel">🔈 MÚSICA</span>
+                <div class="toggle-track">
+                    <div class="toggle-knob"></div>
+                </div>
+            </div>
         </div>
 
         <!-- CABECERA & SPONSORS HOMOLOGADOS -->
@@ -1463,7 +1660,7 @@
         </div>
     </div>
 
-    <!-- MOTORES JAVASCRIPT: AUDIOS OFICIALES, FADE OUT & PISTA ORGÁNICA -->
+    <!-- MOTORES JAVASCRIPT: AUDIOS OFICIALES, FADE OUT, SWITCHES & PISTA -->
     <script>
         // =========================================================
         // 1. AUDIO OFICIAL DE GITHUB: BOTÓN GT4 Y MÚSICA DRIVING MISSIONS
@@ -1488,7 +1685,7 @@
             } catch (e) {}
         }
 
-        // FADE OUT SUAVE DE MÚSICA AL SALIR (WHATSAPP, LLAMADA, MAPAS O CAMBIO DE PESTAÑA)
+        // FADE OUT SUAVE DE MÚSICA
         function fadeOutMusic(duration = 750) {
             if (!isMusicPlaying || bgMusic.paused) return;
             if (fadeInterval) clearInterval(fadeInterval);
@@ -1508,34 +1705,51 @@
                     fadeInterval = null;
                     isMusicPlaying = false;
 
+                    const musicSwitch = document.getElementById('musicSwitch');
                     const btnLabel = document.getElementById('bgMusicLabel');
-                    const btnIcon = document.getElementById('bgMusicIcon');
-                    if (btnLabel) btnLabel.innerText = "MÚSICA BLACKCENTER: OFF";
-                    if (btnIcon) btnIcon.innerText = "🔈";
+                    if (musicSwitch) musicSwitch.classList.remove('active');
+                    if (btnLabel) btnLabel.innerText = "🔈 MÚSICA";
 
-                    // Restaura el volumen base para cuando el usuario decida encenderla de nuevo
                     bgMusic.volume = DEFAULT_BG_VOL;
                 }
             }, stepTime);
         }
 
-        // Toggle para la música ambiental Driving Missions
+        // PERILLA DE MÚSICA TIPO TOGGLE
         function toggleMusic() {
             playGtMenuSound();
+            const musicSwitch = document.getElementById('musicSwitch');
             const btnLabel = document.getElementById('bgMusicLabel');
-            const btnIcon = document.getElementById('bgMusicIcon');
 
             if (!isMusicPlaying) {
                 if (fadeInterval) { clearInterval(fadeInterval); fadeInterval = null; }
                 bgMusic.volume = DEFAULT_BG_VOL;
                 bgMusic.play().then(() => {
                     isMusicPlaying = true;
-                    btnLabel.innerText = "MÚSICA BLACKCENTER: ON";
-                    btnIcon.innerText = "🔊";
+                    if (musicSwitch) musicSwitch.classList.add('active');
+                    if (btnLabel) btnLabel.innerText = "🔊 MÚSICA";
                 }).catch(() => {});
             } else {
-                fadeOutMusic(500);
+                fadeOutMusic(450);
             }
+        }
+
+        // PERILLA DE MODO CLARO / OSCURO
+        let isLightMode = false;
+        function toggleTheme() {
+            playGtMenuSound();
+            isLightMode = !isLightMode;
+            document.body.classList.toggle('light-mode', isLightMode);
+
+            const themeSwitch = document.getElementById('themeSwitch');
+            const themeLabel = document.getElementById('themeLabel');
+
+            if (themeSwitch) themeSwitch.classList.toggle('active', isLightMode);
+            if (themeLabel) themeLabel.innerText = isLightMode ? "☀️ CLARO" : "🌙 OSCURO";
+
+            try {
+                localStorage.setItem('bc_theme', isLightMode ? 'light' : 'dark');
+            } catch(e) {}
         }
 
         // DISPARADORES DE FADE OUT AL SALIR DEL LINK O IR A WHATSAPP
@@ -1633,7 +1847,7 @@
             // Estela de rebufo
             const trailGrad = trackCtx.createLinearGradient(-m.length * 2.4, 0, 0, 0);
             trailGrad.addColorStop(0, 'transparent');
-            trailGrad.addColorStop(1, 'rgba(255, 199, 0, 0.2)');
+            trailGrad.addColorStop(1, isLightMode ? 'rgba(201, 138, 0, 0.25)' : 'rgba(255, 199, 0, 0.2)');
             trackCtx.fillStyle = trailGrad;
             trackCtx.fillRect(-m.length * 2.4, -m.width / 2, m.length * 2.4, m.width);
 
@@ -1671,7 +1885,7 @@
                 trackCtx.fillStyle = '#FF1E27';
                 trackCtx.fillRect(-m.length / 2 - 9, -2, 4, 4);
             } else {
-                trackCtx.fillStyle = '#10131B';
+                trackCtx.fillStyle = isLightMode ? '#2B3242' : '#10131B';
                 trackCtx.strokeStyle = m.bodyColor;
                 trackCtx.lineWidth = 2;
                 trackCtx.beginPath();
@@ -1834,6 +2048,18 @@
         window.addEventListener('DOMContentLoaded', () => {
             if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
             updateStoreStatus();
+
+            // Restaurar tema si estaba guardado
+            try {
+                if (localStorage.getItem('bc_theme') === 'light') {
+                    isLightMode = true;
+                    document.body.classList.add('light-mode');
+                    const themeSwitch = document.getElementById('themeSwitch');
+                    const themeLabel = document.getElementById('themeLabel');
+                    if (themeSwitch) themeSwitch.classList.add('active');
+                    if (themeLabel) themeLabel.innerText = "☀️ DÍA";
+                }
+            } catch(e) {}
 
             setTimeout(() => {
                 const welcome = document.getElementById('gtWelcomeScreen');
