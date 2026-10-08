@@ -269,7 +269,7 @@
         }
 
         /* =========================================================
-           HEADER: LOGOS INSTANTÁNEOS + BLACK CENTER MASIVO
+           HEADER: LOGOS 4K TRANSPARENTES + BLACK CENTER MASIVO
            ========================================================= */
         .brand-header {
             text-align: center;
@@ -280,7 +280,7 @@
             margin-bottom: 2px;
         }
 
-        /* SPONSORS CON RUTA RELATIVA Y CDN DE GITHUB PAGES */
+        /* SPONSORS CON RUTA LOCAL DE GITHUB PAGES (CARGA AL INSTANTE) */
         .sponsors-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -614,7 +614,7 @@
         }
 
         /* =========================================================
-           GALERÍA EXECUTIVE: LIGHTBOX & DIAPOSITIVA TÁCTIL
+           GALERÍA EXECUTIVE: DIAPOSITIVA TOUCH & LIGHTBOX (FOTOS 100% OPERATIVAS)
            ========================================================= */
         .gallery-card {
             background: var(--card-titanium);
@@ -1144,7 +1144,7 @@
             <!-- PARRILLA DE HOMOLOGACIÓN CON RUTA LOCAL DE GITHUB PAGES (CARGA AL INSTANTE) -->
             <div class="sponsors-grid">
                 
-                <!-- 1. SPONSOR TEAM M111 OFICIAL -->
+                <!-- 1. SPONSOR TEAM M111 OFICIAL (GITHUB) -->
                 <div class="sponsor-box m111" onclick="playGtMenuSound()">
                     <div class="sponsor-img-wrap">
                         <img 
@@ -1160,7 +1160,7 @@
                     </div>
                 </div>
 
-                <!-- 2. SPONSOR C.A.L.A.M.A. OFICIAL -->
+                <!-- 2. SPONSOR C.A.L.A.M.A. OFICIAL (GITHUB) -->
                 <div class="sponsor-box calama" onclick="playGtMenuSound()">
                     <div class="sponsor-img-wrap">
                         <img 
@@ -1463,7 +1463,7 @@
         </div>
     </div>
 
-    <!-- MOTORES JAVASCRIPT: AUDIOS OFICIALES DE TU GITHUB Y PISTA ORGÁNICA -->
+    <!-- MOTORES JAVASCRIPT: AUDIOS OFICIALES, FADE OUT & PISTA ORGÁNICA -->
     <script>
         // =========================================================
         // 1. AUDIO OFICIAL DE GITHUB: BOTÓN GT4 Y MÚSICA DRIVING MISSIONS
@@ -1473,17 +1473,50 @@
 
         const bgMusic = new Audio("./08.%20Driving%20Missions.mp3");
         bgMusic.loop = true;
-        bgMusic.volume = 0.22;
+        const DEFAULT_BG_VOL = 0.22;
+        bgMusic.volume = DEFAULT_BG_VOL;
 
         let isMusicPlaying = false;
+        let fadeInterval = null;
 
-        // Reproductor del sonido único oficial de GT4
+        // Sonido de botón oficial único
         function playGtMenuSound() {
             try {
                 const clickSound = gtMenuAudio.cloneNode();
                 clickSound.volume = 0.5;
                 clickSound.play().catch(() => {});
             } catch (e) {}
+        }
+
+        // FADE OUT SUAVE DE MÚSICA AL SALIR (WHATSAPP, LLAMADA, MAPAS O CAMBIO DE PESTAÑA)
+        function fadeOutMusic(duration = 750) {
+            if (!isMusicPlaying || bgMusic.paused) return;
+            if (fadeInterval) clearInterval(fadeInterval);
+
+            const steps = 15;
+            const stepTime = duration / steps;
+            const startVol = bgMusic.volume;
+            const volStep = startVol / steps;
+
+            fadeInterval = setInterval(() => {
+                if (bgMusic.volume > volStep) {
+                    bgMusic.volume -= volStep;
+                } else {
+                    bgMusic.volume = 0;
+                    bgMusic.pause();
+                    clearInterval(fadeInterval);
+                    fadeInterval = null;
+                    isMusicPlaying = false;
+
+                    const btnLabel = document.getElementById('bgMusicLabel');
+                    const btnIcon = document.getElementById('bgMusicIcon');
+                    if (btnLabel) btnLabel.innerText = "MÚSICA BLACKCENTER: OFF";
+                    if (btnIcon) btnIcon.innerText = "🔈";
+
+                    // Restaura el volumen base para cuando el usuario decida encenderla de nuevo
+                    bgMusic.volume = DEFAULT_BG_VOL;
+                }
+            }, stepTime);
         }
 
         // Toggle para la música ambiental Driving Missions
@@ -1493,18 +1526,37 @@
             const btnIcon = document.getElementById('bgMusicIcon');
 
             if (!isMusicPlaying) {
+                if (fadeInterval) { clearInterval(fadeInterval); fadeInterval = null; }
+                bgMusic.volume = DEFAULT_BG_VOL;
                 bgMusic.play().then(() => {
                     isMusicPlaying = true;
                     btnLabel.innerText = "MÚSICA BLACKCENTER: ON";
                     btnIcon.innerText = "🔊";
                 }).catch(() => {});
             } else {
-                bgMusic.pause();
-                isMusicPlaying = false;
-                btnLabel.innerText = "MÚSICA BLACKCENTER: OFF";
-                btnIcon.innerText = "🔈";
+                fadeOutMusic(500);
             }
         }
+
+        // DISPARADORES DE FADE OUT AL SALIR DEL LINK O IR A WHATSAPP
+        document.addEventListener('click', (e) => {
+            const link = e.target.closest('a');
+            if (link && (link.href.includes('wa.me') || link.href.includes('tel:') || link.href.includes('maps') || link.target === '_blank')) {
+                fadeOutMusic(700);
+            }
+        });
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden && isMusicPlaying) {
+                fadeOutMusic(500);
+            }
+        });
+
+        window.addEventListener('pagehide', () => {
+            if (isMusicPlaying) {
+                bgMusic.pause();
+            }
+        });
 
         // =========================================================
         // 2. SIMULADOR DE PISTA ORGÁNICA (PELOTONES Y SOLITARIOS SILENCIOSOS)
@@ -1530,7 +1582,6 @@
         ];
 
         function spawnOrganicPack() {
-            // Decisión orgánica: o va un solitario a velocidad extrema, o un pelotón rookie de 3 a 4 autos zigzagueando
             const isPack = Math.random() > 0.55;
             const count = isPack ? (Math.random() > 0.45 ? 3 : 4) : 1;
 
@@ -1549,14 +1600,13 @@
                     angle: baseAngle,
                     model: model,
                     isPack: isPack,
-                    weaveFreq: Math.random() * 0.05 + 0.03, // Frecuencia de maniobras rookie
+                    weaveFreq: Math.random() * 0.05 + 0.03,
                     weaveAmp: isPack ? (Math.random() * 22 + 8) : 0,
                     weavePhase: Math.random() * Math.PI * 2,
                     step: 0
                 });
             }
 
-            // Intervalo irregular entre carreras: de 2 a 6 segundos
             nextSpawnTime = Date.now() + (Math.random() * 4000 + 2000);
         }
 
@@ -1587,7 +1637,7 @@
             trackCtx.fillStyle = trailGrad;
             trackCtx.fillRect(-m.length * 2.4, -m.width / 2, m.length * 2.4, m.width);
 
-            // Carrocería según tipo
+            // Carrocería
             if (m.id === 'f1') {
                 trackCtx.fillStyle = '#111';
                 trackCtx.fillRect(-m.length / 2 - 8, -m.width / 2, 8, m.width);
@@ -1655,7 +1705,6 @@
                 const car = activeRaceCars[i];
                 car.step++;
 
-                // Desplazamiento dinámico orgánico
                 const lateralDrift = Math.sin(car.step * car.weaveFreq + car.weavePhase) * car.weaveAmp * 0.05;
 
                 car.x += Math.cos(car.angle) * car.baseSpeed - Math.sin(car.angle) * lateralDrift;
