@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BLACK CENTER® | Executive Car Care & Detailing</title>
-    <meta name="description" content="Servicios de estética vehicular ejecutiva, lavado artesanal, descontaminado de tapizados y preparación para venta. Av. Elcano 3325, CABA.">
+    <title>BLACK CENTER® | Servicios de Lavado y Mantenimiento Estético</title>
+    <meta name="description" content="Servicios de Lavado y Mantenimiento Estético de Vehículos. Belgrano / Colegiales. Av. Elcano 3325, CABA.">
 
-    <!-- PRELOAD PRIORITARIO DE LOGOS OFICIALES (CARGA INSTANTÁNEA) -->
+    <!-- PRELOAD DE LOGOS OFICIALES -->
     <link rel="preload" as="image" href="./Team_Professional_Products_logo_4K_transparente.webp">
     <link rel="preload" as="image" href="./CALAMA_logo_4K_transparente.webp">
 
@@ -43,9 +43,7 @@
             --font-telemetry: 'JetBrains Mono', monospace;
         }
 
-        /* =========================================================
-           ADN CROMÁTICO: MODO CLARO (SWISS CERAMIC STUDIO)
-           ========================================================= */
+        /* MODO CLARO */
         body.light-mode {
             --bg-deep: #F1F4F9;
             --bg-asphalt: #E2E8F0;
@@ -99,9 +97,7 @@
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* =========================================================
-           INTRO DE BIENVENIDA A CLIENTES
-           ========================================================= */
+        /* INTRO DE BIENVENIDA */
         #gtWelcomeScreen {
             position: fixed;
             top: 0;
@@ -167,9 +163,7 @@
             100% { width: 100%; }
         }
 
-        /* =========================================================
-           CANVAS DE FONDO: PISTA DINÁMICA
-           ========================================================= */
+        /* CANVAS DE FONDO: PISTA DINÁMICA */
         .gt-bg-canvas {
             position: fixed;
             top: 0;
@@ -263,9 +257,7 @@
         .hud-left { left: 10px; }
         .hud-right { right: 10px; }
 
-        /* =========================================================
-           CONTENEDOR CENTRAL
-           ========================================================= */
+        /* CONTENEDOR CENTRAL */
         .hub-container {
             width: 100%;
             max-width: 480px;
@@ -275,9 +267,7 @@
             z-index: 2;
         }
 
-        /* =========================================================
-           BARRA SUPERIOR: PERILLAS TIPO COCKPIT (MÚSICA & TEMA)
-           ========================================================= */
+        /* CONTROLES SUPERIORES (MÚSICA Y MODO CLARO/OSCURO) */
         .top-controls-bar {
             display: flex;
             align-items: center;
@@ -287,7 +277,6 @@
             gap: 8px;
         }
 
-        /* PERILLAS DESLIZANTES ("KNOB SLIDER SWITCH") */
         .switch-wrap {
             display: inline-flex;
             align-items: center;
@@ -346,7 +335,6 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.5);
         }
 
-        /* ESTADO ACTIVO / ENCENDIDO (VOLT GOLD NEON) */
         .switch-wrap.active .toggle-track {
             background: rgba(255, 199, 0, 0.25);
             border-color: var(--volt-gold);
@@ -363,115 +351,27 @@
             color: var(--volt-gold);
         }
 
-        /* =========================================================
-           HEADER: LOGOS 4K TRANSPARENTES + BLACK CENTER MASIVO
-           ========================================================= */
+        /* HEADER: TÍTULO Y SUBTÍTULO OFICIAL */
         .brand-header {
             text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             margin-bottom: 2px;
+            padding-top: 4px;
         }
 
-        /* SPONSORS CON RUTA LOCAL DE GITHUB PAGES (CARGA AL INSTANTE) */
-        .sponsors-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            width: 100%;
-            margin-bottom: 4px;
-        }
-
-        .sponsor-box {
-            background: linear-gradient(145deg, #181C26 0%, #10121A 100%);
-            border: 1px solid var(--border-hud);
-            border-radius: 8px;
-            padding: 8px 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
-            cursor: pointer;
-            transition: all 0.25s ease;
-        }
-
-        body.light-mode .sponsor-box {
-            background: linear-gradient(145deg, #FFFFFF 0%, #F8FAFC 100%);
-            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
-        }
-
-        .sponsor-box::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 3.5px;
-            height: 100%;
-        }
-
-        .sponsor-box.m111::before { background: var(--volt-gold); }
-        .sponsor-box.calama::before { background: var(--calama-cyan); }
-
-        .sponsor-img-wrap {
-            width: 44px;
-            height: 44px;
-            min-width: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .sponsor-img-wrap img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
-        }
-
-        .sponsor-meta {
-            display: flex;
-            flex-direction: column;
-            text-align: left;
-            line-height: 1.15;
-        }
-
-        .sponsor-title {
-            font-family: var(--font-display);
-            font-weight: 800;
-            font-size: 0.88rem;
-            letter-spacing: 0.03em;
-            text-transform: uppercase;
-        }
-
-        .sponsor-box.m111 .sponsor-title { color: var(--volt-gold); }
-        .sponsor-box.calama .sponsor-title { color: var(--calama-cyan); }
-
-        .sponsor-sub {
-            font-family: var(--font-telemetry);
-            font-size: 0.58rem;
-            font-weight: 700;
-            color: var(--metal-subtle);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-top: 2px;
-        }
-
-        /* TÍTULO BLACK CENTER GIGANTE */
         .brand-title-wrap {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 4px;
-            padding: 4px 0 2px;
+            gap: 5px;
         }
 
         .brand-title-massive {
             font-family: var(--font-display);
-            font-size: clamp(2.4rem, 9.5vw, 3.1rem);
+            font-size: clamp(2.5rem, 10vw, 3.2rem);
             font-weight: 900;
             font-style: italic;
             text-transform: uppercase;
@@ -490,16 +390,29 @@
             text-shadow: 0 0 24px var(--volt-gold-glow);
         }
 
+        /* SUBTÍTULO EXACTO SOLICITADO */
+        .brand-subtitle-official {
+            font-family: var(--font-ui);
+            font-size: 0.98rem;
+            font-weight: 700;
+            color: var(--metal-silver);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            line-height: 1.25;
+            max-width: 90%;
+        }
+
         .brand-telemetry-tag {
             font-family: var(--font-telemetry);
-            font-size: 0.72rem;
+            font-size: 0.74rem;
             font-weight: 800;
-            color: var(--metal-subtle);
-            letter-spacing: 0.22em;
+            color: var(--volt-gold);
+            letter-spacing: 0.20em;
             text-transform: uppercase;
             display: flex;
             align-items: center;
             gap: 8px;
+            margin-top: 2px;
         }
 
         .brand-telemetry-tag span.dot {
@@ -510,27 +423,13 @@
             display: inline-block;
         }
 
-        .brand-bio {
-            font-size: 0.95rem;
-            line-height: 1.45;
-            color: var(--metal-subtle);
-            font-weight: 600;
-            max-width: 96%;
-            text-align: center;
-        }
-
-        .brand-bio strong {
-            color: var(--metal-silver);
-            font-weight: 800;
-        }
-
         /* ACCESOS RÁPIDOS */
         .social-bar {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 12px;
-            margin-top: 2px;
+            margin-top: 4px;
         }
 
         .social-btn {
@@ -603,7 +502,7 @@
             box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12), 0 0 18px var(--volt-gold-glow);
         }
 
-        /* HERO CARD (LAUNCH CONTROL // WHATSAPP) */
+        /* HERO CARD (WHATSAPP DIRECTO) */
         .btn-hero {
             background: linear-gradient(135deg, #24291B 0%, #151912 100%);
             border: 2px solid var(--volt-gold);
@@ -710,10 +609,10 @@
             border: 1px solid var(--volt-gold);
         }
 
-        .hud-badge.red {
-            background: rgba(229, 56, 59, 0.2);
-            color: var(--apex-red);
-            border-color: var(--apex-red);
+        .hud-badge.green {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22C55E;
+            border-color: #22C55E;
         }
 
         .hud-badge.cyan {
@@ -723,7 +622,7 @@
         }
 
         .btn-desc {
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             color: var(--metal-subtle);
             font-weight: 600;
             white-space: nowrap;
@@ -744,228 +643,93 @@
         }
 
         /* =========================================================
-           GALERÍA EXECUTIVE: DIAPOSITIVA TOUCH & LIGHTBOX (FOTOS 100% OPERATIVAS)
+           SPONSORS REUBICADOS (DONDE ESTABA LA GALERÍA)
            ========================================================= */
-        .gallery-card {
-            background: var(--card-titanium);
+        .sponsors-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .sponsor-box {
+            background: linear-gradient(145deg, #181C26 0%, #10121A 100%);
             border: 1.5px solid var(--border-hud);
-            border-top: 3px solid var(--volt-gold);
-            clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
-            padding: 16px;
+            border-radius: 8px;
+            padding: 10px 12px;
             display: flex;
-            flex-direction: column;
-            gap: 12px;
-            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.6);
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
             transition: all 0.25s ease;
         }
 
-        body.light-mode .gallery-card {
-            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.07);
+        body.light-mode .sponsor-box {
+            background: linear-gradient(145deg, #FFFFFF 0%, #F8FAFC 100%);
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
         }
 
-        .gallery-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .gallery-title-wrap {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-family: var(--font-display);
-            font-weight: 800;
-            font-size: 1.15rem;
-            text-transform: uppercase;
-            color: var(--metal-pure);
-        }
-
-        .gallery-track {
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            scroll-behavior: smooth;
-            scroll-snap-type: x mandatory;
-            padding: 4px 2px 6px;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-        }
-
-        .gallery-track::-webkit-scrollbar { display: none; }
-
-        .gallery-item {
-            flex: 0 0 155px;
-            height: 195px;
-            overflow: hidden;
-            position: relative;
-            cursor: pointer;
-            scroll-snap-align: start;
-            border: 1.5px solid var(--border-hud);
-            clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
-            background: #0E1017;
-            transition: transform 0.25s ease, border-color 0.25s ease;
-        }
-
-        .gallery-item:hover {
-            transform: translateY(-3px);
-            border-color: var(--volt-gold);
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        .gallery-caption {
+        .sponsor-box::before {
+            content: '';
             position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 24px 8px 8px;
-            background: linear-gradient(0deg, rgba(8, 10, 14, 0.95) 0%, transparent 100%);
-            font-family: var(--font-display);
-            font-size: 0.82rem;
-            font-weight: 800;
-            color: var(--volt-gold);
-            text-transform: uppercase;
-            text-align: center;
-        }
-
-        /* =========================================================
-           MODAL LIGHTBOX DIAPOSITIVA (CON CONTROLES)
-           ========================================================= */
-        .lightbox-overlay {
-            position: fixed;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(8, 10, 14, 0.95);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            z-index: 9999999;
+            width: 4px;
+            height: 100%;
+        }
+
+        .sponsor-box.m111::before { background: var(--volt-gold); }
+        .sponsor-box.calama::before { background: var(--calama-cyan); }
+
+        .sponsor-img-wrap {
+            width: 46px;
+            height: 46px;
+            min-width: 46px;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 14px;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.25s ease;
-            user-select: none;
         }
 
-        .lightbox-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .lightbox-modal-card {
-            position: relative;
-            max-width: 480px;
-            width: 100%;
-            background: #12151D;
-            border: 2px solid var(--volt-gold);
-            clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px var(--volt-gold-glow);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        body.light-mode .lightbox-modal-card {
-            background: #FFFFFF;
-        }
-
-        .lightbox-topbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 18px;
-            background: #181C26;
-            border-bottom: 1px solid var(--border-hud);
-        }
-
-        body.light-mode .lightbox-topbar {
-            background: #F8FAFC;
-        }
-
-        .lightbox-counter {
-            font-family: var(--font-telemetry);
-            font-size: 0.8rem;
-            color: var(--volt-gold);
-            font-weight: 800;
-            letter-spacing: 0.1em;
-        }
-
-        .btn-close-lb {
-            width: 32px;
-            height: 32px;
-            background: #0E1017;
-            color: #FFF;
-            border: 1px solid var(--border-hud);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: var(--font-display);
-            font-weight: 800;
-        }
-
-        .btn-close-lb:hover {
-            background: var(--apex-red);
-            border-color: var(--apex-red);
-        }
-
-        .lightbox-viewport {
-            width: 100%;
-            height: 60vh;
-            max-height: 480px;
-            background: #06070A;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .lightbox-viewport img {
+        .sponsor-img-wrap img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            display: block;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
         }
 
-        .lb-nav-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 44px;
-            height: 44px;
-            background: rgba(16, 20, 28, 0.85);
-            border: 1.5px solid var(--volt-gold);
-            color: #FFF;
+        .sponsor-meta {
             display: flex;
-            align-items: center;
-            justify-content: center;
+            flex-direction: column;
+            text-align: left;
+            line-height: 1.15;
+        }
+
+        .sponsor-title {
             font-family: var(--font-display);
-            font-size: 1.3rem;
-            font-weight: 900;
-            cursor: pointer;
-            z-index: 10;
+            font-weight: 800;
+            font-size: 0.92rem;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
         }
 
-        .lb-nav-btn:hover {
-            background: var(--volt-gold);
-            color: #0A0D12;
-        }
+        .sponsor-box.m111 .sponsor-title { color: var(--volt-gold); }
+        .sponsor-box.calama .sponsor-title { color: var(--calama-cyan); }
 
-        .lb-prev { left: 10px; }
-        .lb-next { right: 10px; }
+        .sponsor-sub {
+            font-family: var(--font-telemetry);
+            font-size: 0.62rem;
+            font-weight: 700;
+            color: var(--metal-subtle);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 2px;
+        }
 
         /* =========================================================
-           TARJETA HORARIO DE TELEMETRÍA EN VIVO
+           TARJETA HORARIO DE TELEMETRÍA EN VIVO (HORARIOS NUEVOS)
            ========================================================= */
         .hours-card {
             background: var(--card-titanium);
@@ -1004,7 +768,7 @@
         .hours-table {
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 7px;
             padding-top: 4px;
             border-top: 1px dashed rgba(255, 255, 255, 0.12);
         }
@@ -1024,6 +788,15 @@
 
         .hours-row.active-day { color: var(--volt-gold); }
         .hours-row span.time { font-family: var(--font-telemetry); font-size: 0.85rem; }
+
+        .hours-note {
+            font-family: var(--font-telemetry);
+            font-size: 0.70rem;
+            color: var(--metal-lead);
+            font-weight: 600;
+            line-height: 1.25;
+            margin-top: 2px;
+        }
 
         /* =========================================================
            MAPA GOOGLE EN CABINA TÉCNICA
@@ -1080,17 +853,13 @@
             display: block;
         }
 
-        /* =========================================================
-           MEDIOS DE PAGO
-           ========================================================= */
+        /* MEDIOS DE PAGO */
         .btn-card-pay {
             cursor: default;
             border-left-color: #0EA5E9;
         }
 
-        /* =========================================================
-           MODAL DE SERVICIOS
-           ========================================================= */
+        /* MODAL DE SERVICIOS */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -1289,7 +1058,7 @@
         @media (max-width: 480px) {
             .btn-title { font-size: 1.15rem; }
             .btn-card { padding: 15px 16px; }
-            .gallery-item { flex: 0 0 145px; height: 185px; }
+            .brand-subtitle-official { font-size: 0.88rem; }
         }
     </style>
 </head>
@@ -1298,7 +1067,7 @@
     <!-- INTRO DE BIENVENIDA -->
     <div id="gtWelcomeScreen">
         <span class="welcome-title-top">BIENVENIDOS A BLACK CENTER</span>
-        <span class="welcome-title-sub">ESTÉTICA & DETAILING AUTOMOTRIZ</span>
+        <span class="welcome-title-sub">ESTÉTICA & LAVADO VEHICULAR</span>
         <div class="welcome-bar"><div class="welcome-bar-fill"></div></div>
     </div>
 
@@ -1320,7 +1089,7 @@
         <div class="top-controls-bar">
             <!-- 1. PERILLA MODO CLARO / OSCURO -->
             <div class="switch-wrap" id="themeSwitch" onclick="toggleTheme()" title="Cambiar Modo Claro / Oscuro">
-                <span class="switch-label" id="themeLabel">☀️ CLARO</span>
+                <span class="switch-label" id="themeLabel">☀️ DÍA</span>
                 <div class="toggle-track">
                     <div class="toggle-knob"></div>
                 </div>
@@ -1335,64 +1104,21 @@
             </div>
         </div>
 
-        <!-- CABECERA & SPONSORS HOMOLOGADOS -->
+        <!-- CABECERA: TÍTULO Y SUBTÍTULO EXACTO SOLICITADO -->
         <header class="brand-header">
-            
-            <!-- PARRILLA DE HOMOLOGACIÓN CON RUTA LOCAL DE GITHUB PAGES (CARGA AL INSTANTE) -->
-            <div class="sponsors-grid">
-                
-                <!-- 1. SPONSOR TEAM M111 OFICIAL (GITHUB) -->
-                <div class="sponsor-box m111" onclick="playGtMenuSound()">
-                    <div class="sponsor-img-wrap">
-                        <img 
-                            src="./Team_Professional_Products_logo_4K_transparente.webp" 
-                            alt="Team Professional Products M111" 
-                            loading="eager"
-                            onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/onceoncegrafica-1111/blackcenter/main/Team_Professional_Products_logo_4K_transparente.webp';"
-                        />
-                    </div>
-                    <div class="sponsor-meta">
-                        <span class="sponsor-title">Team M111®</span>
-                        <span class="sponsor-sub">Proveedor Exclusivo</span>
-                    </div>
-                </div>
-
-                <!-- 2. SPONSOR C.A.L.A.M.A. OFICIAL (GITHUB) -->
-                <div class="sponsor-box calama" onclick="playGtMenuSound()">
-                    <div class="sponsor-img-wrap">
-                        <img 
-                            src="./CALAMA_logo_4K_transparente.webp" 
-                            alt="Logo CALAMA Habilitados" 
-                            loading="eager"
-                            onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/onceoncegrafica-1111/blackcenter/main/CALAMA_logo_4K_transparente.webp';"
-                        />
-                    </div>
-                    <div class="sponsor-meta">
-                        <span class="sponsor-title">C.A.L.A.M.A.</span>
-                        <span class="sponsor-sub">Lavadero Habilitado</span>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- TÍTULO BLACK CENTER GIGANTE -->
             <div class="brand-title-wrap">
                 <h1 class="brand-title-massive">BLACK <span>CENTER</span></h1>
+                <span class="brand-subtitle-official">Servicios de Lavado y Mantenimiento Estético de Vehículos</span>
                 <div class="brand-telemetry-tag">
-                    <span>EXECUTIVE DETAILING</span>
+                    <span>BELGRANO</span>
                     <span class="dot"></span>
-                    <span>BELGRANO CABA</span>
+                    <span>COLEGIALES</span>
                 </div>
             </div>
 
-            <div class="brand-bio">
-                <span>Cuidado artesanal para vehículos ejecutivos con <strong>química oficial M111®</strong>.</span>
-                <span>Desinfección con Ozono, detallado de tapizados y preparación para venta.</span>
-            </div>
-
-            <!-- ACCESOS RÁPIDOS -->
+            <!-- ACCESOS RÁPIDOS (SIN NOMBRES) -->
             <div class="social-bar">
-                <a href="https://wa.me/5491133501614?text=Hola%20Gustavo%20de%20Black%20Center!%20Quisiera%20consultar%20por%20un%20servicio%20para%20mi%20auto." target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="WhatsApp" onclick="playGtMenuSound()">
+                <a href="https://wa.me/5491133501614?text=Hola%20Black%20Center!%20Quisiera%20hacer%20una%20consulta%20por%20un%20servicio%20para%20mi%20veh%C3%ADculo." target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="WhatsApp" onclick="playGtMenuSound()">
                     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                 </a>
                 <a href="tel:+5491133501614" class="social-btn" aria-label="Llamar" onclick="playGtMenuSound()">
@@ -1404,25 +1130,24 @@
             </div>
         </header>
 
-        <!-- BOTÓN 1 (HERO): PEDIR TURNO GT4 MENU SOUND -->
-        <a href="https://wa.me/5491133501614?text=Hola%20Gustavo%20de%20Black%20Center!%20Quisiera%20consultar%20un%20turno%20y%20presupuesto%20para%20un%20servicio%20est%C3%A9tico." target="_blank" rel="noopener noreferrer" class="btn-card btn-hero" onclick="playGtMenuSound()">
+        <!-- BOTÓN 1 (HERO): WHATSAPP DIRECTO (INDICACIÓN 2: CONSULTAS DIRECTAS, SIN NOMBRES) -->
+        <a href="https://wa.me/5491133501614?text=Hola%20Black%20Center!%20Quisiera%20hacer%20una%20consulta%20por%20un%20servicio%20para%20mi%20veh%C3%ADculo." target="_blank" rel="noopener noreferrer" class="btn-card btn-hero" onclick="playGtMenuSound()">
             <div class="icon-box hero-gold">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M3 8h11l3 4h4v3h-4l-3-2H9v7H6V11L3 8z"/>
-                    <circle cx="14" cy="10" r="1"/>
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.41a8.17 8.17 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.44 0-2.85-.38-4.09-1.1l-.29-.17-3.05.8 1.05-2.97-.19-.31a8.163 8.163 0 0 1-1.25-4.49c0-4.54 3.7-8.24 8.24-8.24"/>
                 </svg>
             </div>
             <div class="btn-info">
                 <div class="btn-title-row">
-                    <span class="btn-title">Pedir Turno por WhatsApp</span>
-                    <span class="hud-badge red">Prioridad</span>
+                    <span class="btn-title">Consultas por WhatsApp</span>
+                    <span class="hud-badge green">Directo</span>
                 </div>
-                <span class="btn-desc">+54 9 11 3350-1614 · Atención Gustavo</span>
+                <span class="btn-desc">+54 9 11 3350-1614 · Mensaje Directo</span>
             </div>
             <div class="hud-arrow-box">▶</div>
         </a>
 
-        <!-- BOTÓN 2: CARTA DE SERVICIOS -->
+        <!-- BOTÓN 2: SERVICIOS Y DETALLADO (INDICACIÓN: SERVICIO SPORT - TAPIZADOS - MOTOR - INTENSIVO) -->
         <div class="btn-card" onclick="openServicesModal(); playGtMenuSound();">
             <div class="icon-box">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
@@ -1433,106 +1158,80 @@
             </div>
             <div class="btn-info">
                 <div class="btn-title-row">
-                    <span class="btn-title">Servicios & Detallado</span>
-                    <span class="hud-badge">Carta GT</span>
+                    <span class="btn-title">Servicios</span>
+                    <span class="hud-badge">Ver Carta</span>
                 </div>
-                <span class="btn-desc">Sport, Black Intensivo, Venta y Ozono O3</span>
+                <span class="btn-desc">Servicio Sport · Limpieza de Tapizados · Motor · Detallado Intensivo</span>
             </div>
             <div class="hud-arrow-box">▶</div>
         </div>
 
-        <!-- =========================================================
-           GALERÍA EXECUTIVE: DIAPOSITIVA TOUCH & LIGHTBOX (FOTOS 100% OPERATIVAS)
-           ========================================================= -->
-        <div class="gallery-card">
-            <div class="gallery-header">
-                <div class="gallery-title-wrap">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFC700" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                    <span>Paddock & Galería</span>
+        <!-- REUBICACIÓN OFICIAL: SPONSORS 4K TRANSPARENTES (EN EL LUGAR DE LA GALERÍA) -->
+        <div class="sponsors-grid">
+            <!-- 1. SPONSOR TEAM M111 OFICIAL (GITHUB) -->
+            <div class="sponsor-box m111" onclick="playGtMenuSound()">
+                <div class="sponsor-img-wrap">
+                    <img 
+                        src="./Team_Professional_Products_logo_4K_transparente.webp" 
+                        alt="Team Professional Products M111" 
+                        loading="eager"
+                        onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/onceoncegrafica-1111/blackcenter/main/Team_Professional_Products_logo_4K_transparente.webp';"
+                    />
                 </div>
-                <span class="hud-badge">Ver Fotos</span>
+                <div class="sponsor-meta">
+                    <span class="sponsor-title">Team M111®</span>
+                    <span class="sponsor-sub">Proveedor Exclusivo</span>
+                </div>
             </div>
 
-            <div class="gallery-track" id="galleryTrack">
-                <!-- 1. VEHÍCULO EJECUTIVO EN BAÑO DE ESPUMA -->
-                <div class="gallery-item" onclick="openLightbox(0)">
+            <!-- 2. SPONSOR C.A.L.A.M.A. OFICIAL (GITHUB) -->
+            <div class="sponsor-box calama" onclick="playGtMenuSound()">
+                <div class="sponsor-img-wrap">
                     <img 
-                        src="https://images.unsplash.com/photo-1601362840469-51e4d8d58785?auto=format&fit=crop&w=800&q=80" 
-                        alt="Lavado artesanal con espuma pH neutro" 
-                        loading="lazy"
-                        onerror="this.src='https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?auto=format&fit=crop&w=800&q=80';"
-                    >
-                    <div class="gallery-caption">Espuma Activa pH</div>
+                        src="./CALAMA_logo_4K_transparente.webp" 
+                        alt="Logo CALAMA Habilitados" 
+                        loading="eager"
+                        onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/onceoncegrafica-1111/blackcenter/main/CALAMA_logo_4K_transparente.webp';"
+                    />
                 </div>
-
-                <!-- 2. HABITÁCULO EJECUTIVO DE CUERO POLISH -->
-                <div class="gallery-item" onclick="openLightbox(1)">
-                    <img 
-                        src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=800&q=80" 
-                        alt="Tapizados y tratamiento de cuero" 
-                        loading="lazy"
-                        onerror="this.src='https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?auto=format&fit=crop&w=800&q=80';"
-                    >
-                    <div class="gallery-caption">Tratamiento Cuero</div>
-                </div>
-
-                <!-- 3. SEDÁN ALEMÁN ACABADO REFLEJO -->
-                <div class="gallery-item" onclick="openLightbox(2)">
-                    <img 
-                        src="https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?auto=format&fit=crop&w=800&q=80" 
-                        alt="Cera rápida y sellado artesanal" 
-                        loading="lazy"
-                        onerror="this.src='https://images.unsplash.com/photo-1601362840469-51e4d8d58785?auto=format&fit=crop&w=800&q=80';"
-                    >
-                    <div class="gallery-caption">Sellado M111®</div>
-                </div>
-
-                <!-- 4. LIMPIEZA DE VANO MOTOR (FOTO NUEVA 100% COMPROBADA) -->
-                <div class="gallery-item" onclick="openLightbox(3)">
-                    <img 
-                        src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=800&q=80" 
-                        alt="Vano motor y chasis reluciente" 
-                        loading="lazy"
-                        onerror="this.src='https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80';"
-                    >
-                    <div class="gallery-caption">Vano Motor</div>
+                <div class="sponsor-meta">
+                    <span class="sponsor-title">C.A.L.A.M.A.</span>
+                    <span class="sponsor-sub">Lavadero Habilitado</span>
                 </div>
             </div>
         </div>
 
-        <!-- TARJETA: TELEMETRÍA DE HORARIO EN VIVO -->
+        <!-- TARJETA: HORARIOS OFICIALES (LUN A SÁB 9 A 18 HS / DOM 10 A 15 HS) -->
         <div class="hours-card" onclick="playGtMenuSound()">
             <div class="hours-header">
                 <div class="hours-title">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                    <span>Horario de Taller</span>
+                    <span>Horario de Atención</span>
                 </div>
-                <span class="hud-badge" id="statusBadge">Comprobando...</span>
+                <span class="hud-badge green" id="statusBadge">Comprobando...</span>
             </div>
             <div class="hours-table">
-                <div class="hours-row" id="row-week">
-                    <span>Lunes a Viernes</span>
-                    <span class="time">08:30 h - 18:30 h</span>
+                <div class="hours-row" id="row-mon-sat">
+                    <span>Lunes a Sábados</span>
+                    <span class="time">09:00 h - 18:00 h</span>
                 </div>
-                <div class="hours-row" id="row-sat">
-                    <span>Sábados</span>
-                    <span class="time">08:30 h - 17:00 h</span>
-                </div>
-                <div class="hours-row" style="opacity: 0.45;">
+                <div class="hours-note">*(17:30 h aprox. se toma el último vehículo)*</div>
+
+                <div class="hours-row" id="row-sun" style="margin-top: 4px;">
                     <span>Domingos</span>
-                    <span class="time">Cerrado</span>
+                    <span class="time">10:00 h - 15:00 h</span>
                 </div>
             </div>
         </div>
 
-        <!-- BOTÓN: LLAMADA DIRECTA -->
+        <!-- BOTÓN: LLAMADA DIRECTA (SIN NOMBRES) -->
         <a href="tel:+5491133501614" class="btn-card" onclick="playGtMenuSound()">
             <div class="icon-box">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
             </div>
             <div class="btn-info">
-                <span class="btn-title">Llamar Directo al Taller</span>
-                <span class="btn-desc">Línea Gustavo: 11 3350-1614</span>
+                <span class="btn-title">Llamar a Black Center</span>
+                <span class="btn-desc">Línea Directa: 11 3350-1614</span>
             </div>
             <div class="hud-arrow-box">▶</div>
         </a>
@@ -1571,7 +1270,7 @@
         <!-- FOOTER INSTITUCIONAL -->
         <footer class="hub-footer">
             <div class="footer-badge">
-                <span>BLACK CENTER CARS®</span>
+                <span>BLACK CENTER®</span>
                 <span style="color: var(--volt-gold);">///</span>
                 <span>BUENOS AIRES</span>
             </div>
@@ -1580,27 +1279,11 @@
 
     </main>
 
-    <!-- MODAL DIAPOSITIVA (LIGHTBOX) -->
-    <div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox(event)">
-        <button class="lb-nav-btn lb-prev" onclick="event.stopPropagation(); navLightbox(-1); playGtMenuSound();">◀</button>
-        <button class="lb-nav-btn lb-next" onclick="event.stopPropagation(); navLightbox(1); playGtMenuSound();">▶</button>
-
-        <div class="lightbox-modal-card" onclick="event.stopPropagation()">
-            <div class="lightbox-topbar">
-                <span class="lightbox-counter" id="lbCounter">1 / 4</span>
-                <button class="btn-close-lb" onclick="closeLightbox(event)">✕</button>
-            </div>
-            <div class="lightbox-viewport" id="lbViewport">
-                <img id="lbImg" src="" alt="Black Center Detailing">
-            </div>
-        </div>
-    </div>
-
     <!-- DRAWER / MODAL ESPECIFICACIONES DE SERVICIOS -->
     <div class="modal-overlay" id="servicesModal" onclick="closeServicesModal(event)">
         <div class="modal-card" onclick="event.stopPropagation()">
             <div class="modal-header">
-                <h3>// Especificaciones de Detallado</h3>
+                <h3>// Servicios de Mantenimiento Estético</h3>
                 <button class="btn-close-modal" onclick="closeServicesModal(event)">✕</button>
             </div>
             <div class="modal-body">
@@ -1614,46 +1297,43 @@
                     <p class="service-detail-desc">
                         Pre-lavado y baño de espuma activa con pH neutro. Lavado exterior detallado + secado artesanal con microfibra de alta densidad y sellador de brillo rápido M111®. Aspirado profundo de cabina y baúl, acondicionamiento de neumáticos, molduras y siliconado protector de paneles.
                     </p>
-                    <a href="https://wa.me/5491133501614?text=Hola%20Gustavo!%20Quisiera%20consultar%20por%20el%20Servicio%20Sport." target="_blank" class="service-btn-book" onclick="playGtMenuSound()">Consultar Servicio Sport ▶</a>
+                    <a href="https://wa.me/5491133501614?text=Hola%20Black%20Center!%20Quisiera%20consultar%20por%20el%20Servicio%20Sport." target="_blank" class="service-btn-book" onclick="playGtMenuSound()">Consultar por WhatsApp ▶</a>
                 </div>
 
-                <!-- 2. LAVADO BLACK INTENSIVO -->
+                <!-- 2. LIMPIEZA DE TAPIZADOS -->
                 <div class="service-detail-item" style="border-left-color: var(--apex-red);">
                     <div class="service-detail-head">
-                        <h4 style="color: #FF5A62;">02 // Lavado Black Intensivo</h4>
-                        <span class="hud-badge red">Stage 2</span>
+                        <h4 style="color: #FF5A62;">02 // Limpieza de Tapizados</h4>
+                        <span class="hud-badge" style="background:rgba(229,56,59,0.2); color:var(--apex-red); border-color:var(--apex-red);">Interiores</span>
                     </div>
                     <p class="service-detail-desc">
-                        Todo el <strong>Servicio Sport</strong> + limpieza profunda de tapizados (cuero o tela), paneles de puertas, torpedo, consola central y acondicionador mate no grasoso para interiores.
+                        Limpieza profunda y detallado de butacas (cuero o tela), paneles de puertas, torpedo, consola central y alfombras de piso. Acondicionador mate no grasoso protector de rayos UV.
                     </p>
-                    <a href="https://wa.me/5491133501614?text=Hola%20Gustavo!%20Quisiera%20pedir%20presupuesto%20para%20el%20Lavado%20Black%20Intensivo." target="_blank" class="service-btn-book" onclick="playGtMenuSound()">Consultar Black Intensivo ▶</a>
+                    <a href="https://wa.me/5491133501614?text=Hola%20Black%20Center!%20Quisiera%20consultar%20por%20Limpieza%20de%20Tapizados." target="_blank" class="service-btn-book" onclick="playGtMenuSound()">Consultar por WhatsApp ▶</a>
                 </div>
 
-                <!-- 3. PREPARACIÓN PARA VENTA -->
+                <!-- 3. LAVADO DE MOTOR & CHASIS -->
                 <div class="service-detail-item" style="border-left-color: var(--calama-cyan);">
                     <div class="service-detail-head">
-                        <h4 style="color: var(--calama-cyan);">03 // Preparación para Venta</h4>
-                        <span class="hud-badge cyan">Full Pack</span>
+                        <h4 style="color: var(--calama-cyan);">03 // Lavado de Motor & Chasis</h4>
+                        <span class="hud-badge cyan">Técnico</span>
                     </div>
                     <p class="service-detail-desc">
-                        El tratamiento definitivo para valorizar tu coche: Lavado Black + Limpieza integral de tapizados al detalle + Lavado de Motor + <strong>Desinfección de cabina con Ozono (O3)</strong> para eliminar ácaros, bacterias y olores residuales.
+                        Limpieza técnica de vano motor con desengrasante dieléctrico y abrillantador térmico protector. Desbarrado y lavado profundo de chasis inferior.
                     </p>
-                    <a href="https://wa.me/5491133501614?text=Hola%20Gustavo!%20Me%20interesa%20el%20servicio%20de%20Preparaci%C3%B3n%20para%20Venta%20para%20mi%20auto." target="_blank" class="service-btn-book" onclick="playGtMenuSound()">Cotizar Preparación para Venta ▶</a>
+                    <a href="https://wa.me/5491133501614?text=Hola%20Black%20Center!%20Quisiera%20consultar%20por%20Lavado%20de%20Motor%20y%20Chasis." target="_blank" class="service-btn-book" onclick="playGtMenuSound()">Consultar por WhatsApp ▶</a>
                 </div>
 
-                <!-- 4. SERVICIOS ESPECIALES -->
+                <!-- 4. DETALLADO INTENSIVO (PREPARACIÓN PARA VENTA / OZONO) -->
                 <div class="service-detail-item">
                     <div class="service-detail-head">
-                        <h4>04 // Servicios Especiales</h4>
-                        <span class="hud-badge">Taller</span>
+                        <h4>04 // Detallado Intensivo</h4>
+                        <span class="hud-badge">Full Pack</span>
                     </div>
                     <p class="service-detail-desc">
-                        • Limpieza de Vano Motor y Desbarrado de Chasis<br>
-                        • Lavado especializado de Motos<br>
-                        • Tratamiento y recuperación de inundados y alfombras de piso<br>
-                        • Descontaminado de manchas orgánicas y pelos de mascotas
+                        El tratamiento definitivo para valorizar tu coche: Lavado Sport + Tapizados integrales al detalle + Motor + <strong>Desinfección de cabina con Ozono (O3)</strong> para exterminar ácaros, bacterias y olores residuales.
                     </p>
-                    <a href="https://wa.me/5491133501614?text=Hola%20Gustavo!%20Quisiera%20consultar%20por%20un%20servicio%20especial%20(motor/mascotas/chasis)." target="_blank" class="service-btn-book" onclick="playGtMenuSound()">Consultar Servicio Especial ▶</a>
+                    <a href="https://wa.me/5491133501614?text=Hola%20Black%20Center!%20Quisiera%20consultar%20por%20el%20Detallado%20Intensivo%20para%20mi%20auto." target="_blank" class="service-btn-book" onclick="playGtMenuSound()">Consultar por WhatsApp ▶</a>
                 </div>
 
             </div>
@@ -1676,7 +1356,7 @@
         let isMusicPlaying = false;
         let fadeInterval = null;
 
-        // Sonido de botón oficial único
+        // Sonido de botón oficial GT4
         function playGtMenuSound() {
             try {
                 const clickSound = gtMenuAudio.cloneNode();
@@ -1715,7 +1395,7 @@
             }, stepTime);
         }
 
-        // PERILLA DE MÚSICA TIPO TOGGLE
+        // PERILLA DE MÚSICA
         function toggleMusic() {
             playGtMenuSound();
             const musicSwitch = document.getElementById('musicSwitch');
@@ -1745,7 +1425,7 @@
             const themeLabel = document.getElementById('themeLabel');
 
             if (themeSwitch) themeSwitch.classList.toggle('active', isLightMode);
-            if (themeLabel) themeLabel.innerText = isLightMode ? "☀️ CLARO" : "🌙 OSCURO";
+            if (themeLabel) themeLabel.innerText = isLightMode ? "☀️ DÍA" : "🌙 NOCHE";
 
             try {
                 localStorage.setItem('bc_theme', isLightMode ? 'light' : 'dark');
@@ -1773,7 +1453,7 @@
         });
 
         // =========================================================
-        // 2. SIMULADOR DE PISTA ORGÁNICA (PELOTONES Y SOLITARIOS SILENCIOSOS)
+        // 2. SIMULADOR DE PISTA ORGÁNICA (CARRERAS EN VIVO)
         // =========================================================
         const trackCanvas = document.getElementById('speedTrackCanvas');
         const trackCtx = trackCanvas.getContext('2d');
@@ -1957,85 +1637,43 @@
         }
 
         // =========================================================
-        // 5. DIAPOSITIVA / LIGHTBOX DE FOTOS
-        // =========================================================
-        const fotosGaleria = [
-            "https://images.unsplash.com/photo-1601362840469-51e4d8d58785?auto=format&fit=crop&w=1200&q=85",
-            "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1200&q=85",
-            "https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?auto=format&fit=crop&w=1200&q=85",
-            "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1200&q=85"
-        ];
-
-        let currentPhotoIdx = 0;
-        const lbOverlay = document.getElementById('lightboxOverlay');
-        const lbImg = document.getElementById('lbImg');
-        const lbCounter = document.getElementById('lbCounter');
-
-        function openLightbox(idx) {
-            currentPhotoIdx = idx;
-            lbImg.src = fotosGaleria[currentPhotoIdx];
-            lbCounter.innerText = `${currentPhotoIdx + 1} / ${fotosGaleria.length}`;
-            lbOverlay.classList.add('active');
-            playGtMenuSound();
-        }
-
-        function closeLightbox(e) {
-            lbOverlay.classList.remove('active');
-            playGtMenuSound();
-        }
-
-        function navLightbox(direction) {
-            currentPhotoIdx = (currentPhotoIdx + direction + fotosGaleria.length) % fotosGaleria.length;
-            lbImg.src = fotosGaleria[currentPhotoIdx];
-            lbCounter.innerText = `${currentPhotoIdx + 1} / ${fotosGaleria.length}`;
-        }
-
-        // Deslizamiento táctil en Lightbox
-        let touchStartX = 0;
-        const lbViewport = document.getElementById('lbViewport');
-        lbViewport.addEventListener('touchstart', e => {
-            touchStartX = e.changedTouches[0].clientX;
-        }, { passive: true });
-
-        lbViewport.addEventListener('touchend', e => {
-            const touchEndX = e.changedTouches[0].clientX;
-            const diff = touchEndX - touchStartX;
-            if (Math.abs(diff) > 40) {
-                if (diff < 0) navLightbox(1);
-                else navLightbox(-1);
-                playGtMenuSound();
-            }
-        });
-
-        // =========================================================
-        // 6. ESTADO EN VIVO PARA BUENOS AIRES (UTC-3)
+        // 5. ESTADO EN VIVO PARA BUENOS AIRES (HORARIOS ACTUALIZADOS)
         // =========================================================
         function updateStoreStatus() {
             const now = new Date();
             const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
-            const argDate = new Date(utc - (3600000 * 3));
+            const argDate = new Date(utc - (3600000 * 3)); // UTC-3 Argentina
 
-            const day = argDate.getDay();
+            const day = argDate.getDay(); // 0 = Domingo, 1 = Lunes, ..., 6 = Sábado
             const hour = argDate.getHours();
             const min = argDate.getMinutes();
             const timeVal = hour + min / 60;
 
             const badge = document.getElementById('statusBadge');
+            const rowMonSat = document.getElementById('row-mon-sat');
+            const rowSun = document.getElementById('row-sun');
+
             let isOpen = false;
 
-            if (day >= 1 && day <= 5) {
-                document.getElementById('row-week').classList.add('active-day');
-                if (timeVal >= 8.5 && timeVal < 18.5) isOpen = true;
-            } else if (day === 6) {
-                document.getElementById('row-sat').classList.add('active-day');
-                if (timeVal >= 8.5 && timeVal < 17.0) isOpen = true;
+            if (rowMonSat) rowMonSat.classList.remove('active-day');
+            if (rowSun) rowSun.classList.remove('active-day');
+
+            // Lunes a Sábados: 09:00 a 18:00 hs
+            if (day >= 1 && day <= 6) {
+                if (rowMonSat) rowMonSat.classList.add('active-day');
+                if (timeVal >= 9.0 && timeVal < 18.0) isOpen = true;
+            } 
+            // Domingos: 10:00 a 15:00 hs
+            else if (day === 0) {
+                if (rowSun) rowSun.classList.add('active-day');
+                if (timeVal >= 10.0 && timeVal < 15.0) isOpen = true;
             }
 
             if (isOpen) {
                 badge.innerText = "Abierto Ahora";
-                badge.style.color = "#4ADE80";
-                badge.style.borderColor = "#4ADE80";
-                badge.style.background = "rgba(74, 222, 128, 0.16)";
+                badge.style.color = "#22C55E";
+                badge.style.borderColor = "#22C55E";
+                badge.style.background = "rgba(34, 197, 94, 0.16)";
             } else {
                 badge.innerText = "Cerrado";
                 badge.style.color = "var(--metal-lead)";
@@ -2048,18 +1686,6 @@
         window.addEventListener('DOMContentLoaded', () => {
             if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
             updateStoreStatus();
-
-            // Restaurar tema si estaba guardado
-            try {
-                if (localStorage.getItem('bc_theme') === 'light') {
-                    isLightMode = true;
-                    document.body.classList.add('light-mode');
-                    const themeSwitch = document.getElementById('themeSwitch');
-                    const themeLabel = document.getElementById('themeLabel');
-                    if (themeSwitch) themeSwitch.classList.add('active');
-                    if (themeLabel) themeLabel.innerText = "☀️ DÍA";
-                }
-            } catch(e) {}
 
             setTimeout(() => {
                 const welcome = document.getElementById('gtWelcomeScreen');
