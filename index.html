@@ -43,25 +43,27 @@
             --font-telemetry: 'JetBrains Mono', monospace;
         }
 
-        /* MODO CLARO */
+        /* =========================================================
+           ADN CROMÁTICO: MODO CLARO (SWISS CERAMIC STUDIO - CONTRASTE REAL)
+           ========================================================= */
         body.light-mode {
-            --bg-deep: #F1F4F9;
-            --bg-asphalt: #E2E8F0;
+            --bg-deep: #E6EDF5;
+            --bg-asphalt: #D5DFEB;
             --card-titanium: #FFFFFF;
             --card-titanium-hover: #F8FAFC;
 
-            --volt-gold: #C98A00;
-            --volt-gold-glow: rgba(201, 138, 0, 0.28);
+            --volt-gold: #C68400;
+            --volt-gold-glow: rgba(198, 132, 0, 0.32);
             --apex-red: #D90429;
             --calama-cyan: #0284C7;
 
-            --metal-pure: #0F172A;
+            --metal-pure: #090E17;
             --metal-silver: #1E293B;
             --metal-subtle: #475569;
             --metal-lead: #64748B;
 
-            --border-hud: rgba(15, 23, 42, 0.12);
-            --border-active: rgba(201, 138, 0, 0.75);
+            --border-hud: rgba(15, 23, 42, 0.15);
+            --border-active: rgba(198, 132, 0, 0.75);
         }
 
         body.preload * {
@@ -91,7 +93,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            padding: 16px 14px 44px;
+            padding: 18px 20px 48px;
             overflow-x: hidden;
             position: relative;
             transition: background-color 0.3s ease, color 0.3s ease;
@@ -178,7 +180,7 @@
         }
 
         body.light-mode .gt-bg-canvas {
-            background: radial-gradient(circle at 50% 12%, #FFFFFF 0%, #E6EDF5 55%, #D7E1EC 100%);
+            background: radial-gradient(circle at 50% 12%, #FFFFFF 0%, #DCE5EE 50%, #CAD6E2 100%);
         }
 
         .tarmac-grain {
@@ -193,8 +195,8 @@
         }
 
         body.light-mode .tarmac-grain {
-            opacity: 0.08;
-            background-image: radial-gradient(rgba(0, 0, 0, 0.2) 1px, transparent 0);
+            opacity: 0.10;
+            background-image: radial-gradient(rgba(15, 23, 42, 0.25) 1px, transparent 0);
         }
 
         #speedTrackCanvas {
@@ -233,7 +235,7 @@
         }
 
         body.light-mode .parallax-livery {
-            opacity: 0.06;
+            opacity: 0.08;
         }
 
         .ambient-spotlight-top {
@@ -245,6 +247,10 @@
             height: 600px;
             background: radial-gradient(ellipse at 50% 30%, rgba(255, 199, 0, 0.14) 0%, rgba(229, 56, 59, 0.05) 50%, transparent 75%);
             filter: blur(85px);
+        }
+
+        body.light-mode .ambient-spotlight-top {
+            background: radial-gradient(ellipse at 50% 30%, rgba(255, 199, 0, 0.18) 0%, rgba(229, 56, 59, 0.06) 50%, transparent 75%);
         }
 
         .hud-grid-edge {
@@ -263,7 +269,7 @@
             max-width: 480px;
             display: flex;
             flex-direction: column;
-            gap: 13px;
+            gap: 14px;
             z-index: 2;
         }
 
@@ -273,7 +279,7 @@
             align-items: center;
             justify-content: space-between;
             width: 100%;
-            padding: 0 4px;
+            padding: 0 2px;
             gap: 8px;
         }
 
@@ -288,11 +294,13 @@
             cursor: pointer;
             user-select: none;
             transition: all 0.25s ease;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 2px 6px rgba(0, 0, 0, 0.4);
         }
 
         body.light-mode .switch-wrap {
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+            background: #FFFFFF;
+            border-color: rgba(15, 23, 42, 0.18);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 2px 8px rgba(15, 23, 42, 0.08);
         }
 
         .switch-label {
@@ -320,7 +328,7 @@
 
         body.light-mode .toggle-track {
             background: #CBD5E1;
-            border-color: rgba(15, 23, 42, 0.15);
+            border-color: rgba(15, 23, 42, 0.2);
         }
 
         .toggle-knob {
@@ -351,7 +359,7 @@
             color: var(--volt-gold);
         }
 
-        /* HEADER: TÍTULO Y SUBTÍTULO OFICIAL */
+        /* HEADER: TÍTULO Y SUBTÍTULO */
         .brand-header {
             text-align: center;
             display: flex;
@@ -382,7 +390,7 @@
         }
 
         body.light-mode .brand-title-massive {
-            text-shadow: 0 4px 20px rgba(15, 23, 42, 0.15);
+            text-shadow: 0 4px 18px rgba(15, 23, 42, 0.15);
         }
 
         .brand-title-massive span {
@@ -390,7 +398,6 @@
             text-shadow: 0 0 24px var(--volt-gold-glow);
         }
 
-        /* SUBTÍTULO EXACTO SOLICITADO */
         .brand-subtitle-official {
             font-family: var(--font-ui);
             font-size: 0.98rem;
@@ -444,10 +451,11 @@
             text-decoration: none;
             clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
             transition: all 0.25s ease;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 3px 8px rgba(0, 0, 0, 0.35);
         }
 
         body.light-mode .social-btn {
-            box-shadow: 0 3px 10px rgba(15, 23, 42, 0.08);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 3px 10px rgba(15, 23, 42, 0.08);
         }
 
         .social-btn:hover {
@@ -465,7 +473,7 @@
         .social-btn svg { width: 19px; height: 19px; }
 
         /* =========================================================
-           BOTONES MASTER (CHAMFERED CORNERS & GT4 SOUND)
+           BOTONES MASTER CON VOLUMEN 3D MILIMÉTRICO (TACTILE RELIEF)
            ========================================================= */
         .btn-card {
             display: flex;
@@ -479,27 +487,52 @@
             clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
             text-decoration: none;
             color: var(--metal-pure);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            /* Volumen 3D táctil milimétrico */
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.16),
+                inset 0 -2px 0 rgba(0, 0, 0, 0.4),
+                0 8px 24px -2px rgba(0, 0, 0, 0.65),
+                0 3px 8px rgba(0, 0, 0, 0.45);
+            transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
             cursor: pointer;
             user-select: none;
         }
 
         body.light-mode .btn-card {
-            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.07);
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.95),
+                inset 0 -2px 0 rgba(15, 23, 42, 0.08),
+                0 8px 22px -2px rgba(15, 23, 42, 0.12),
+                0 3px 8px rgba(15, 23, 42, 0.06);
         }
 
         .btn-card:hover {
             background: var(--card-titanium-hover);
             border-color: var(--border-active);
             border-left-color: var(--volt-gold);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 199, 0, 0.25);
-            transform: translateX(3px);
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.25),
+                inset 0 -2px 0 rgba(0, 0, 0, 0.45),
+                0 14px 34px -2px rgba(0, 0, 0, 0.8),
+                0 0 20px rgba(255, 199, 0, 0.3);
+            transform: translateY(-2px);
         }
 
         body.light-mode .btn-card:hover {
-            box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12), 0 0 18px var(--volt-gold-glow);
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 1),
+                inset 0 -2px 0 rgba(15, 23, 42, 0.1),
+                0 14px 32px -2px rgba(15, 23, 42, 0.16),
+                0 0 18px var(--volt-gold-glow);
+            transform: translateY(-2px);
+        }
+
+        .btn-card:active {
+            transform: translateY(1px);
+            box-shadow: 
+                inset 0 2px 4px rgba(0, 0, 0, 0.5),
+                0 3px 8px rgba(0, 0, 0, 0.4);
         }
 
         /* HERO CARD (WHATSAPP DIRECTO) */
@@ -509,12 +542,22 @@
             border-left: 6px solid var(--apex-red);
             padding: 18px 20px;
             overflow: hidden;
-            box-shadow: 0 14px 36px rgba(255, 199, 0, 0.28);
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.25),
+                inset 0 -2px 0 rgba(0, 0, 0, 0.45),
+                0 12px 32px -2px rgba(255, 199, 0, 0.32),
+                0 4px 10px rgba(0, 0, 0, 0.45);
         }
 
         body.light-mode .btn-hero {
-            background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);
-            box-shadow: 0 12px 30px rgba(201, 138, 0, 0.22);
+            background: linear-gradient(135deg, #FFFDF5 0%, #FEF3C7 100%);
+            border: 2px solid var(--volt-gold);
+            border-left: 6px solid var(--apex-red);
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.95),
+                inset 0 -2px 0 rgba(198, 132, 0, 0.2),
+                0 12px 30px -2px rgba(198, 132, 0, 0.26),
+                0 4px 10px rgba(15, 23, 42, 0.08);
         }
 
         .btn-hero::before {
@@ -536,7 +579,9 @@
 
         .btn-hero:hover {
             border-color: #FFF;
-            box-shadow: 0 16px 44px rgba(255, 199, 0, 0.45);
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.35),
+                0 16px 44px rgba(255, 199, 0, 0.5);
         }
 
         .icon-box {
@@ -551,10 +596,12 @@
             color: var(--volt-gold);
             clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
             transition: all 0.25s ease;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
         body.light-mode .icon-box {
             background: #F1F5F9;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
         }
 
         .btn-card:hover .icon-box {
@@ -615,10 +662,22 @@
             border-color: #22C55E;
         }
 
+        body.light-mode .hud-badge.green {
+            background: #DCFCE7;
+            color: #15803D;
+            border-color: #86EFAC;
+        }
+
         .hud-badge.cyan {
             background: rgba(14, 165, 233, 0.18);
             color: var(--calama-cyan);
             border-color: var(--calama-cyan);
+        }
+
+        body.light-mode .hud-badge.cyan {
+            background: #E0F2FE;
+            color: #0369A1;
+            border-color: #7DD3FC;
         }
 
         .btn-desc {
@@ -643,7 +702,7 @@
         }
 
         /* =========================================================
-           SPONSORS REUBICADOS (DONDE ESTABA LA GALERÍA)
+           SPONSORS (FONDO GRIS OSCURO GARANTIZADO EN AMBOS MODOS)
            ========================================================= */
         .sponsors-grid {
             display: grid;
@@ -662,14 +721,21 @@
             gap: 10px;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.12),
+                inset 0 -2px 0 rgba(0, 0, 0, 0.4),
+                0 6px 18px rgba(0, 0, 0, 0.5);
             cursor: pointer;
             transition: all 0.25s ease;
         }
 
+        /* EN MODO CLARO: SIGUE SIENDO GRIS OSCURO PARA PROTEGER LOS LOGOS */
         body.light-mode .sponsor-box {
-            background: linear-gradient(145deg, #FFFFFF 0%, #F8FAFC 100%);
-            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+            background: linear-gradient(145deg, #181C26 0%, #10121A 100%);
+            border: 1.5px solid rgba(15, 23, 42, 0.25);
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.15),
+                0 6px 18px rgba(15, 23, 42, 0.16);
         }
 
         .sponsor-box::before {
@@ -722,14 +788,18 @@
             font-family: var(--font-telemetry);
             font-size: 0.62rem;
             font-weight: 700;
-            color: var(--metal-subtle);
+            color: #94A3B8;
             text-transform: uppercase;
             letter-spacing: 0.05em;
             margin-top: 2px;
         }
 
+        body.light-mode .sponsor-sub {
+            color: #CBD5E1;
+        }
+
         /* =========================================================
-           TARJETA HORARIO DE TELEMETRÍA EN VIVO (HORARIOS NUEVOS)
+           TARJETA HORARIO DE TELEMETRÍA EN VIVO
            ========================================================= */
         .hours-card {
             background: var(--card-titanium);
@@ -740,12 +810,17 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.12),
+                inset 0 -2px 0 rgba(0, 0, 0, 0.35),
+                0 8px 24px rgba(0, 0, 0, 0.6);
             transition: all 0.25s ease;
         }
 
         body.light-mode .hours-card {
-            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.07);
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.9),
+                0 8px 22px rgba(15, 23, 42, 0.09);
         }
 
         .hours-header {
@@ -774,7 +849,7 @@
         }
 
         body.light-mode .hours-table {
-            border-top-color: rgba(15, 23, 42, 0.1);
+            border-top-color: rgba(15, 23, 42, 0.14);
         }
 
         .hours-row {
@@ -809,12 +884,16 @@
             display: flex;
             flex-direction: column;
             gap: 9px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.12),
+                0 8px 24px rgba(0, 0, 0, 0.6);
             transition: all 0.25s ease;
         }
 
         body.light-mode .map-card {
-            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.07);
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.9),
+                0 8px 22px rgba(15, 23, 42, 0.08);
         }
 
         .map-header {
@@ -843,7 +922,7 @@
         }
 
         body.light-mode .map-box {
-            border-color: rgba(15, 23, 42, 0.12);
+            border-color: rgba(15, 23, 42, 0.14);
         }
 
         .map-box iframe {
@@ -970,7 +1049,7 @@
 
         body.light-mode .service-detail-item {
             background: #F8FAFC;
-            border-color: rgba(15, 23, 42, 0.08);
+            border-color: rgba(15, 23, 42, 0.1);
         }
 
         .service-detail-head {
@@ -1045,7 +1124,7 @@
 
         body.light-mode .footer-badge {
             background: #FFFFFF;
-            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
         }
 
         .footer-legal {
@@ -1055,10 +1134,41 @@
             font-weight: 600;
         }
 
+        /* =========================================================
+           RESPONSIVE MOBILE DE ÉLITE (BOTONES DESPEGADOS DEL BORDE)
+           ========================================================= */
         @media (max-width: 480px) {
-            .btn-title { font-size: 1.15rem; }
-            .btn-card { padding: 15px 16px; }
-            .brand-subtitle-official { font-size: 0.88rem; }
+            body {
+                padding: 16px 20px 48px; /* 20px de respiro lateral respecto a los marcos del celular */
+            }
+            .hub-container {
+                width: 100%;
+                gap: 13px;
+            }
+            .btn-card {
+                padding: 15px 16px;
+            }
+            .btn-title {
+                font-size: 1.12rem;
+            }
+            .brand-subtitle-official {
+                font-size: 0.88rem;
+            }
+            .top-controls-bar {
+                padding: 0 2px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            body {
+                padding: 14px 16px 44px;
+            }
+            .btn-title {
+                font-size: 1.05rem;
+            }
+            .brand-title-massive {
+                font-size: 2.2rem;
+            }
         }
     </style>
 </head>
@@ -1087,9 +1197,9 @@
 
         <!-- BARRA SUPERIOR: PERILLAS TIPO COCKPIT (MODO CLARO/OSCURO & MÚSICA) -->
         <div class="top-controls-bar">
-            <!-- 1. PERILLA MODO CLARO / OSCURO -->
+            <!-- 1. PERILLA MODO CLARO / OSCURO (CAMBIADO A CLARO Y OSCURO) -->
             <div class="switch-wrap" id="themeSwitch" onclick="toggleTheme()" title="Cambiar Modo Claro / Oscuro">
-                <span class="switch-label" id="themeLabel">☀️ DÍA</span>
+                <span class="switch-label" id="themeLabel">🌙 OSCURO</span>
                 <div class="toggle-track">
                     <div class="toggle-knob"></div>
                 </div>
@@ -1116,7 +1226,7 @@
                 </div>
             </div>
 
-            <!-- ACCESOS RÁPIDOS (SIN NOMBRES) -->
+            <!-- ACCESOS RÁPIDOS -->
             <div class="social-bar">
                 <a href="https://wa.me/5491133501614?text=Hola%20Black%20Center!%20Quisiera%20hacer%20una%20consulta%20por%20un%20servicio%20para%20mi%20veh%C3%ADculo." target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="WhatsApp" onclick="playGtMenuSound()">
                     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
@@ -1130,7 +1240,7 @@
             </div>
         </header>
 
-        <!-- BOTÓN 1 (HERO): WHATSAPP DIRECTO (INDICACIÓN 2: CONSULTAS DIRECTAS, SIN NOMBRES) -->
+        <!-- BOTÓN 1 (HERO): WHATSAPP DIRECTO -->
         <a href="https://wa.me/5491133501614?text=Hola%20Black%20Center!%20Quisiera%20hacer%20una%20consulta%20por%20un%20servicio%20para%20mi%20veh%C3%ADculo." target="_blank" rel="noopener noreferrer" class="btn-card btn-hero" onclick="playGtMenuSound()">
             <div class="icon-box hero-gold">
                 <svg viewBox="0 0 24 24" fill="currentColor">
@@ -1147,7 +1257,7 @@
             <div class="hud-arrow-box">▶</div>
         </a>
 
-        <!-- BOTÓN 2: SERVICIOS Y DETALLADO (INDICACIÓN: SERVICIO SPORT - TAPIZADOS - MOTOR - INTENSIVO) -->
+        <!-- BOTÓN 2: SERVICIOS Y DETALLADO -->
         <div class="btn-card" onclick="openServicesModal(); playGtMenuSound();">
             <div class="icon-box">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
@@ -1166,9 +1276,9 @@
             <div class="hud-arrow-box">▶</div>
         </div>
 
-        <!-- REUBICACIÓN OFICIAL: SPONSORS 4K TRANSPARENTES (EN EL LUGAR DE LA GALERÍA) -->
+        <!-- REUBICACIÓN OFICIAL: SPONSORS 4K (FONDO GRIS OSCURO GARANTIZADO) -->
         <div class="sponsors-grid">
-            <!-- 1. SPONSOR TEAM M111 OFICIAL (GITHUB) -->
+            <!-- 1. SPONSOR TEAM M111 OFICIAL -->
             <div class="sponsor-box m111" onclick="playGtMenuSound()">
                 <div class="sponsor-img-wrap">
                     <img 
@@ -1184,7 +1294,7 @@
                 </div>
             </div>
 
-            <!-- 2. SPONSOR C.A.L.A.M.A. OFICIAL (GITHUB) -->
+            <!-- 2. SPONSOR C.A.L.A.M.A. OFICIAL -->
             <div class="sponsor-box calama" onclick="playGtMenuSound()">
                 <div class="sponsor-img-wrap">
                     <img 
@@ -1201,7 +1311,7 @@
             </div>
         </div>
 
-        <!-- TARJETA: HORARIOS OFICIALES (LUN A SÁB 9 A 18 HS / DOM 10 A 15 HS) -->
+        <!-- TARJETA: HORARIOS OFICIALES -->
         <div class="hours-card" onclick="playGtMenuSound()">
             <div class="hours-header">
                 <div class="hours-title">
@@ -1224,7 +1334,7 @@
             </div>
         </div>
 
-        <!-- BOTÓN: LLAMADA DIRECTA (SIN NOMBRES) -->
+        <!-- BOTÓN: LLAMADA DIRECTA -->
         <a href="tel:+5491133501614" class="btn-card" onclick="playGtMenuSound()">
             <div class="icon-box">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
@@ -1414,7 +1524,7 @@
             }
         }
 
-        // PERILLA DE MODO CLARO / OSCURO
+        // PERILLA DE MODO CLARO / OSCURO (CON TÍTULO EXACTO SOLICITADO)
         let isLightMode = false;
         function toggleTheme() {
             playGtMenuSound();
@@ -1425,7 +1535,7 @@
             const themeLabel = document.getElementById('themeLabel');
 
             if (themeSwitch) themeSwitch.classList.toggle('active', isLightMode);
-            if (themeLabel) themeLabel.innerText = isLightMode ? "☀️ DÍA" : "🌙 NOCHE";
+            if (themeLabel) themeLabel.innerText = isLightMode ? "☀️ CLARO" : "🌙 OSCURO";
 
             try {
                 localStorage.setItem('bc_theme', isLightMode ? 'light' : 'dark');
@@ -1527,7 +1637,7 @@
             // Estela de rebufo
             const trailGrad = trackCtx.createLinearGradient(-m.length * 2.4, 0, 0, 0);
             trailGrad.addColorStop(0, 'transparent');
-            trailGrad.addColorStop(1, isLightMode ? 'rgba(201, 138, 0, 0.25)' : 'rgba(255, 199, 0, 0.2)');
+            trailGrad.addColorStop(1, isLightMode ? 'rgba(198, 132, 0, 0.28)' : 'rgba(255, 199, 0, 0.2)');
             trackCtx.fillStyle = trailGrad;
             trackCtx.fillRect(-m.length * 2.4, -m.width / 2, m.length * 2.4, m.width);
 
@@ -1637,14 +1747,14 @@
         }
 
         // =========================================================
-        // 5. ESTADO EN VIVO PARA BUENOS AIRES (HORARIOS ACTUALIZADOS)
+        // 5. ESTADO EN VIVO PARA BUENOS AIRES
         // =========================================================
         function updateStoreStatus() {
             const now = new Date();
             const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
-            const argDate = new Date(utc - (3600000 * 3)); // UTC-3 Argentina
+            const argDate = new Date(utc - (3600000 * 3));
 
-            const day = argDate.getDay(); // 0 = Domingo, 1 = Lunes, ..., 6 = Sábado
+            const day = argDate.getDay();
             const hour = argDate.getHours();
             const min = argDate.getMinutes();
             const timeVal = hour + min / 60;
@@ -1658,12 +1768,10 @@
             if (rowMonSat) rowMonSat.classList.remove('active-day');
             if (rowSun) rowSun.classList.remove('active-day');
 
-            // Lunes a Sábados: 09:00 a 18:00 hs
             if (day >= 1 && day <= 6) {
                 if (rowMonSat) rowMonSat.classList.add('active-day');
                 if (timeVal >= 9.0 && timeVal < 18.0) isOpen = true;
             } 
-            // Domingos: 10:00 a 15:00 hs
             else if (day === 0) {
                 if (rowSun) rowSun.classList.add('active-day');
                 if (timeVal >= 10.0 && timeVal < 15.0) isOpen = true;
@@ -1686,6 +1794,12 @@
         window.addEventListener('DOMContentLoaded', () => {
             if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
             updateStoreStatus();
+
+            try {
+                if (localStorage.getItem('bc_theme') === 'light') {
+                    toggleTheme();
+                }
+            } catch(e) {}
 
             setTimeout(() => {
                 const welcome = document.getElementById('gtWelcomeScreen');
