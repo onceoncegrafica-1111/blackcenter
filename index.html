@@ -487,7 +487,6 @@
             clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
             text-decoration: none;
             color: var(--metal-pure);
-            /* Volumen 3D táctil milimétrico */
             box-shadow: 
                 inset 0 1px 0 rgba(255, 255, 255, 0.16),
                 inset 0 -2px 0 rgba(0, 0, 0, 0.4),
@@ -729,7 +728,6 @@
             transition: all 0.25s ease;
         }
 
-        /* EN MODO CLARO: SIGUE SIENDO GRIS OSCURO PARA PROTEGER LOS LOGOS */
         body.light-mode .sponsor-box {
             background: linear-gradient(145deg, #181C26 0%, #10121A 100%);
             border: 1.5px solid rgba(15, 23, 42, 0.25);
@@ -1139,7 +1137,7 @@
            ========================================================= */
         @media (max-width: 480px) {
             body {
-                padding: 16px 20px 48px; /* 20px de respiro lateral respecto a los marcos del celular */
+                padding: 16px 20px 48px;
             }
             .hub-container {
                 width: 100%;
@@ -1453,20 +1451,12 @@
     <!-- MOTORES JAVASCRIPT: AUDIOS OFICIALES, FADE OUT, SWITCHES & PISTA -->
     <script>
         // =========================================================
-        // 1. AUDIO OFICIAL DE GITHUB: BOTÓN GT4 Y MÚSICA DRIVING MISSIONS
+        // 1. AUDIO OFICIAL: BOTÓN GT4 Y MOTOR ALEATORIO DE CARPETA MUSIC
         // =========================================================
         const gtMenuAudio = new Audio("./gran_turismo_4_menu.mp3");
         gtMenuAudio.volume = 0.5;
 
-        const bgMusic = new Audio("./08.%20Driving%20Missions.mp3");
-        bgMusic.loop = true;
-        const DEFAULT_BG_VOL = 0.22;
-        bgMusic.volume = DEFAULT_BG_VOL;
-
-        let isMusicPlaying = false;
-        let fadeInterval = null;
-
-        // Sonido de botón oficial GT4
+        // Sonido de botón oficial GT4 (exclusivo para clics)
         function playGtMenuSound() {
             try {
                 const clickSound = gtMenuAudio.cloneNode();
@@ -1474,6 +1464,65 @@
                 clickSound.play().catch(() => {});
             } catch (e) {}
         }
+
+        // MOTOR DE MÚSICA DESDE LA CARPETA /music/
+        const bgMusic = new Audio();
+        bgMusic.loop = false; // Permite que el evento 'ended' active la siguiente canción al azar
+        const DEFAULT_BG_VOL = 0.22;
+        bgMusic.volume = DEFAULT_BG_VOL;
+
+        let musicPlaylist = [];
+        let currentTrackIndex = -1;
+        let isMusicPlaying = false;
+        let fadeInterval = null;
+
+        // Lectura dinámica automática de canciones desde la carpeta 'music' en GitHub
+        async function loadMusicFromFolder() {
+            try {
+                const res = await fetch('https://api.github.com/repos/onceoncegrafica-1111/blackcenter/contents/music');
+                if (res.ok) {
+                    const files = await res.json();
+                    const tracks = files
+                        .filter(f => f.type === 'file' && f.name.toLowerCase().endsWith('.mp3'))
+                        .map(f => `./music/${encodeURIComponent(f.name)}`);
+                    if (tracks.length > 0) {
+                        musicPlaylist = tracks;
+                    }
+                }
+            } catch (e) {}
+        }
+
+        function getNextRandomIndex() {
+            if (musicPlaylist.length <= 1) return 0;
+            let nextIndex;
+            do {
+                nextIndex = Math.floor(Math.random() * musicPlaylist.length);
+            } while (nextIndex === currentTrackIndex);
+            return nextIndex;
+        }
+
+        function playRandomTrack() {
+            if (musicPlaylist.length === 0) return;
+            currentTrackIndex = getNextRandomIndex();
+            bgMusic.src = musicPlaylist[currentTrackIndex];
+            bgMusic.volume = DEFAULT_BG_VOL;
+
+            const musicSwitch = document.getElementById('musicSwitch');
+            const btnLabel = document.getElementById('bgMusicLabel');
+
+            bgMusic.play().then(() => {
+                isMusicPlaying = true;
+                if (musicSwitch) musicSwitch.classList.add('active');
+                if (btnLabel) btnLabel.innerText = "🔊 MÚSICA";
+            }).catch(() => {});
+        }
+
+        // Al finalizar cada canción, pasa automáticamente a otra pista aleatoria
+        bgMusic.addEventListener('ended', () => {
+            if (isMusicPlaying) {
+                playRandomTrack();
+            }
+        });
 
         // FADE OUT SUAVE DE MÚSICA
         function fadeOutMusic(duration = 750) {
@@ -1513,12 +1562,16 @@
 
             if (!isMusicPlaying) {
                 if (fadeInterval) { clearInterval(fadeInterval); fadeInterval = null; }
-                bgMusic.volume = DEFAULT_BG_VOL;
-                bgMusic.play().then(() => {
-                    isMusicPlaying = true;
-                    if (musicSwitch) musicSwitch.classList.add('active');
-                    if (btnLabel) btnLabel.innerText = "🔊 MÚSICA";
-                }).catch(() => {});
+                if (bgMusic.src && bgMusic.paused && bgMusic.currentTime > 0) {
+                    bgMusic.volume = DEFAULT_BG_VOL;
+                    bgMusic.play().then(() => {
+                        isMusicPlaying = true;
+                        if (musicSwitch) musicSwitch.classList.add('active');
+                        if (btnLabel) btnLabel.innerText = "🔊 MÚSICA";
+                    }).catch(() => {});
+                } else {
+                    playRandomTrack();
+                }
             } else {
                 fadeOutMusic(450);
             }
@@ -1781,12 +1834,12 @@
                 badge.innerText = "Abierto Ahora";
                 badge.style.color = "#22C55E";
                 badge.style.borderColor = "#22C55E";
-                badge.style.background = "rgba(34, 197, 94, 0.16)";
+                badge.background = "rgba(34, 197, 94, 0.16)";
             } else {
                 badge.innerText = "Cerrado";
                 badge.style.color = "var(--metal-lead)";
                 badge.style.borderColor = "var(--border-hud)";
-                badge.style.background = "rgba(255, 255, 255, 0.05)";
+                badge.background = "rgba(255, 255, 255, 0.05)";
             }
         }
 
@@ -1794,6 +1847,7 @@
         window.addEventListener('DOMContentLoaded', () => {
             if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
             updateStoreStatus();
+            loadMusicFromFolder();
 
             try {
                 if (localStorage.getItem('bc_theme') === 'light') {
