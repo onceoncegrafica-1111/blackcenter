@@ -283,17 +283,24 @@
             gap: 8px;
         }
 
+        /* CLUSTER DERECHO DE MÚSICA CON BOTÓN DE SALTAR PISTA ALEATORIA */
+        .music-cluster-wrap {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
         .switch-wrap {
             display: inline-flex;
             align-items: center;
-            gap: 7px;
+            gap: 8px;
             background: rgba(22, 26, 35, 0.9);
             border: 1px solid var(--border-hud);
             padding: 4px 10px;
             border-radius: 999px;
             cursor: pointer;
             user-select: none;
-            transition: all 0.25s ease;
+            transition: all 0.22s cubic-bezier(0.2, 0.8, 0.25, 1);
             box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 2px 6px rgba(0, 0, 0, 0.4);
         }
 
@@ -303,6 +310,10 @@
             box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 2px 8px rgba(15, 23, 42, 0.08);
         }
 
+        .switch-wrap:active {
+            transform: scale(0.96);
+        }
+
         .switch-label {
             font-family: var(--font-telemetry);
             font-size: 0.65rem;
@@ -310,53 +321,122 @@
             letter-spacing: 0.05em;
             text-transform: uppercase;
             color: var(--metal-subtle);
-            transition: color 0.25s ease;
+            transition: color 0.24s ease;
             display: flex;
             align-items: center;
             gap: 4px;
         }
 
+        /* TRACK MECÁNICO CON RELIEVE 3D */
         .toggle-track {
-            width: 32px;
-            height: 18px;
-            background: #0E1117;
+            width: 34px;
+            height: 19px;
+            background: #0B0E14;
             border: 1.5px solid rgba(255, 255, 255, 0.18);
             border-radius: 999px;
             position: relative;
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: inset 0 1.5px 3px rgba(0, 0, 0, 0.5), 0 1px 1px rgba(255, 255, 255, 0.1);
+            transition: all 0.24s cubic-bezier(0.2, 0.8, 0.25, 1);
         }
 
         body.light-mode .toggle-track {
             background: #CBD5E1;
             border-color: rgba(15, 23, 42, 0.2);
+            box-shadow: inset 0 1.5px 3px rgba(0, 0, 0, 0.15), 0 1px 1px rgba(255, 255, 255, 0.9);
         }
 
+        /* PERILLA CON BISELADO Y FÍSICA REAL */
         .toggle-knob {
-            width: 12px;
-            height: 12px;
+            width: 13px;
+            height: 13px;
             border-radius: 50%;
-            background: var(--metal-subtle);
+            background: radial-gradient(circle at 35% 30%, #FFFFFF 0%, #E2E8F0 80%, #94A3B8 100%);
             position: absolute;
             top: 1.5px;
             left: 2px;
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+            transition: transform 0.26s cubic-bezier(0.34, 1.4, 0.64, 1),
+                        width 0.16s ease,
+                        box-shadow 0.26s cubic-bezier(0.34, 1.4, 0.64, 1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4), inset 0 1px 1px #FFFFFF, inset 0 -1px 1px rgba(0, 0, 0, 0.2);
+        }
+
+        .switch-wrap:active .toggle-knob {
+            width: 15px;
         }
 
         .switch-wrap.active .toggle-track {
-            background: rgba(255, 199, 0, 0.25);
+            background: rgba(255, 199, 0, 0.22);
             border-color: var(--volt-gold);
-            box-shadow: 0 0 10px var(--volt-gold-glow);
+            box-shadow: inset 0 1.5px 3px rgba(255, 199, 0, 0.2), 0 0 12px var(--volt-gold-glow);
         }
 
         .switch-wrap.active .toggle-knob {
-            left: 15px;
-            background: var(--volt-gold);
-            box-shadow: 0 0 8px var(--volt-gold);
+            transform: translateX(15px);
+            background: radial-gradient(circle at 35% 30%, #FFFDF5 0%, var(--volt-gold) 85%, #B38600 100%);
+            box-shadow: 0 0 10px var(--volt-gold), 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .switch-wrap.active:active .toggle-knob {
+            transform: translateX(13px);
+            width: 15px;
         }
 
         .switch-wrap.active .switch-label {
             color: var(--volt-gold);
+        }
+
+        /* BOTÓN SALTAR CANCIÓN ALEATORIA MOTORSPORT */
+        .btn-music-skip {
+            background: rgba(22, 26, 35, 0.9);
+            border: 1px solid var(--border-hud);
+            border-radius: 50%;
+            width: 29px;
+            height: 29px;
+            min-width: 29px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--volt-gold);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 2px 6px rgba(0, 0, 0, 0.4);
+            transition: all 0.22s cubic-bezier(0.34, 1.4, 0.64, 1);
+            padding: 0;
+            outline: none;
+            user-select: none;
+        }
+
+        body.light-mode .btn-music-skip {
+            background: #FFFFFF;
+            border-color: rgba(15, 23, 42, 0.18);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 2px 8px rgba(15, 23, 42, 0.08);
+        }
+
+        .btn-music-skip svg {
+            width: 13px;
+            height: 13px;
+            display: block;
+            transition: transform 0.2s cubic-bezier(0.34, 1.4, 0.64, 1);
+        }
+
+        .btn-music-skip:hover {
+            border-color: var(--volt-gold);
+            background: #232836;
+            color: var(--volt-gold);
+            box-shadow: 0 0 14px var(--volt-gold-glow);
+            transform: scale(1.08);
+        }
+
+        body.light-mode .btn-music-skip:hover {
+            background: #F8FAFC;
+        }
+
+        .btn-music-skip:hover svg {
+            transform: translateX(1px);
+        }
+
+        .btn-music-skip:active {
+            transform: scale(0.88);
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6);
         }
 
         /* HEADER: TÍTULO Y SUBTÍTULO */
@@ -1193,9 +1273,9 @@
     <!-- CONTENEDOR MAESTRO -->
     <main class="hub-container">
 
-        <!-- BARRA SUPERIOR: PERILLAS TIPO COCKPIT (MODO CLARO/OSCURO & MÚSICA) -->
+        <!-- BARRA SUPERIOR: PERILLAS TIPO COCKPIT (MODO CLARO/OSCURO & MÚSICA CON SALTO ALEATORIO) -->
         <div class="top-controls-bar">
-            <!-- 1. PERILLA MODO CLARO / OSCURO (CAMBIADO A CLARO Y OSCURO) -->
+            <!-- 1. PERILLA MODO CLARO / OSCURO -->
             <div class="switch-wrap" id="themeSwitch" onclick="toggleTheme()" title="Cambiar Modo Claro / Oscuro">
                 <span class="switch-label" id="themeLabel">🌙 OSCURO</span>
                 <div class="toggle-track">
@@ -1203,12 +1283,20 @@
                 </div>
             </div>
 
-            <!-- 2. PERILLA MÚSICA BLACKCENTER CON SLIDER -->
-            <div class="switch-wrap" id="musicSwitch" onclick="toggleMusic()" title="Encender / Apagar Música">
-                <span class="switch-label" id="bgMusicLabel">🔈 MÚSICA</span>
-                <div class="toggle-track">
-                    <div class="toggle-knob"></div>
+            <!-- 2. CLUSTER MÚSICA CON SWITCH Y BOTÓN DE PISTA ALEATORIA -->
+            <div class="music-cluster-wrap">
+                <div class="switch-wrap" id="musicSwitch" onclick="toggleMusic()" title="Encender / Apagar Música">
+                    <span class="switch-label" id="bgMusicLabel">🔈 MÚSICA</span>
+                    <div class="toggle-track">
+                        <div class="toggle-knob"></div>
+                    </div>
                 </div>
+
+                <button type="button" class="btn-music-skip" id="btnMusicSkip" onclick="skipMusic()" title="Siguiente pista aleatoria" aria-label="Siguiente pista aleatoria">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M5.5 18V6l8.5 6-8.5 6zM16 6h2v12h-2z"/>
+                    </svg>
+                </button>
             </div>
         </div>
 
@@ -1456,6 +1544,13 @@
         const gtMenuAudio = new Audio("./gran_turismo_4_menu.mp3");
         gtMenuAudio.volume = 0.5;
 
+        // Micro-vibración háptica mecánica al tacto en dispositivos compatibles
+        function triggerHapticFeedback() {
+            if (typeof navigator !== 'undefined' && navigator.vibrate) {
+                try { navigator.vibrate(10); } catch(e) {}
+            }
+        }
+
         // Sonido de botón oficial GT4 (exclusivo para clics)
         function playGtMenuSound() {
             try {
@@ -1467,13 +1562,19 @@
 
         // MOTOR DE MÚSICA DESDE LA CARPETA /music/
         const bgMusic = new Audio();
-        bgMusic.loop = false; // Permite que el evento 'ended' active la siguiente canción al azar
+        bgMusic.preload = "auto";
         const DEFAULT_BG_VOL = 0.22;
         bgMusic.volume = DEFAULT_BG_VOL;
 
-        let musicPlaylist = [];
+        // Lista de canciones activa (cargada dinámicamente desde /music/)
+        let musicPlaylist = [
+            "./music/01.%20Arcade%20Mode.mp3",
+            "./music/08.%20Driving%20Missions.mp3"
+        ];
         let currentTrackIndex = -1;
         let isMusicPlaying = false;
+        let isTrackTransitioning = false;
+        let autoFadeOutTriggered = false;
         let fadeInterval = null;
 
         // Lectura dinámica automática de canciones desde la carpeta 'music' en GitHub
@@ -1492,6 +1593,18 @@
             } catch (e) {}
         }
 
+        function updateMusicUI(active) {
+            const musicSwitch = document.getElementById('musicSwitch');
+            const btnLabel = document.getElementById('bgMusicLabel');
+            if (musicSwitch) {
+                if (active) musicSwitch.classList.add('active');
+                else musicSwitch.classList.remove('active');
+            }
+            if (btnLabel) {
+                btnLabel.innerText = active ? "🔊 MÚSICA" : "🔈 MÚSICA";
+            }
+        }
+
         function getNextRandomIndex() {
             if (musicPlaylist.length <= 1) return 0;
             let nextIndex;
@@ -1501,85 +1614,179 @@
             return nextIndex;
         }
 
-        function playRandomTrack() {
-            if (musicPlaylist.length === 0) return;
-            currentTrackIndex = getNextRandomIndex();
-            bgMusic.src = musicPlaylist[currentTrackIndex];
-            bgMusic.volume = DEFAULT_BG_VOL;
+        function playTrackWithFadeIn(trackUrl, startSecond = 0, duration = 1000) {
+            if (fadeInterval) {
+                clearInterval(fadeInterval);
+                fadeInterval = null;
+            }
+            if (!trackUrl) {
+                isTrackTransitioning = false;
+                return;
+            }
 
-            const musicSwitch = document.getElementById('musicSwitch');
-            const btnLabel = document.getElementById('bgMusicLabel');
+            autoFadeOutTriggered = false;
 
-            bgMusic.play().then(() => {
-                isMusicPlaying = true;
-                if (musicSwitch) musicSwitch.classList.add('active');
-                if (btnLabel) btnLabel.innerText = "🔊 MÚSICA";
-            }).catch(() => {});
+            try {
+                bgMusic.src = trackUrl;
+                bgMusic.currentTime = startSecond;
+                bgMusic.volume = 0;
+                sessionStorage.setItem('bc_music_src', trackUrl);
+                sessionStorage.setItem('bc_music_on', 'true');
+
+                const playPromise = bgMusic.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        isMusicPlaying = true;
+                        updateMusicUI(true);
+
+                        const steps = 25;
+                        const stepTime = duration / steps;
+                        const volStep = DEFAULT_BG_VOL / steps;
+
+                        fadeInterval = setInterval(() => {
+                            if (bgMusic.volume + volStep < DEFAULT_BG_VOL) {
+                                bgMusic.volume += volStep;
+                            } else {
+                                bgMusic.volume = DEFAULT_BG_VOL;
+                                clearInterval(fadeInterval);
+                                fadeInterval = null;
+                                isTrackTransitioning = false;
+                            }
+                        }, stepTime);
+                    }).catch(() => {
+                        isTrackTransitioning = false;
+                    });
+                }
+            } catch(e) {
+                isTrackTransitioning = false;
+            }
         }
 
-        // Al finalizar cada canción, pasa automáticamente a otra pista aleatoria
-        bgMusic.addEventListener('ended', () => {
-            if (isMusicPlaying) {
-                playRandomTrack();
-            }
-        });
-
         // FADE OUT SUAVE DE MÚSICA
-        function fadeOutMusic(duration = 750) {
-            if (!isMusicPlaying || bgMusic.paused) return;
-            if (fadeInterval) clearInterval(fadeInterval);
+        function fadeOutMusic(duration = 400, onDone, isSwitchingTrack = false) {
+            if (fadeInterval) {
+                clearInterval(fadeInterval);
+                fadeInterval = null;
+            }
 
-            const steps = 15;
+            // Si es un cambio de pista, mantenemos el switch visual activado (cero parpadeo)
+            if (!isSwitchingTrack) {
+                isMusicPlaying = false;
+                sessionStorage.setItem('bc_music_on', 'false');
+                updateMusicUI(false);
+            }
+
+            if (bgMusic.paused) {
+                if (onDone) onDone();
+                return;
+            }
+
+            const steps = 20;
             const stepTime = duration / steps;
             const startVol = bgMusic.volume;
             const volStep = startVol / steps;
 
             fadeInterval = setInterval(() => {
-                if (bgMusic.volume > volStep) {
+                if (bgMusic.volume - volStep > 0) {
                     bgMusic.volume -= volStep;
                 } else {
                     bgMusic.volume = 0;
-                    bgMusic.pause();
+                    try { bgMusic.pause(); } catch(e) {}
                     clearInterval(fadeInterval);
                     fadeInterval = null;
-                    isMusicPlaying = false;
-
-                    const musicSwitch = document.getElementById('musicSwitch');
-                    const btnLabel = document.getElementById('bgMusicLabel');
-                    if (musicSwitch) musicSwitch.classList.remove('active');
-                    if (btnLabel) btnLabel.innerText = "🔈 MÚSICA";
-
-                    bgMusic.volume = DEFAULT_BG_VOL;
+                    if (onDone) onDone();
                 }
             }, stepTime);
         }
 
-        // PERILLA DE MÚSICA
+        // PERILLA DE MÚSICA CON FÍSICA MECÁNICA
         function toggleMusic() {
+            triggerHapticFeedback();
             playGtMenuSound();
-            const musicSwitch = document.getElementById('musicSwitch');
-            const btnLabel = document.getElementById('bgMusicLabel');
 
             if (!isMusicPlaying) {
-                if (fadeInterval) { clearInterval(fadeInterval); fadeInterval = null; }
-                if (bgMusic.src && bgMusic.paused && bgMusic.currentTime > 0) {
-                    bgMusic.volume = DEFAULT_BG_VOL;
-                    bgMusic.play().then(() => {
-                        isMusicPlaying = true;
-                        if (musicSwitch) musicSwitch.classList.add('active');
-                        if (btnLabel) btnLabel.innerText = "🔊 MÚSICA";
-                    }).catch(() => {});
-                } else {
-                    playRandomTrack();
+                if (musicPlaylist.length === 0) return;
+                currentTrackIndex = getNextRandomIndex();
+                if (musicPlaylist[currentTrackIndex]) {
+                    playTrackWithFadeIn(musicPlaylist[currentTrackIndex], 0, 1000);
                 }
             } else {
                 fadeOutMusic(450);
             }
         }
 
-        // PERILLA DE MODO CLARO / OSCURO (CON TÍTULO EXACTO SOLICITADO)
+        // BOTÓN SALTEAR CANCIÓN ALEATORIA (TRANSICIÓN SIN PARPADEO)
+        function skipMusic() {
+            triggerHapticFeedback();
+            playGtMenuSound();
+            if (musicPlaylist.length === 0) return;
+
+            if (!isMusicPlaying) {
+                currentTrackIndex = getNextRandomIndex();
+                if (musicPlaylist[currentTrackIndex]) {
+                    playTrackWithFadeIn(musicPlaylist[currentTrackIndex], 0, 900);
+                }
+                return;
+            }
+
+            if (isTrackTransitioning) return;
+            isTrackTransitioning = true;
+
+            // Fade out con switch visual trabado en ON
+            fadeOutMusic(300, () => {
+                currentTrackIndex = getNextRandomIndex();
+                if (musicPlaylist[currentTrackIndex]) {
+                    playTrackWithFadeIn(musicPlaylist[currentTrackIndex], 0, 900);
+                } else {
+                    isTrackTransitioning = false;
+                }
+            }, true);
+        }
+
+        // FADE OUT SUAVE AL FINAL DE CADA CANCIÓN Y EMPALME FLUIDO
+        bgMusic.addEventListener('timeupdate', () => {
+            if (isMusicPlaying && !bgMusic.paused && bgMusic.duration) {
+                const timeLeft = bgMusic.duration - bgMusic.currentTime;
+                if (timeLeft <= 2.8 && !autoFadeOutTriggered && !isTrackTransitioning) {
+                    autoFadeOutTriggered = true;
+                    isTrackTransitioning = true;
+                    fadeOutMusic(2600, () => {
+                        currentTrackIndex = getNextRandomIndex();
+                        if (musicPlaylist[currentTrackIndex]) {
+                            playTrackWithFadeIn(musicPlaylist[currentTrackIndex], 0, 1200);
+                        } else {
+                            isTrackTransitioning = false;
+                        }
+                    }, true);
+                }
+            }
+        });
+
+        // Salto automático de respaldo si la canción finaliza
+        bgMusic.addEventListener('ended', () => {
+            if (isMusicPlaying && !isTrackTransitioning) {
+                isTrackTransitioning = true;
+                currentTrackIndex = getNextRandomIndex();
+                if (musicPlaylist[currentTrackIndex]) {
+                    playTrackWithFadeIn(musicPlaylist[currentTrackIndex], 0, 1000);
+                }
+            }
+        });
+
+        // Tolerancia a fallos: Si un audio no carga, pasa a la siguiente canción
+        bgMusic.addEventListener('error', () => {
+            if (isMusicPlaying) {
+                currentTrackIndex = getNextRandomIndex();
+                if (musicPlaylist && musicPlaylist.length > 1 && musicPlaylist[currentTrackIndex]) {
+                    playTrackWithFadeIn(musicPlaylist[currentTrackIndex], 0, 800);
+                }
+            }
+        });
+
+        // PERILLA DE MODO CLARO / OSCURO
         let isLightMode = false;
         function toggleTheme() {
+            triggerHapticFeedback();
             playGtMenuSound();
             isLightMode = !isLightMode;
             document.body.classList.toggle('light-mode', isLightMode);
@@ -1595,23 +1802,33 @@
             } catch(e) {}
         }
 
-        // DISPARADORES DE FADE OUT AL SALIR DEL LINK O IR A WHATSAPP
+        // Guardado de segundo exacto periódicamente y antes de salir
+        setInterval(() => {
+            if (isMusicPlaying && !bgMusic.paused) {
+                sessionStorage.setItem('bc_music_src', bgMusic.src);
+                sessionStorage.setItem('bc_music_time', String(bgMusic.currentTime));
+            }
+        }, 1000);
+
+        window.addEventListener('pagehide', () => {
+            if (isMusicPlaying && !bgMusic.paused) {
+                sessionStorage.setItem('bc_music_on', 'true');
+                sessionStorage.setItem('bc_music_src', bgMusic.src);
+                sessionStorage.setItem('bc_music_time', String(bgMusic.currentTime));
+            }
+        });
+
+        // FADE OUT SEMI-LENTO (1000ms) AL SALIR HACIA WHATSAPP, LLAMADA O MAPA
         document.addEventListener('click', (e) => {
             const link = e.target.closest('a');
             if (link && (link.href.includes('wa.me') || link.href.includes('tel:') || link.href.includes('maps') || link.target === '_blank')) {
-                fadeOutMusic(700);
+                fadeOutMusic(1000);
             }
         });
 
         document.addEventListener('visibilitychange', () => {
             if (document.hidden && isMusicPlaying) {
-                fadeOutMusic(500);
-            }
-        });
-
-        window.addEventListener('pagehide', () => {
-            if (isMusicPlaying) {
-                bgMusic.pause();
+                fadeOutMusic(700);
             }
         });
 
@@ -1848,6 +2065,17 @@
             if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
             updateStoreStatus();
             loadMusicFromFolder();
+
+            // Reanudación suave de la música si venía sonando
+            try {
+                const wasMusicOn = sessionStorage.getItem('bc_music_on');
+                const lastSrc = sessionStorage.getItem('bc_music_src');
+                const lastTime = parseFloat(sessionStorage.getItem('bc_music_time') || '0');
+
+                if (wasMusicOn === 'true' && lastSrc) {
+                    playTrackWithFadeIn(lastSrc, isNaN(lastTime) ? 0 : lastTime, 1000);
+                }
+            } catch(e) {}
 
             try {
                 if (localStorage.getItem('bc_theme') === 'light') {
