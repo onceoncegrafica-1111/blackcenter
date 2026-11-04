@@ -209,13 +209,12 @@
             z-index: 1;
         }
 
-        /* LÍNEAS DE PISTA INFINITAS (CERO CORTES EN SCROLL) */
         .parallax-livery {
             position: absolute;
-            top: -120%;
-            left: -60%;
-            width: 260%;
-            height: 380%;
+            top: -25%;
+            left: -35%;
+            width: 170%;
+            height: 150%;
             transform: rotate(-26deg);
             opacity: 0.12;
             background: repeating-linear-gradient(
@@ -1265,7 +1264,7 @@
         <div class="ambient-spotlight-top"></div>
         <div class="tarmac-grain"></div>
         <div class="parallax-livery" id="parallaxLivery"></div>
-        <!-- RUTA DE CARRERAS ANIMADA 3D -->
+        <!-- RUTA DE CARRERAS ANIMADA -->
         <canvas id="speedTrackCanvas"></canvas>
         <div class="hud-grid-edge hud-left"></div>
         <div class="hud-grid-edge hud-right"></div>
@@ -1537,11 +1536,7 @@
         </div>
     </div>
 
-    <!-- LIBRERÍAS THREE.JS Y GLTFLOADER PARA RENDER 3D DE FONDO -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
-
-    <!-- MOTORES JAVASCRIPT: AUDIOS OFICIALES, FADE OUT, SWITCHES & PISTA 3D -->
+    <!-- MOTORES JAVASCRIPT: AUDIOS OFICIALES, FADE OUT, SWITCHES & PISTA -->
     <script>
         // =========================================================
         // 1. AUDIO OFICIAL: BOTÓN GT4 Y MOTOR ALEATORIO DE CARPETA MUSIC
@@ -1549,12 +1544,14 @@
         const gtMenuAudio = new Audio("./gran_turismo_4_menu.mp3");
         gtMenuAudio.volume = 0.5;
 
+        // Micro-vibración háptica mecánica al tacto en dispositivos compatibles
         function triggerHapticFeedback() {
             if (typeof navigator !== 'undefined' && navigator.vibrate) {
                 try { navigator.vibrate(10); } catch(e) {}
             }
         }
 
+        // Sonido de botón oficial GT4 (exclusivo para clics)
         function playGtMenuSound() {
             try {
                 const clickSound = gtMenuAudio.cloneNode();
@@ -1563,11 +1560,13 @@
             } catch (e) {}
         }
 
+        // MOTOR DE MÚSICA DESDE LA CARPETA /music/
         const bgMusic = new Audio();
         bgMusic.preload = "auto";
         const DEFAULT_BG_VOL = 0.22;
         bgMusic.volume = DEFAULT_BG_VOL;
 
+        // Lista de canciones activa (cargada dinámicamente desde /music/)
         let musicPlaylist = [
             "./music/01.%20Arcade%20Mode.mp3",
             "./music/08.%20Driving%20Missions.mp3"
@@ -1578,6 +1577,7 @@
         let autoFadeOutTriggered = false;
         let fadeInterval = null;
 
+        // Lectura dinámica automática de canciones desde la carpeta 'music' en GitHub
         async function loadMusicFromFolder() {
             try {
                 const res = await fetch('https://api.github.com/repos/onceoncegrafica-1111/blackcenter/contents/music');
@@ -1662,12 +1662,14 @@
             }
         }
 
+        // FADE OUT SUAVE DE MÚSICA
         function fadeOutMusic(duration = 400, onDone, isSwitchingTrack = false) {
             if (fadeInterval) {
                 clearInterval(fadeInterval);
                 fadeInterval = null;
             }
 
+            // Si es un cambio de pista, mantenemos el switch visual activado (cero parpadeo)
             if (!isSwitchingTrack) {
                 isMusicPlaying = false;
                 sessionStorage.setItem('bc_music_on', 'false');
@@ -1697,6 +1699,7 @@
             }, stepTime);
         }
 
+        // PERILLA DE MÚSICA CON FÍSICA MECÁNICA
         function toggleMusic() {
             triggerHapticFeedback();
             playGtMenuSound();
@@ -1712,6 +1715,7 @@
             }
         }
 
+        // BOTÓN SALTEAR CANCIÓN ALEATORIA (TRANSICIÓN SIN PARPADEO)
         function skipMusic() {
             triggerHapticFeedback();
             playGtMenuSound();
@@ -1728,6 +1732,7 @@
             if (isTrackTransitioning) return;
             isTrackTransitioning = true;
 
+            // Fade out con switch visual trabado en ON
             fadeOutMusic(300, () => {
                 currentTrackIndex = getNextRandomIndex();
                 if (musicPlaylist[currentTrackIndex]) {
@@ -1738,6 +1743,7 @@
             }, true);
         }
 
+        // FADE OUT SUAVE AL FINAL DE CADA CANCIÓN Y EMPALME FLUIDO
         bgMusic.addEventListener('timeupdate', () => {
             if (isMusicPlaying && !bgMusic.paused && bgMusic.duration) {
                 const timeLeft = bgMusic.duration - bgMusic.currentTime;
@@ -1756,6 +1762,7 @@
             }
         });
 
+        // Salto automático de respaldo si la canción finaliza
         bgMusic.addEventListener('ended', () => {
             if (isMusicPlaying && !isTrackTransitioning) {
                 isTrackTransitioning = true;
@@ -1766,6 +1773,7 @@
             }
         });
 
+        // Tolerancia a fallos: Si un audio no carga, pasa a la siguiente canción
         bgMusic.addEventListener('error', () => {
             if (isMusicPlaying) {
                 currentTrackIndex = getNextRandomIndex();
@@ -1775,6 +1783,7 @@
             }
         });
 
+        // PERILLA DE MODO CLARO / OSCURO
         let isLightMode = false;
         function toggleTheme() {
             triggerHapticFeedback();
@@ -1793,6 +1802,7 @@
             } catch(e) {}
         }
 
+        // Guardado de segundo exacto periódicamente y antes de salir
         setInterval(() => {
             if (isMusicPlaying && !bgMusic.paused) {
                 sessionStorage.setItem('bc_music_src', bgMusic.src);
@@ -1808,6 +1818,7 @@
             }
         });
 
+        // FADE OUT SEMI-LENTO (1000ms) AL SALIR HACIA WHATSAPP, LLAMADA O MAPA
         document.addEventListener('click', (e) => {
             const link = e.target.closest('a');
             if (link && (link.href.includes('wa.me') || link.href.includes('tel:') || link.href.includes('maps') || link.target === '_blank')) {
@@ -1822,244 +1833,167 @@
         });
 
         // =========================================================
-        // 2. SIMULADOR SUPER GT 3D (MOTOR TOYOTA SUPRA GT300 OFICIAL)
+        // 2. SIMULADOR DE PISTA ORGÁNICA (CARRERAS EN VIVO)
         // =========================================================
         const trackCanvas = document.getElementById('speedTrackCanvas');
-        const renderer = new THREE.WebGLRenderer({
-            canvas: trackCanvas,
-            alpha: true,
-            antialias: true,
-            powerPreference: 'high-performance'
-        });
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.shadowMap.enabled = true;
-        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        const trackCtx = trackCanvas.getContext('2d');
 
-        const scene = new THREE.Scene();
-
-        // Cámara cenital deportiva
-        const camera = new THREE.PerspectiveCamera(26, window.innerWidth / window.innerHeight, 10, 3000);
-        camera.position.set(0, 390, 45);
-        camera.lookAt(0, 0, 0);
-
-        function resize3DTrack() {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
+        function resizeTrackCanvas() {
+            trackCanvas.width = window.innerWidth;
+            trackCanvas.height = window.innerHeight;
         }
-        window.addEventListener('resize', resize3DTrack);
+        window.addEventListener('resize', resizeTrackCanvas);
+        resizeTrackCanvas();
 
-        // Iluminación para resaltar texturas y calcos oficiales del auto
-        const ambientLight = new THREE.AmbientLight(0xffffff, 2.4);
-        scene.add(ambientLight);
+        let activeRaceCars = [];
+        let nextSpawnTime = Date.now() + 800;
 
-        const trackSpot = new THREE.DirectionalLight(0xffffff, 2.8);
-        trackSpot.position.set(0, 420, -80);
-        scene.add(trackSpot);
+        const CAR_MODELS = [
+            { id: 'f1', length: 78, width: 26, bodyColor: '#FFC700', wingColor: '#0E1017' },
+            { id: 'tc', length: 82, width: 30, bodyColor: '#E5383B', wingColor: '#E5383B' },
+            { id: 'rally', length: 64, width: 28, bodyColor: '#0EA5E9', wingColor: '#FFFFFF' },
+            { id: 'gt3', length: 76, width: 29, bodyColor: '#FFFFFF', wingColor: '#1B202C' }
+        ];
 
-        const goldRim = new THREE.DirectionalLight(0xffc700, 2.0);
-        goldRim.position.set(220, 220, 110);
-        scene.add(goldRim);
+        function spawnOrganicPack() {
+            const isPack = Math.random() > 0.55;
+            const count = isPack ? (Math.random() > 0.45 ? 3 : 4) : 1;
 
-        // Geometría del circuito (-26° de la librea gráfica)
-        const TRACK_RAD = 26 * (Math.PI / 180);
-        const DIR_X = Math.sin(TRACK_RAD);
-        const DIR_Z = Math.cos(TRACK_RAD);
-        const BASE_ANGLE = TRACK_RAD;
-        const PERP_X = -Math.cos(TRACK_RAD);
-        const PERP_Z = Math.sin(TRACK_RAD);
+            const baseAngle = (Math.random() * 16 + 56) * (Math.PI / 180);
+            const baseSpeed = isPack ? (Math.random() * 14 + 30) : (Math.random() * 20 + 38);
+            const startX = Math.random() * (trackCanvas.width + 120) - 60;
 
-        const CAR_LENGTH = 38.0;
-        const MIN_SAFE_DIST = CAR_LENGTH + 6.0;
+            for (let i = 0; i < count; i++) {
+                const model = CAR_MODELS[Math.floor(Math.random() * CAR_MODELS.length)];
+                const gap = i * (Math.random() * 75 + 65);
 
-        let baseCarTemplate = null;
-        let isSimulationRunning = false;
+                activeRaceCars.push({
+                    x: startX - Math.cos(baseAngle) * gap,
+                    y: -120 - Math.sin(baseAngle) * gap,
+                    baseSpeed: baseSpeed,
+                    angle: baseAngle,
+                    model: model,
+                    isPack: isPack,
+                    weaveFreq: Math.random() * 0.05 + 0.03,
+                    weaveAmp: isPack ? (Math.random() * 22 + 8) : 0,
+                    weavePhase: Math.random() * Math.PI * 2,
+                    step: 0
+                });
+            }
 
-        const activeCars = [];
-
-        function spawnCar(config) {
-            if (!baseCarTemplate) return;
-
-            const startDist = config.startDist !== undefined ? config.startDist : -260;
-            const laneOffset = config.laneOffset !== undefined ? config.laneOffset : 0;
-
-            // Clonado limpio que mantiene intactas todas las texturas del Toyota Supra GLB
-            const carMesh = baseCarTemplate.clone(true);
-            const px = (startDist * DIR_X) + (laneOffset * PERP_X);
-            const pz = (startDist * DIR_Z) + (laneOffset * PERP_Z);
-
-            carMesh.position.set(px, 0, pz);
-            carMesh.rotation.y = BASE_ANGLE;
-            scene.add(carMesh);
-
-            activeCars.push({
-                mesh: carMesh,
-                dist: startDist,
-                speed: config.speed || 2.4,
-                baseSpeed: config.speed || 2.4,
-                laneOffset: laneOffset,
-                targetLane: config.targetLane !== undefined ? config.targetLane : laneOffset,
-                laneChangeRate: config.laneChangeRate || 0.035,
-
-                wanderPhase: Math.random() * Math.PI * 2,
-                wanderFreq: 0.02,
-                wanderAmp: 2.2,
-
-                chassisRoll: 0,
-                chassisPitch: 0
-            });
+            nextSpawnTime = Date.now() + (Math.random() * 4000 + 2000);
         }
 
-        function triggerOrganicRacingTraffic() {
-            if (!baseCarTemplate) return;
+        function drawSpeedCar(car) {
+            trackCtx.save();
+            trackCtx.translate(car.x, car.y);
+            trackCtx.rotate(car.angle);
 
-            const baseLane = (Math.random() * 60) - 30;
-            const randType = Math.random();
+            const m = car.model;
 
-            if (randType < 0.5) {
-                // Adelantamiento deportivo en tándem
-                spawnCar({
-                    startDist: -240,
-                    laneOffset: baseLane - 16,
-                    targetLane: baseLane - 16,
-                    speed: 2.2 + Math.random() * 0.4
+            // Haz de luces de xenón
+            const lightGrad = trackCtx.createLinearGradient(0, 0, 150, 0);
+            lightGrad.addColorStop(0, 'rgba(255, 255, 255, 0.4)');
+            lightGrad.addColorStop(1, 'transparent');
+            trackCtx.fillStyle = lightGrad;
+            trackCtx.beginPath();
+            trackCtx.moveTo(m.length / 2, -m.width / 2.6);
+            trackCtx.lineTo(m.length / 2 + 140, -m.width * 1.4);
+            trackCtx.lineTo(m.length / 2 + 140, m.width * 1.4);
+            trackCtx.lineTo(m.length / 2, m.width / 2.6);
+            trackCtx.closePath();
+            trackCtx.fill();
+
+            // Estela de rebufo
+            const trailGrad = trackCtx.createLinearGradient(-m.length * 2.4, 0, 0, 0);
+            trailGrad.addColorStop(0, 'transparent');
+            trailGrad.addColorStop(1, isLightMode ? 'rgba(198, 132, 0, 0.28)' : 'rgba(255, 199, 0, 0.2)');
+            trackCtx.fillStyle = trailGrad;
+            trackCtx.fillRect(-m.length * 2.4, -m.width / 2, m.length * 2.4, m.width);
+
+            // Carrocería
+            if (m.id === 'f1') {
+                trackCtx.fillStyle = '#111';
+                trackCtx.fillRect(-m.length / 2 - 8, -m.width / 2, 8, m.width);
+                trackCtx.fillStyle = m.bodyColor;
+                trackCtx.fillRect(-m.length / 2 - 2, -m.width / 2, 3, m.width);
+
+                trackCtx.beginPath();
+                trackCtx.moveTo(-m.length / 4, -m.width / 2);
+                trackCtx.lineTo(m.length / 2, 0);
+                trackCtx.lineTo(-m.length / 4, m.width / 2);
+                trackCtx.closePath();
+                trackCtx.fillStyle = m.bodyColor;
+                trackCtx.fill();
+                trackCtx.strokeStyle = '#FFFFFF';
+                trackCtx.lineWidth = 1.2;
+                trackCtx.stroke();
+
+                const wheels = [
+                    { x: -m.length / 3, y: -m.width / 1.7 },
+                    { x: -m.length / 3, y: m.width / 1.7 - 7 },
+                    { x: m.length / 4, y: -m.width / 1.7 },
+                    { x: m.length / 4, y: m.width / 1.7 - 7 }
+                ];
+                wheels.forEach(w => {
+                    trackCtx.fillStyle = '#060709';
+                    trackCtx.fillRect(w.x, w.y, 16, 7);
+                    trackCtx.fillStyle = '#FFE600';
+                    trackCtx.fillRect(w.x + 6, w.y, 4, 7);
                 });
 
-                setTimeout(() => {
-                    spawnCar({
-                        startDist: -280,
-                        laneOffset: baseLane + 16,
-                        targetLane: baseLane + 16,
-                        speed: 3.1 + Math.random() * 0.4
-                    });
-                }, 400);
+                trackCtx.fillStyle = '#FF1E27';
+                trackCtx.fillRect(-m.length / 2 - 9, -2, 4, 4);
             } else {
-                // Auto veloz en carrera solitaria
-                spawnCar({
-                    startDist: -260,
-                    laneOffset: baseLane,
-                    targetLane: baseLane,
-                    speed: 2.8 + Math.random() * 0.5
-                });
+                trackCtx.fillStyle = isLightMode ? '#2B3242' : '#10131B';
+                trackCtx.strokeStyle = m.bodyColor;
+                trackCtx.lineWidth = 2;
+                trackCtx.beginPath();
+                trackCtx.roundRect(-m.length / 2, -m.width / 2, m.length, m.width, 5);
+                trackCtx.fill();
+                trackCtx.stroke();
+
+                trackCtx.fillStyle = '#1F2432';
+                trackCtx.fillRect(-m.length / 6, -m.width / 2.6, m.length / 2.5, m.width / 1.3);
+
+                trackCtx.fillStyle = m.wingColor;
+                trackCtx.fillRect(-m.length / 2 - 6, -m.width / 1.9, 7, m.width * 1.05);
+
+                trackCtx.fillStyle = '#FF1E27';
+                trackCtx.fillRect(-m.length / 2 - 1, -m.width / 2.5, 2, 6);
+                trackCtx.fillRect(-m.length / 2 - 1, m.width / 2.5 - 6, 2, 6);
             }
+
+            trackCtx.restore();
         }
 
-        let nextWaveTime = Date.now() + 1000;
+        function animateTrack() {
+            trackCtx.clearRect(0, 0, trackCanvas.width, trackCanvas.height);
 
-        function updateRaceDirector() {
             const now = Date.now();
-            if (now >= nextWaveTime) {
-                triggerOrganicRacingTraffic();
-                nextWaveTime = now + (Math.random() * 2500 + 1800);
-            }
-        }
-
-        function spawnInitialWave() {
-            spawnCar({ startDist: -20, laneOffset: -22, targetLane: -22, speed: 2.4 });
-            spawnCar({ startDist: -110, laneOffset: 24, targetLane: 24, speed: 2.7 });
-            spawnCar({ startDist: -190, laneOffset: 0, targetLane: 0, speed: 3.1 });
-        }
-
-        function animate3DTrack() {
-            requestAnimationFrame(animate3DTrack);
-
-            if (document.hidden) return;
-
-            updateRaceDirector();
-
-            for (let i = 0; i < activeCars.length; i++) {
-                const car = activeCars[i];
-
-                for (let j = 0; j < activeCars.length; j++) {
-                    if (i === j) continue;
-                    const other = activeCars[j];
-                    const distAhead = other.dist - car.dist;
-                    const lateralDist = Math.abs(car.laneOffset - other.laneOffset);
-
-                    if (distAhead > 0 && distAhead < MIN_SAFE_DIST && lateralDist < 18) {
-                        car.speed = other.speed;
-                        car.dist = other.dist - MIN_SAFE_DIST;
-                    }
-                }
-
-                car.dist += car.speed;
-
-                const laneDiff = (car.targetLane - car.laneOffset);
-                car.laneOffset += laneDiff * car.laneChangeRate;
-
-                car.wanderPhase += car.wanderFreq;
-                const naturalWander = Math.sin(car.wanderPhase) * car.wanderAmp;
-
-                const lateralVelocity = (laneDiff * car.laneChangeRate);
-                const currentHeading = BASE_ANGLE + (lateralVelocity * 0.15);
-                const targetRoll = -lateralVelocity * 0.25;
-
-                car.chassisRoll += (targetRoll - car.chassisRoll) * 0.1;
-
-                const finalX = (car.dist * DIR_X) + ((car.laneOffset + naturalWander) * PERP_X);
-                const finalZ = (car.dist * DIR_Z) + ((car.laneOffset + naturalWander) * PERP_Z);
-
-                car.mesh.position.set(finalX, 0, finalZ);
-                car.mesh.rotation.y = currentHeading;
-                car.mesh.rotation.z = car.chassisRoll;
+            if (now >= nextSpawnTime) {
+                spawnOrganicPack();
             }
 
-            for (let i = activeCars.length - 1; i >= 0; i--) {
-                if (activeCars[i].dist > 280) {
-                    scene.remove(activeCars[i].mesh);
-                    activeCars.splice(i, 1);
+            for (let i = activeRaceCars.length - 1; i >= 0; i--) {
+                const car = activeRaceCars[i];
+                car.step++;
+
+                const lateralDrift = Math.sin(car.step * car.weaveFreq + car.weavePhase) * car.weaveAmp * 0.05;
+
+                car.x += Math.cos(car.angle) * car.baseSpeed - Math.sin(car.angle) * lateralDrift;
+                car.y += Math.sin(car.angle) * car.baseSpeed + Math.cos(car.angle) * lateralDrift;
+
+                drawSpeedCar(car);
+
+                if (car.y > trackCanvas.height + 250 || car.x > trackCanvas.width + 250) {
+                    activeRaceCars.splice(i, 1);
                 }
             }
 
-            renderer.render(scene, camera);
+            requestAnimationFrame(animateTrack);
         }
-
-        // CARGA DIRECTA DEL TOYOTA SUPRA GT300 DESDE GITHUB / SERVIDOR
-        function loadToyotaSupraModel() {
-            if (typeof THREE.GLTFLoader === 'undefined') return;
-
-            const loader = new THREE.GLTFLoader();
-
-            // Rutas: local en blackcenter.com.ar o remota directa de tu repositorio GitHub
-            const primaryUrl = './toyota_gr_supra_gt_gt300-v1.glb';
-            const fallbackUrl = 'https://raw.githubusercontent.com/onceoncegrafica-1111/blackcenter/main/toyota_gr_supra_gt_gt300-v1.glb';
-
-            function onModelSuccess(gltf) {
-                const rawModel = gltf.scene;
-
-                const box = new THREE.Box3().setFromObject(rawModel);
-                const size = box.getSize(new THREE.Vector3());
-                const center = box.getCenter(new THREE.Vector3());
-
-                const wrapper = new THREE.Group();
-                rawModel.position.sub(center);
-                wrapper.add(rawModel);
-
-                // Alinear orientación de carrera
-                if (size.x > size.z) {
-                    rawModel.rotation.y = Math.PI / 2;
-                }
-
-                const maxDim = Math.max(size.x, size.z);
-                const scaleFactor = CAR_LENGTH / maxDim;
-                wrapper.scale.set(scaleFactor, scaleFactor, scaleFactor);
-
-                baseCarTemplate = wrapper;
-
-                if (!isSimulationRunning) {
-                    isSimulationRunning = true;
-                    spawnInitialWave();
-                    animate3DTrack();
-                }
-            }
-
-            loader.load(primaryUrl, onModelSuccess, undefined, () => {
-                loader.load(fallbackUrl, onModelSuccess, undefined, (err) => {
-                    console.error("Error al cargar el modelo 3D del Supra:", err);
-                });
-            });
-        }
+        requestAnimationFrame(animateTrack);
 
         // =========================================================
         // 3. PARALLAX DINÁMICO EN SCROLL
@@ -2131,8 +2065,8 @@
             if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
             updateStoreStatus();
             loadMusicFromFolder();
-            loadToyotaSupraModel();
 
+            // Reanudación suave de la música si venía sonando
             try {
                 const wasMusicOn = sessionStorage.getItem('bc_music_on');
                 const lastSrc = sessionStorage.getItem('bc_music_src');
