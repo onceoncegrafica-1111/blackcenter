@@ -1822,7 +1822,7 @@
         });
 
         // =========================================================
-        // 2. SIMULADOR SUPER GT 3D (MOTOR TOYOTA SUPRA GT300 DE ÉLITE)
+        // 2. SIMULADOR SUPER GT 3D (MOTOR TOYOTA SUPRA GT300 OFICIAL)
         // =========================================================
         const trackCanvas = document.getElementById('speedTrackCanvas');
         const renderer = new THREE.WebGLRenderer({
@@ -1838,9 +1838,9 @@
 
         const scene = new THREE.Scene();
 
-        // Cámara cenital deportiva con inclinación suave (pitch de 14°)
-        const camera = new THREE.PerspectiveCamera(24, window.innerWidth / window.innerHeight, 10, 3000);
-        camera.position.set(0, 430, 50);
+        // Cámara cenital deportiva
+        const camera = new THREE.PerspectiveCamera(26, window.innerWidth / window.innerHeight, 10, 3000);
+        camera.position.set(0, 390, 45);
         camera.lookAt(0, 0, 0);
 
         function resize3DTrack() {
@@ -1850,26 +1850,19 @@
         }
         window.addEventListener('resize', resize3DTrack);
 
-        // Iluminación coherente con el spotlight de Black Center
-        const ambientLight = new THREE.AmbientLight(0xB8C8DC, 3.0);
+        // Iluminación para resaltar texturas y calcos oficiales del auto
+        const ambientLight = new THREE.AmbientLight(0xffffff, 2.4);
         scene.add(ambientLight);
 
-        const trackSpot = new THREE.DirectionalLight(0xFFFFFF, 3.8);
-        trackSpot.position.set(0, 500, -60);
-        trackSpot.castShadow = true;
-        trackSpot.shadow.mapSize.width = 1024;
-        trackSpot.shadow.mapSize.height = 1024;
+        const trackSpot = new THREE.DirectionalLight(0xffffff, 2.8);
+        trackSpot.position.set(0, 420, -80);
         scene.add(trackSpot);
 
-        const goldRim = new THREE.DirectionalLight(0xFFC700, 2.6);
-        goldRim.position.set(260, 240, 140);
+        const goldRim = new THREE.DirectionalLight(0xffc700, 2.0);
+        goldRim.position.set(220, 220, 110);
         scene.add(goldRim);
 
-        const frontFill = new THREE.DirectionalLight(0xF0F8FF, 2.2);
-        frontFill.position.set(0, 180, 260);
-        scene.add(frontFill);
-
-        // Geometría matemática del circuito (-26° de la librea)
+        // Geometría del circuito (-26° de la librea gráfica)
         const TRACK_RAD = 26 * (Math.PI / 180);
         const DIR_X = Math.sin(TRACK_RAD);
         const DIR_Z = Math.cos(TRACK_RAD);
@@ -1877,67 +1870,22 @@
         const PERP_X = -Math.cos(TRACK_RAD);
         const PERP_Z = Math.sin(TRACK_RAD);
 
-        const CAR_LENGTH = 45.0;
-        const CAR_WIDTH = 20.0;
-        const MIN_SAFE_DIST = CAR_LENGTH + 2.0; // 47 unidades: límite absoluto anti-choques
+        const CAR_LENGTH = 38.0;
+        const MIN_SAFE_DIST = CAR_LENGTH + 6.0;
 
         let baseCarTemplate = null;
-
-        // 4 Equipos oficiales en armonía con Black Center
-        const TEAMS = [
-            { id: "ORIGINAL", name: "TOM'S Gazoo Racing White #77", tint: null, rough: 0.18 },
-            { id: "GOLD", name: "Black Center Volt Gold #11", tint: 0xFFC700, rough: 0.16 },
-            { id: "APEX", name: "Apex Motorsport Red #07", tint: 0xD90429, rough: 0.16 },
-            { id: "CYAN", name: "Calama GT Cyan #24", tint: 0x0284C7, rough: 0.18 }
-        ];
-
-        function cloneWithSharedGeometries(source, teamIndex) {
-            const team = TEAMS[teamIndex % TEAMS.length];
-
-            function recursiveClone(node) {
-                let copy;
-                if (node.isMesh) {
-                    const mat = node.material.clone();
-                    if (team.tint !== null) {
-                        mat.color.setHex(team.tint);
-                    }
-                    mat.roughness = team.rough;
-                    mat.metalness = 0.14;
-                    copy = new THREE.Mesh(node.geometry, mat);
-                    copy.castShadow = true;
-                    copy.receiveShadow = true;
-                } else {
-                    copy = new THREE.Group();
-                }
-
-                copy.position.copy(node.position);
-                copy.rotation.copy(node.rotation);
-                copy.scale.copy(node.scale);
-
-                for (let i = 0; i < node.children.length; i++) {
-                    copy.add(recursiveClone(node.children[i]));
-                }
-                return copy;
-            }
-
-            return recursiveClone(source);
-        }
+        let isSimulationRunning = false;
 
         const activeCars = [];
 
         function spawnCar(config) {
             if (!baseCarTemplate) return;
 
-            const startDist = config.startDist !== undefined ? config.startDist : -220;
+            const startDist = config.startDist !== undefined ? config.startDist : -260;
             const laneOffset = config.laneOffset !== undefined ? config.laneOffset : 0;
 
-            for (let c of activeCars) {
-                if (Math.abs(c.dist - startDist) < 60 && Math.abs(c.laneOffset - laneOffset) < 22) {
-                    return;
-                }
-            }
-
-            const carMesh = cloneWithSharedGeometries(baseCarTemplate, config.teamIndex || 0);
+            // Clonado limpio que mantiene intactas todas las texturas del Toyota Supra GLB
+            const carMesh = baseCarTemplate.clone(true);
             const px = (startDist * DIR_X) + (laneOffset * PERP_X);
             const pz = (startDist * DIR_Z) + (laneOffset * PERP_Z);
 
@@ -1948,115 +1896,80 @@
             activeCars.push({
                 mesh: carMesh,
                 dist: startDist,
-                speed: config.speed || 9.2,
-                baseSpeed: config.speed || 9.2,
+                speed: config.speed || 2.4,
+                baseSpeed: config.speed || 2.4,
                 laneOffset: laneOffset,
                 targetLane: config.targetLane !== undefined ? config.targetLane : laneOffset,
-                laneChangeRate: config.laneChangeRate || 0.045,
+                laneChangeRate: config.laneChangeRate || 0.035,
 
                 wanderPhase: Math.random() * Math.PI * 2,
-                wanderFreq: 0.012,
-                wanderAmp: config.wanderAmp !== undefined ? config.wanderAmp : 3.5,
+                wanderFreq: 0.02,
+                wanderAmp: 2.2,
 
                 chassisRoll: 0,
-                chassisPitch: 0,
-
-                draftTarget: config.draftTarget || null,
-                draftGap: config.draftGap || (MIN_SAFE_DIST + 2.0)
+                chassisPitch: 0
             });
         }
 
         function triggerOrganicRacingTraffic() {
             if (!baseCarTemplate) return;
 
+            const baseLane = (Math.random() * 60) - 30;
             const randType = Math.random();
-            const baseLane = (Math.random() * 50) - 25;
-            const teamA = Math.floor(Math.random() * 4);
-            const teamB = (teamA + 1 + Math.floor(Math.random() * 3)) % 4;
 
-            if (randType < 0.45) {
-                // 1. DESBORDE POR REBUFO LIMPIO
+            if (randType < 0.5) {
+                // Adelantamiento deportivo en tándem
                 spawnCar({
-                    startDist: -180,
-                    laneOffset: baseLane,
-                    targetLane: baseLane,
-                    speed: 8.2 + Math.random() * 0.4,
-                    teamIndex: teamA
+                    startDist: -240,
+                    laneOffset: baseLane - 16,
+                    targetLane: baseLane - 16,
+                    speed: 2.2 + Math.random() * 0.4
                 });
 
                 setTimeout(() => {
                     spawnCar({
-                        startDist: -230,
-                        laneOffset: baseLane + (Math.random() > 0.5 ? 28 : -28),
-                        targetLane: baseLane + (Math.random() > 0.5 ? 26 : -26),
-                        speed: 13.5 + Math.random() * 1.2,
-                        teamIndex: teamB
+                        startDist: -280,
+                        laneOffset: baseLane + 16,
+                        targetLane: baseLane + 16,
+                        speed: 3.1 + Math.random() * 0.4
                     });
-                }, 160);
-            } 
-            else if (randType < 0.80) {
-                // 2. SUCCIÓN EXTREMA EN TANDEM (Pegados en rebufo)
-                const extremeSpeed = 10.5 + Math.random() * 0.8;
+                }, 400);
+            } else {
+                // Auto veloz en carrera solitaria
                 spawnCar({
-                    startDist: -190,
+                    startDist: -260,
                     laneOffset: baseLane,
                     targetLane: baseLane,
-                    speed: extremeSpeed,
-                    teamIndex: teamA
-                });
-                const leader = activeCars[activeCars.length - 1];
-
-                setTimeout(() => {
-                    spawnCar({
-                        startDist: -238,
-                        laneOffset: baseLane,
-                        targetLane: baseLane,
-                        speed: extremeSpeed + 0.5,
-                        draftTarget: leader,
-                        teamIndex: teamB
-                    });
-                }, 100);
-            } 
-            else {
-                // 3. PILOTO SOLITARIO A MÁXIMA VELOCIDAD
-                spawnCar({
-                    startDist: -200,
-                    laneOffset: baseLane,
-                    targetLane: baseLane,
-                    speed: 13.2 + Math.random() * 1.0,
-                    teamIndex: teamA
+                    speed: 2.8 + Math.random() * 0.5
                 });
             }
         }
 
-        let nextWaveTime = Date.now() + 1400;
+        let nextWaveTime = Date.now() + 1000;
 
         function updateRaceDirector() {
             const now = Date.now();
             if (now >= nextWaveTime) {
                 triggerOrganicRacingTraffic();
-                nextWaveTime = now + (Math.random() * 2200 + 1600);
+                nextWaveTime = now + (Math.random() * 2500 + 1800);
             }
         }
 
         function spawnInitialWave() {
-            spawnCar({ startDist: -10, laneOffset: -18, targetLane: -18, speed: 10.6, teamIndex: 0 });
-            spawnCar({ startDist: -80, laneOffset: 20, targetLane: 20, speed: 9.8, teamIndex: 1 });
-            spawnCar({ startDist: -140, laneOffset: 12, targetLane: 12, speed: 11.4, teamIndex: 2 });
+            spawnCar({ startDist: -20, laneOffset: -22, targetLane: -22, speed: 2.4 });
+            spawnCar({ startDist: -110, laneOffset: 24, targetLane: 24, speed: 2.7 });
+            spawnCar({ startDist: -190, laneOffset: 0, targetLane: 0, speed: 3.1 });
         }
 
         function animate3DTrack() {
             requestAnimationFrame(animate3DTrack);
 
-            if (document.hidden) return; // Optimización de batería cuando la pestaña está en segundo plano
+            if (document.hidden) return;
 
             updateRaceDirector();
 
             for (let i = 0; i < activeCars.length; i++) {
                 const car = activeCars[i];
-
-                let closestAheadDist = 9999;
-                let closestAheadCar = null;
 
                 for (let j = 0; j < activeCars.length; j++) {
                     if (i === j) continue;
@@ -2064,47 +1977,13 @@
                     const distAhead = other.dist - car.dist;
                     const lateralDist = Math.abs(car.laneOffset - other.laneOffset);
 
-                    if (distAhead > 0 && lateralDist < 22) {
-                        if (distAhead < closestAheadDist) {
-                            closestAheadDist = distAhead;
-                            closestAheadCar = other;
-                        }
-                    }
-
-                    // Separación lateral de seguridad (nunca se tocan en paralelo)
-                    if (Math.abs(distAhead) < (CAR_LENGTH * 0.95) && lateralDist < CAR_WIDTH) {
-                        const push = (CAR_WIDTH - lateralDist) * 0.5 + 0.2;
-                        if (car.laneOffset < other.laneOffset) {
-                            car.laneOffset -= push;
-                            other.laneOffset += push;
-                        } else {
-                            car.laneOffset += push;
-                            other.laneOffset -= push;
-                        }
+                    if (distAhead > 0 && distAhead < MIN_SAFE_DIST && lateralDist < 18) {
+                        car.speed = other.speed;
+                        car.dist = other.dist - MIN_SAFE_DIST;
                     }
                 }
 
-                if (closestAheadCar) {
-                    if (closestAheadDist < 110 && closestAheadDist > MIN_SAFE_DIST) {
-                        if (car.laneOffset < closestAheadCar.laneOffset) {
-                            car.targetLane = closestAheadCar.laneOffset - 28;
-                        } else {
-                            car.targetLane = closestAheadCar.laneOffset + 28;
-                        }
-                        car.laneChangeRate = 0.055;
-                    }
-
-                    // REGLA MATEMÁTICA DE PRECISIÓN: CERO CHOQUES POR DETRÁS
-                    const maxAllowedDist = closestAheadCar.dist - MIN_SAFE_DIST;
-                    if (car.dist + car.speed >= maxAllowedDist) {
-                        car.dist = maxAllowedDist;
-                        car.speed = closestAheadCar.speed; // Pegado en succión sin penetrar jamás
-                    } else {
-                        car.dist += car.speed;
-                    }
-                } else {
-                    car.dist += car.speed;
-                }
+                car.dist += car.speed;
 
                 const laneDiff = (car.targetLane - car.laneOffset);
                 car.laneOffset += laneDiff * car.laneChangeRate;
@@ -2112,14 +1991,11 @@
                 car.wanderPhase += car.wanderFreq;
                 const naturalWander = Math.sin(car.wanderPhase) * car.wanderAmp;
 
-                // Inercia de suspensión física real
-                const lateralVelocity = (laneDiff * car.laneChangeRate) + (Math.cos(car.wanderPhase) * car.wanderAmp * car.wanderFreq);
-                const currentHeading = BASE_ANGLE + (lateralVelocity * 0.20);
-                const targetRoll = -lateralVelocity * 0.32;
-                const targetPitch = -Math.abs(lateralVelocity) * 0.04;
+                const lateralVelocity = (laneDiff * car.laneChangeRate);
+                const currentHeading = BASE_ANGLE + (lateralVelocity * 0.15);
+                const targetRoll = -lateralVelocity * 0.25;
 
-                car.chassisRoll += (targetRoll - car.chassisRoll) * 0.12;
-                car.chassisPitch += (targetPitch - car.chassisPitch) * 0.12;
+                car.chassisRoll += (targetRoll - car.chassisRoll) * 0.1;
 
                 const finalX = (car.dist * DIR_X) + ((car.laneOffset + naturalWander) * PERP_X);
                 const finalZ = (car.dist * DIR_Z) + ((car.laneOffset + naturalWander) * PERP_Z);
@@ -2127,7 +2003,6 @@
                 car.mesh.position.set(finalX, 0, finalZ);
                 car.mesh.rotation.y = currentHeading;
                 car.mesh.rotation.z = car.chassisRoll;
-                car.mesh.rotation.x = car.chassisPitch;
             }
 
             for (let i = activeCars.length - 1; i >= 0; i--) {
@@ -2140,12 +2015,17 @@
             renderer.render(scene, camera);
         }
 
-        // CARGA ASÍNCRONA EN SEGUNDO PLANO DEL TOYOTA SUPRA GT300
+        // CARGA DIRECTA DEL TOYOTA SUPRA GT300 DESDE GITHUB / SERVIDOR
         function loadToyotaSupraModel() {
-            const loader = new THREE.GLTFLoader();
-            const modelUrl = './toyota_gr_supra_gt_gt300-v1.glb';
+            if (typeof THREE.GLTFLoader === 'undefined') return;
 
-            loader.load(modelUrl, (gltf) => {
+            const loader = new THREE.GLTFLoader();
+
+            // Rutas: local en blackcenter.com.ar o remota directa de tu repositorio GitHub
+            const primaryUrl = './toyota_gr_supra_gt_gt300-v1.glb';
+            const fallbackUrl = 'https://raw.githubusercontent.com/onceoncegrafica-1111/blackcenter/main/toyota_gr_supra_gt_gt300-v1.glb';
+
+            function onModelSuccess(gltf) {
                 const rawModel = gltf.scene;
 
                 const box = new THREE.Box3().setFromObject(rawModel);
@@ -2156,45 +2036,27 @@
                 rawModel.position.sub(center);
                 wrapper.add(rawModel);
 
+                // Alinear orientación de carrera
                 if (size.x > size.z) {
                     rawModel.rotation.y = Math.PI / 2;
                 }
 
-                // Escala de fondo calibrada y armónica (45 unidades)
                 const maxDim = Math.max(size.x, size.z);
                 const scaleFactor = CAR_LENGTH / maxDim;
                 wrapper.scale.set(scaleFactor, scaleFactor, scaleFactor);
 
-                rawModel.traverse((child) => {
-                    if (child.isMesh) {
-                        child.castShadow = true;
-                        child.receiveShadow = true;
-                        if (child.material) {
-                            child.material.roughness = 0.20;
-                            child.material.metalness = 0.12;
-                        }
-                    }
-                });
-
                 baseCarTemplate = wrapper;
-                spawnInitialWave();
-                animate3DTrack();
-            }, undefined, () => {
-                loader.load('https://raw.githubusercontent.com/onceoncegrafica-1111/blackcenter/main/toyota_gr_supra_gt_gt300-v1.glb', (gltf) => {
-                    const rawModel = gltf.scene;
-                    const box = new THREE.Box3().setFromObject(rawModel);
-                    const size = box.getSize(new THREE.Vector3());
-                    const center = box.getCenter(new THREE.Vector3());
-                    const wrapper = new THREE.Group();
-                    rawModel.position.sub(center);
-                    wrapper.add(rawModel);
-                    if (size.x > size.z) rawModel.rotation.y = Math.PI / 2;
-                    const maxDim = Math.max(size.x, size.z);
-                    const scaleFactor = CAR_LENGTH / maxDim;
-                    wrapper.scale.set(scaleFactor, scaleFactor, scaleFactor);
-                    baseCarTemplate = wrapper;
+
+                if (!isSimulationRunning) {
+                    isSimulationRunning = true;
                     spawnInitialWave();
                     animate3DTrack();
+                }
+            }
+
+            loader.load(primaryUrl, onModelSuccess, undefined, () => {
+                loader.load(fallbackUrl, onModelSuccess, undefined, (err) => {
+                    console.error("Error al cargar el modelo 3D del Supra:", err);
                 });
             });
         }
